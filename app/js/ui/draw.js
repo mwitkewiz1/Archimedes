@@ -4,9 +4,11 @@
 // can see them; the picture says "not to scale" when that happens.
 
 import { toNumber, formatInches } from '../core/measure.js';
+import { el } from './el.js';
+import { pretty } from './frac.js';
 
 const NS = 'http://www.w3.org/2000/svg';
-const W = 340, PIPE_Y = 70, PIPE_H = 34, H = 196;
+const W = 340, PIPE_Y = 70, PIPE_H = 34, H = 214, LANE = 21;
 const MIN = { kerf: 7, fuse: 9, scrap: 22, keep: 60 };
 const NAMES = { keep: 'Keep', fuse: 'Fusing eats', kerf: 'Saw blade', scrap: 'Scrap' };
 
@@ -17,14 +19,24 @@ function svg(tag, attrs, text) {
   return n;
 }
 
+// Text whose baseline sits at y, with fractions stacked like the rest of the
+// app: HTML inside the drawing, since SVG text can't stack them.
+function richText(x, y, anchor, text, cls) {
+  const w = 220, h = 30;
+  const left = anchor === 'middle' ? x - w / 2 : anchor === 'end' ? x - w : x;
+  const fo = svg('foreignObject', { x: left, y: y - h + 4, width: w, height: h });
+  fo.append(el(`div.fo-text.${cls.split(' ').join('.')}`,
+    { style: `justify-content: ${anchor === 'middle' ? 'center' : anchor === 'end' ? 'flex-end' : 'flex-start'}` },
+    el('span', pretty(text))));
+  return fo;
+}
+
 function dimText(x1, x2, y, text) {
   const mid = (x1 + x2) / 2;
   const half = text.length * 4.5; // about half the width of 14px bold digits
-  const attrs = { y: y - 5, class: 'dim-text' };
-  if (mid - half < 2) Object.assign(attrs, { x: x1, 'text-anchor': 'start' });
-  else if (mid + half > W - 2) Object.assign(attrs, { x: x2, 'text-anchor': 'end' });
-  else Object.assign(attrs, { x: mid, 'text-anchor': 'middle' });
-  return svg('text', attrs, text);
+  if (mid - half < 2) return richText(x1, y - 5, 'start', text, 'dim-text');
+  if (mid + half > W - 2) return richText(x2, y - 5, 'end', text, 'dim-text');
+  return richText(mid, y - 5, 'middle', text, 'dim-text');
 }
 
 // parts: [{kind, len}] left to right (len null = "the run goes on").
@@ -89,7 +101,7 @@ export function drawPipe({ parts, marks = [], dims = [], openEnds = false }) {
 
   // Dimension lines above the pipe, stacked.
   dims.forEach((d, n) => {
-    const y = PIPE_Y - 30 - n * 22;
+    const y = PIPE_Y - 30 - n * 24;
     const x1 = xs[d.a], x2 = xs[d.b];
     root.append(
       svg('line', { x1, y1: y, x2, y2: y, class: 'dim' }),
@@ -108,12 +120,12 @@ export function drawPipe({ parts, marks = [], dims = [], openEnds = false }) {
     if (seen.has(p.kind)) return;
     seen.add(p.kind);
     const cx = xs[i] + widths[i] / 2;
-    const y = PIPE_Y + PIPE_H + 18 + lane++ * 16;
+    const y = PIPE_Y + PIPE_H + 20 + lane++ * LANE;
     const label = NAMES[p.kind] + (p.len && p.kind !== 'keep' ? ` ${formatInches(p.len)}` : '');
     const right = cx > W / 2;
     root.append(
       svg('polyline', { points: `${cx},${PIPE_Y + PIPE_H} ${cx},${y - 4} ${right ? cx - 4 : cx + 4},${y - 4}`, class: 'leader' }),
-      svg('text', { x: right ? cx - 7 : cx + 7, y, class: `lbl ${p.kind}-text`, 'text-anchor': right ? 'end' : 'start' }, label),
+      richText(right ? cx - 7 : cx + 7, y, right ? 'end' : 'start', label, `lbl ${p.kind}-text`),
     );
   });
   if (scaled) root.append(svg('text', { x: W - 4, y: H - 4, class: 'scale-note', 'text-anchor': 'end' }, 'thin slices drawn wider: not to scale'));

@@ -15,3 +15,6 @@ paths:
 - Joint dates use the phone's local day (toLocaleDateString('en-CA')), not toISOString, which is UTC and runs a day
   ahead in the evening.
 - New or renamed file in app/: add it to FILES in app/sw.js and bump VERSION, or phones keep the old copy.
+- Every fraction shown on screen goes through pretty() in ui/frac.js, so all of them stack alike (docs/decisions.md, area
+  ui). SVG text can't stack, so drawings put it in through richText() in ui/draw.js (HTML in a foreignObject). Left flat
+  on purpose: dropdown options (the phone draws those) and Help's typing examples (they show what you type).

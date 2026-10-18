@@ -2,6 +2,7 @@
 // you'd say them, get a picture and numbered steps with tape numbers.
 
 import { el } from './el.js';
+import { pretty } from './frac.js';
 import { load, save } from './store.js';
 import { drawPipe } from './draw.js';
 import { parseMeasure, formatInches, onTape, toNumber } from '../core/measure.js';
@@ -96,7 +97,7 @@ export function renderCut(view) {
       row.hidden = !shown.has(key);
       const raw = (state[key] || '').trim();
       const m = parseMeasure(raw);
-      echo.textContent = !raw ? '' : m ? `= ${formatInches(m.value, { feet: true })}` : "can't read that";
+      echo.replaceChildren(...(!raw ? [] : m ? pretty(`= ${formatInches(m.value, { feet: true })}`) : ["can't read that"]));
       echo.classList.toggle('warn', !!raw && !m);
     }
     inputs.takeOff.row.querySelector('.field-label').textContent = state.job === 'cutOut' ? 'Run needs to be shorter by' : FIELDS.takeOff.label;
@@ -117,11 +118,11 @@ export function renderCut(view) {
     out.replaceChildren(
       drawPipe({ parts: plan.parts, ...drawingMarks(state.job, plan.numbers), openEnds: state.job === 'cutOut' }),
       el('ol.steps', plan.steps.map((s) => el(`li.step.${s.k}`,
-        el('span.step-text', s.text), s.value ? el('strong.step-val', formatInches(s.value)) : null,
-        s.value && toNumber(s.value) >= 12 ? el('span.step-feet', `That's ${formatInches(s.value, { feet: true })}.`) : null,
+        el('span.step-text', s.text), s.value ? el('strong.step-val', pretty(formatInches(s.value))) : null,
+        s.value && toNumber(s.value) >= 12 ? el('span.step-feet', pretty(`That's ${formatInches(s.value, { feet: true })}.`)) : null,
         s.k === 'mark' || s.k === 'check' ? tapeNote(s.value, tapeDenom) : null))),
-      plan.numbers.scrap ? el('p.note', `Scrap left over: ${formatInches(plan.numbers.scrap)}.`)
-        : plan.numbers.scrapEach ? el('p.note', `Scrap off each end: ${formatInches(plan.numbers.scrapEach)}.`) : null,
+      plan.numbers.scrap ? el('p.note', pretty(`Scrap left over: ${formatInches(plan.numbers.scrap)}.`))
+        : plan.numbers.scrapEach ? el('p.note', pretty(`Scrap off each end: ${formatInches(plan.numbers.scrapEach)}.`)) : null,
     );
   }
 
@@ -137,7 +138,7 @@ function drawingMarks(job, n) {
 function tapeNote(v, denom) {
   const t = onTape(v, denom);
   if (t.side === 'on') return null;
-  return el('span.tape-note', `On a 1/${denom}" tape: a hair ${t.side} ${formatInches(t.mark)}.`);
+  return el('span.tape-note', pretty(`On a 1/${denom}" tape: a hair ${t.side} ${formatInches(t.mark)}.`));
 }
 
 // Little pictures on the job buttons: a pipe with what gets cut.

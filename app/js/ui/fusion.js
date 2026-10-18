@@ -2,6 +2,7 @@
 // form to record it by pipe size and DR, and the list of pipes measured so far.
 
 import { el } from './el.js';
+import { pretty } from './frac.js';
 import { load, save } from './store.js';
 import { loadPipes, savePipes, pipeLoss, findOrAddPipe } from './pipes.js';
 import { parseMeasure, formatInches, toNumber } from '../core/measure.js';
@@ -31,17 +32,17 @@ export function renderFusion(view) {
     save('fusionForm', form);
     const w = wall(form);
     const od = outsideDiameter(form);
-    pipeInfo.textContent = w
-      ? `Outside ${toNumber(od).toFixed(3)}". Wall about ${toNumber(w).toFixed(3)}" (${formatInches(w)}). DR ${form.dr} means the outside is ${form.dr} times the wall.`
-      : '';
+    pipeInfo.replaceChildren(...(w
+      ? pretty(`Outside ${toNumber(od).toFixed(3)}". Wall about ${toNumber(w).toFixed(3)}" (${formatInches(w)}). DR ${form.dr} means the outside is ${form.dr} times the wall.`)
+      : []));
     const r = jointLoss(parseMeasure(form.mark)?.value, parseMeasure(form.across)?.value);
     saveBtn.disabled = !r.ok;
     saveBtn.textContent = `Save to ${pipeName(form)}`;
     if (!form.across.trim()) result.replaceChildren(el('p.note', 'Enter mark to mark after fusing.'));
     else if (!r.ok) result.replaceChildren(el('p.note.warn', r.error));
     else result.replaceChildren(
-      el('div.big-mid', `This joint ate ${formatInches(r.loss)}`),
-      el('p.note', `That's ${formatInches(perEnd(r.loss))} from each pipe.`),
+      el('div.big-mid', pretty(`This joint ate ${formatInches(r.loss)}`)),
+      el('p.note', pretty(`That's ${formatInches(perEnd(r.loss))} from each pipe.`)),
     );
   }
 
@@ -68,13 +69,13 @@ export function renderFusion(view) {
       return el('div.pipe-card',
         el('div.pipe-name', l.name),
         l.joint
-          ? el('div.pipe-loss', el('strong', formatInches(l.end)), ' each end · ', formatInches(l.joint.average), ' a joint')
+          ? el('div.pipe-loss', el('strong', pretty(formatInches(l.end))), ' each end · ', pretty(formatInches(l.joint.average)), ' a joint')
           : el('div.pipe-loss.warn', 'These numbers don\'t add up; check them.'),
         el('div.note', l.joint && l.joint.count > 1
-          ? `From ${l.joint.count} joints, ${formatInches(l.joint.low)} to ${formatInches(l.joint.high)}.`
+          ? pretty(`From ${l.joint.count} joints, ${formatInches(l.joint.low)} to ${formatInches(l.joint.high)}.`)
           : 'From 1 joint. Two or three more make it a number you can trust.'),
         el('ul.joints', p.joints.map((j, i) => el('li',
-          el('span', `${j.date}: marks ${j.mark}" back, ${j.across}" across`),
+          el('span', pretty(`${j.date}: marks ${j.mark}" back, ${j.across}" across`)),
           el('button.small-btn', {
             'aria-label': `Remove the ${j.date} joint`,
             onclick: () => {
