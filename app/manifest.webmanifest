@@ -1,0 +1,13 @@
+{
+  "name": "FieldSense",
+  "short_name": "FieldSense",
+  "description": "Field math for pipe, pumps and wiring: a tape-measure fraction calculator and a cut-and-fuse planner, on the phone and offline.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f3f5f8",
+  "theme_color": "#1f3b57",
+  "icons": [
+    { "src": "icons/icon.svg", "sizes": "any", "type": "image/svg+xml" }
+  ]
+}
