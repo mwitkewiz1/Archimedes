@@ -1,6 +1,6 @@
 // sw.js — caches the app so it opens with no signal. Bump VERSION whenever
 // any file below changes, or phones keep the old copy.
-const VERSION = 'archimedes-v14';
+const VERSION = 'archimedes-v15';
 const FILES = [
   './',
   'index.html',
@@ -34,6 +34,7 @@ const FILES = [
   'js/core/symbols.js',
   'js/core/pump.js',
   'js/core/kinds.js',
+  'js/core/choose.js',
 ];
 
 self.addEventListener('install', (e) => {

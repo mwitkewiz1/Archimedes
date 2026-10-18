@@ -85,7 +85,7 @@ const DRAW = {
     label(svg, 'Eye: water in', 222, 220, cx + 6, cy + 11);
   },
 
-  submersible(svg, { agitator = false } = {}) {
+  submersible(svg, { agitator = false, trash = false } = {}) {
     // Water in the pit, the pump standing in it.
     svg.append(s('rect', { x: 0, y: 70, width: W, height: H - 70, class: 'pa-water' }));
     svg.append(s('line', { x1: 0, y1: 70, x2: W, y2: 70, class: 'pa-waterline' }));
@@ -100,7 +100,9 @@ const DRAW = {
     svg.append(s('rect', { x: 140, y: 126, width: 40, height: 14, rx: 2, class: 'pa-oil' }));
     svg.append(s('line', { x1: 160, y1: 120, x2: 160, y2: 166, class: 'pa-shaft' }));
     svg.append(sideImpeller(128, 152, 64, 14));
-    for (let x = 124; x <= 194; x += 10) svg.append(s('line', { x1: x, y1: 178, x2: x, y2: 190, class: 'pa-strainer' }));
+    // A dewatering pump has a fine strainer; a trash pump a few legs and wide openings.
+    const bars = trash ? [124, 160, 196] : [124, 134, 144, 154, 164, 174, 184, 194];
+    for (const x of bars) svg.append(s('line', { x1: x, y1: 178, x2: x, y2: 190, class: 'pa-strainer' }));
     if (agitator) {
       svg.append(s('line', { x1: 160, y1: 190, x2: 160, y2: 204, class: 'pa-shaft' }));
       svg.append(sideImpeller(140, 202, 40, 8));
@@ -113,13 +115,19 @@ const DRAW = {
     }
     // Water: in the strainer, up the jacket past the motor, out the hose.
     svg.append(flow('M150 200 V170 M170 200 V170 M196 160 V48 L178 40 V14 H246'));
+    if (trash) {
+      // Rocks riding up with the water.
+      for (const dl of [0, 0.9]) svg.append(s('circle', { cx: 196, cy: 160, r: 4, class: 'pa-rock', style: `animation-delay:${dl}s` }));
+    }
     label(svg, 'Cable', 30, 24, 96, 12);
     label(svg, 'Motor', 12, 92, 130, 86);
     label(svg, 'Seals + oil', 12, 134, 140, 133);
-    label(svg, 'Impeller', 12, 162, 128, 159);
-    if (!agitator) label(svg, 'Strainer', 12, 196, 122, 184);
+    label(svg, trash ? 'Open impeller' : 'Impeller', 12, 162, 128, 159);
+    if (!agitator) label(svg, trash ? 'Big inlet' : 'Strainer', 12, 196, 122, 184);
     label(svg, 'Hose', 262, 30, 246, 14);
   },
+
+  subtrash(svg) { DRAW.submersible(svg, { trash: true }); },
 
   slurry(svg) { DRAW.submersible(svg, { agitator: true }); },
 
@@ -151,7 +159,7 @@ const DRAW = {
     label(svg, 'water level', 222, 108, 210, 96);
   },
 
-  diesel(svg) {
+  diesel(svg, { vacuum = false } = {}) {
     svg.append(s('line', { x1: 0, y1: 150, x2: 236, y2: 150, class: 'pa-ground' }));
     // The hole with water in it.
     svg.append(s('path', { d: 'M236 150 V226 H316 V150', class: 'pa-ground' }));
@@ -164,11 +172,21 @@ const DRAW = {
     svg.append(s('path', { d: 'M40 82 V58 H50', class: 'pa-cable' }));
     svg.append(s('line', { x1: 116, y1: 112, x2: 136, y2: 112, class: 'pa-shaft' }));
     svg.append(s('rect', { x: 136, y: 76, width: 76, height: 64, rx: 10, class: 'pa-casing' }));
-    svg.append(s('rect', { x: 142, y: 96, width: 64, height: 38, rx: 6, class: 'pa-water' }));
-    svg.append(impeller(174, 114, 16, 4));
+    if (!vacuum) svg.append(s('rect', { x: 142, y: 96, width: 64, height: 38, rx: 6, class: 'pa-water' }));
+    svg.append(impeller(174, 114, 16, vacuum ? 6 : 4));
     // Suction hose down into the hole with the check valve; discharge up and out.
     svg.append(s('path', { d: 'M212 100 H262 V212', class: 'pa-hose' }));
-    svg.append(s('rect', { x: 216, y: 92, width: 12, height: 16, class: 'pa-check' }));
+    if (vacuum) {
+      // Separator on the suction, its line up to the vacuum pump on the engine,
+      // and a non-return valve on the discharge instead of one on the suction.
+      svg.append(s('rect', { x: 251, y: 58, width: 22, height: 34, rx: 4, class: 'pa-casing' }));
+      svg.append(s('circle', { cx: 262, cy: 80, r: 5, class: 'pa-float' }));
+      svg.append(s('path', { d: 'M262 58 V40 H98 V66', class: 'pa-cable' }));
+      svg.append(s('rect', { x: 84, y: 66, width: 28, height: 16, rx: 3, class: 'pa-motor' }));
+      svg.append(s('rect', { x: 166, y: 62, width: 16, height: 10, rx: 2, class: 'pa-check' }));
+    } else {
+      svg.append(s('rect', { x: 216, y: 92, width: 12, height: 16, class: 'pa-check' }));
+    }
     svg.append(s('path', { d: 'M174 76 V30 H110', class: 'pa-hose' }));
     // Knife gate on the riser: body across the pipe, stem out the side to its handwheel.
     svg.append(s('rect', { x: 165, y: 46, width: 18, height: 12, rx: 2, class: 'pa-check' }));
@@ -176,11 +194,48 @@ const DRAW = {
     svg.append(s('line', { x1: 198, y1: 45, x2: 198, y2: 59, class: 'pa-strainer' }));
     svg.append(flow('M262 214 V104 L216 100 M174 96 V34 L114 30'));
     label(svg, 'Engine', 12, 176, 60, 140);
-    label(svg, 'Priming chamber', 112, 200, 172, 134);
-    label(svg, 'Check valve', 250, 76, 222, 92);
+    if (vacuum) {
+      label(svg, 'Impeller', 112, 200, 172, 130);
+      label(svg, 'Vacuum pump', 12, 53, 84, 70);
+      label(svg, 'Separator + float', 316, 116, 268, 90, 'end');
+      label(svg, 'Non-return valve', 206, 76, 182, 68);
+    } else {
+      label(svg, 'Priming chamber', 112, 200, 172, 134);
+      label(svg, 'Check valve', 250, 76, 222, 92);
+    }
     label(svg, 'Suction hose', 296, 140, 264, 150, 'end');
     label(svg, 'Discharge', 40, 18, 110, 28);
-    label(svg, 'Knife gate valve', 206, 40, 198, 46);
+    label(svg, 'Knife gate valve', 206, vacuum ? 26 : 40, 198, 46);
+  },
+
+  dieseldw(svg) { DRAW.diesel(svg, { vacuum: true }); },
+
+  gas(svg) {
+    svg.append(s('line', { x1: 0, y1: 150, x2: 236, y2: 150, class: 'pa-ground' }));
+    svg.append(s('path', { d: 'M236 150 V226 H316 V150', class: 'pa-ground' }));
+    svg.append(s('rect', { x: 237, y: 184, width: 78, height: 42, class: 'pa-water' }));
+    svg.append(s('line', { x1: 237, y1: 184, x2: 315, y2: 184, class: 'pa-waterline' }));
+    // Carry frame, small engine with its pull start, pump casing.
+    svg.append(s('rect', { x: 56, y: 68, width: 152, height: 80, rx: 12, class: 'pa-frame' }));
+    svg.append(s('rect', { x: 68, y: 82, width: 66, height: 52, rx: 6, class: 'pa-motor' }));
+    svg.append(s('circle', { cx: 86, cy: 108, r: 10, class: 'pa-imp' }));
+    svg.append(s('line', { x1: 134, y1: 112, x2: 144, y2: 112, class: 'pa-shaft' }));
+    svg.append(s('circle', { cx: 166, cy: 112, r: 24, class: 'pa-casing' }));
+    svg.append(impeller(166, 112, 15, 5));
+    svg.append(s('rect', { x: 158, y: 80, width: 16, height: 8, rx: 2, class: 'pa-check' }));
+    svg.append(s('circle', { cx: 166, cy: 140, r: 3, class: 'pa-hub' }));
+    // Suction hose to a strainer in the water; discharge up and out.
+    svg.append(s('path', { d: 'M190 112 H262 V200', class: 'pa-hose' }));
+    svg.append(s('rect', { x: 254, y: 200, width: 16, height: 16, rx: 3, class: 'pa-casing' }));
+    for (const x of [258, 262, 266]) svg.append(s('line', { x1: x, y1: 202, x2: x, y2: 214, class: 'pa-strainer' }));
+    svg.append(s('path', { d: 'M180 92 V30 H110', class: 'pa-hose' }));
+    svg.append(flow('M262 212 V116 L194 112 M180 96 V34 L114 30'));
+    label(svg, 'Engine', 12, 176, 80, 134);
+    label(svg, 'Pull start', 12, 60, 80, 100);
+    label(svg, 'Priming cap', 206, 70, 174, 82);
+    label(svg, 'Drain plug', 112, 200, 166, 143);
+    label(svg, 'Suction strainer', 316, 140, 262, 200, 'end');
+    label(svg, 'Discharge', 40, 18, 110, 28);
   },
 };
 

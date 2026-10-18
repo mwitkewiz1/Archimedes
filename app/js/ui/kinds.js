@@ -6,6 +6,7 @@ import { load, save } from './store.js';
 import { pumpsNav } from './subnav.js';
 import { KINDS } from '../core/kinds.js';
 import { drawKind } from './pumpart.js';
+import { QUESTIONS, choosePump } from '../core/choose.js';
 
 export function renderKinds(view) {
   let current = load('pumpKind', KINDS[0].id);
@@ -39,11 +40,38 @@ export function renderKinds(view) {
     );
   }
 
+  // Which pump: four answers to a kind, with a button that opens it below.
+  const answers = { water: 'clear', depth: 'shallow', power: 'no', size: 'big', ...load('pumpChoose', {}) };
+  const verdict = el('div.verdict', { 'aria-live': 'polite' });
+  const nameOf = (id) => KINDS.find((k) => k.id === id).name;
+  const open = (id) => el('button.small-btn.verdict-btn', { onclick: () => { pick(id); body.scrollIntoView({ behavior: 'smooth' }); } }, nameOf(id));
+  function decide() {
+    save('pumpChoose', answers);
+    const r = choosePump(answers);
+    verdict.replaceChildren(
+      el('div.verdict-kind', 'Start with: ', open(r.kind)),
+      el('p', r.why),
+      ...(r.also ? [el('p.note', 'Also works: ', open(r.also))] : []),
+    );
+  }
+  const guide = el('details.losses.chooser', { open: true },
+    el('summary', 'Which pump for the job?'),
+    el('div.fields', QUESTIONS.map((q) => {
+      const sel = el('select', { id: `c-${q.key}`, onchange: () => { answers[q.key] = sel.value; decide(); } },
+        q.options.map(([v, t]) => el('option', { value: v, selected: v === answers[q.key] }, t)));
+      return el('label.field', { for: `c-${q.key}` }, el('span.field-label', q.label), sel);
+    })),
+    verdict,
+    el('p.note', 'Rules of thumb to start from. The Pump curve tells you whether a given pump can push the water as high and as far as the job needs.'),
+  );
+
   view.append(el('section.kinds',
     pumpsNav('kinds'),
     el('h1', 'How pumps work'),
+    guide,
     el('div.chips', chips),
     body,
   ));
   show();
+  decide();
 }

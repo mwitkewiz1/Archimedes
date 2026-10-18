@@ -12,7 +12,7 @@ Open work only. Done items are deleted (git keeps them).
 - Measure one joint on each pipe you fuse (Fusing tab: marks back from each end, mark to mark after) → the app's loss for that size and DR [2026-10-17]
 - Try it on the phone: Fractions and Cut & fuse, on a real HDPE cut → what's wrong or slow to Claude [2026-10-17]
 - Try the Electric tab: Ohm's law off a real nameplate or battery, wire size on a real run, and Symbols against a real panel's diagram → plain enough? anything missing? [2026-10-18]
-- Try the Pumps tab with a real job: lift, pipe size and length → does the dot land where the pump really runs? And How they work: anything wrong or missing for the pumps you run? [2026-10-18]
+- Try the Pumps tab with a real job: lift, pipe size and length → does the dot land where the pump really runs? And How they work and Which pump?: anything wrong or missing for the pumps you run? [2026-10-18]
 
 ## Open
 - **Electrical module** [2026-10-17] → app/

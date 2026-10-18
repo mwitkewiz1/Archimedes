@@ -26,7 +26,7 @@ export const KINDS = [
   },
   {
     id: 'submersible',
-    name: 'Submersible dewatering pump',
+    name: 'Electric dewatering pump (submersible)',
     where: 'Dropped into a sump, pit or trench on a cable and a hose. The whole thing sits under water.',
     engine: 'Think of it as a sealed motor and pump in one can: the water around it is the cooling system.',
     how: [
@@ -45,8 +45,25 @@ export const KINDS = [
     watch: 'It pushes rather than pulls, so it needs no priming. Keep it under water and off the bottom muck.',
   },
   {
+    id: 'subtrash',
+    name: 'Electric trash pump (submersible)',
+    where: 'Same can-on-a-cable as the dewatering pump, for water with rocks, sticks and debris in it.',
+    engine: 'Think of a dewatering pump with the passages opened up: it gives up some head so the junk fits through.',
+    how: [
+      'Water and debris come in the bottom, through big openings instead of a fine strainer.',
+      'An open or recessed (vortex) impeller spins the water so solids pass through without jamming the vanes.',
+      'Everything goes up past the motor, cooling it, and out the top.',
+    ],
+    parts: [
+      ['Open or vortex impeller', 'Few, thick vanes, or set back out of the flow so rocks ride the swirl instead of hitting it.', 'Wears from rocks; a vortex pump loses some efficiency for never clogging.'],
+      ['Big inlet', 'Lets solids up to the pump\'s rated size in.', 'Anything bigger wedges in the inlet: flow stops and the motor overloads.'],
+      ['Motor, seals and sensors', 'Same as the dewatering pump: sealed, oil chamber between two seals, cooled by the water.', 'Same failures: run dry and it overheats, check the oil for water.'],
+    ],
+    watch: 'It makes less head than a dewatering pump the same size. Use it for junk, not for lifting water high.',
+  },
+  {
     id: 'slurry',
-    name: 'Slurry pump with agitator',
+    name: 'Electric slurry pump (submersible, agitator)',
     where: 'A submersible built for mud, sand and grit: settling ponds, sumps full of solids.',
     engine: 'Same idea as a submersible, built like a bulldozer: hard parts that wear slowly, turning slower.',
     how: [
@@ -102,5 +119,45 @@ export const KINDS = [
       ['Engine', 'Diesel, sized to the pump\'s horsepower.', 'Run far right on the curve (too much flow) and it lugs, the same as the motor overload tripping on an electric pump.'],
     ],
     watch: 'It can only lift water so far: about 25 feet is the practical limit at sea level (air pressure pushes the water up the hose; 34 feet is the theory). Deeper, put a submersible in the hole.',
+  },
+  {
+    id: 'dieseldw',
+    name: 'Diesel dewatering pump (vacuum-assisted)',
+    where: 'The big trailer pumps for draining a site: long suction hose, high head, runs unattended for days.',
+    engine: 'The vacuum pump is like a little air compressor running backwards: it sucks the air out of the suction hose so water can follow.',
+    how: [
+      'On start, a small vacuum pump, driven by the engine, pulls air out of the suction hose and the pump casing.',
+      'Air pressure pushes water up the hose into the casing as the air leaves.',
+      'A separator with a float valve shuts the vacuum line once water arrives, so water never reaches the vacuum pump.',
+      'The impeller takes over and pumps; if the water level drops and air gets in, the vacuum pump pulls it out again on its own.',
+      'Water leaves past a non-return valve and the knife gate into the discharge hose.',
+    ],
+    parts: [
+      ['Vacuum pump', 'Pulls air out of the suction side so the pump primes fast and re-primes by itself.', 'Worn vanes or a slipping drive belt: slow to prime or never catches.'],
+      ['Separator and float valve', 'A small tank that lets air through to the vacuum pump and stops water.', 'A float stuck open sends water into the vacuum pump; stuck shut, it can\'t prime.'],
+      ['Impeller', 'Closed or semi-open, built for head more than for big solids.', 'Rocks bigger than its rating jam it; grit wears it and the head drops.'],
+      ['Non-return valve and knife gate', 'Keep the discharge hose from draining back, and shut it off to change hose.', 'Grit holds the flap or the blade open.'],
+      ['Engine', 'Diesel with a big fuel tank for long runs.', 'Same as any engine: fuel, oil and air filter. Run far right on the curve and it lugs.'],
+    ],
+    watch: 'Same suction lift limit as any pump on top of the ground, about 25 feet. Every suction coupling has to seal, or the vacuum pump fights a leak forever.',
+  },
+  {
+    id: 'gas',
+    name: 'Gas portable pump',
+    where: 'Small jobs: a flooded basement, a trench, a pool. Two people carry it; a pull start and a tank of gas.',
+    engine: 'A small gas engine bolted straight to a little self-priming pump. Throttle is speed, same as the diesel.',
+    how: [
+      'Fill the pump casing with water through the priming cap before the first start.',
+      'Start the engine; the impeller churns that water and pulls the air out of the suction hose.',
+      'Water follows up the hose through the strainer and out the discharge.',
+    ],
+    parts: [
+      ['Priming cap', 'Where you fill the casing with water before starting.', 'Started dry, the seal burns up in a minute or two.'],
+      ['Suction strainer', 'On the end of the suction hose, keeps rocks and leaves out.', 'Sitting in mud, it plugs and the pump loses its prime.'],
+      ['Impeller', 'Clear-water models have a closed impeller; trash models an open one that passes small rocks.', 'Sand wears a clear-water impeller fast; use a trash model in dirty water.'],
+      ['Drain plug', 'Lets the water out of the casing.', 'Left full in a freeze, the casing cracks.'],
+      ['Engine', 'Small four-stroke gas engine.', 'Old gas gums the carburetor; run it dry or use stabilizer before storing.'],
+    ],
+    watch: 'Same 25-foot suction lift limit. Keep the pump as close to the water as you can: every foot of lift is flow you lose.',
   },
 ];
