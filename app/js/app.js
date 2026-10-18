@@ -1,12 +1,13 @@
-// app.js — starts the app: picks the screen from the address (#/calc, #/cut)
+// app.js — starts the app: picks the screen from the address (#/calc, #/cut, #/ohm)
 // and registers the offline cache.
 
 import { renderCalc } from './ui/calc.js';
 import { renderCut } from './ui/cut.js';
 import { renderHelp } from './ui/help.js';
 import { renderFusion } from './ui/fusion.js';
+import { renderOhm } from './ui/ohm.js';
 
-const screens = { calc: renderCalc, cut: renderCut, fusion: renderFusion, help: renderHelp };
+const screens = { calc: renderCalc, cut: renderCut, fusion: renderFusion, ohm: renderOhm, help: renderHelp };
 
 function route() {
   const name = location.hash.replace(/^#\//, '') || 'calc';

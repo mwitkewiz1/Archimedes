@@ -22,5 +22,5 @@ Matthew uses it; Claude writes it. Next: electrical (diagrams, amps, volts, wire
 |---|---|
 | wip.md | the digest shows its Next, Needs and Open; open it to work an item |
 | docs/decisions.md | you need a past owner ruling: grep by area, never read whole |
-| app/js/core/ | the math: measure.js (fractions, tape numbers), expr.js (calculator), cut.js (cut-and-fuse planner), fusion.js (pipe sizes, DR, fusing loss) |
-| app/js/ui/ | the screens: calc.js, cut.js, fusion.js (Fusing tab), pipes.js (measured pipes on this phone), draw.js (pipe picture), help.js; helpers el.js (builds elements) and store.js (settings on this phone) |
+| app/js/core/ | the math: measure.js (fractions, tape numbers), expr.js (calculator), cut.js (cut-and-fuse planner), fusion.js (pipe sizes, DR, fusing loss), ohm.js (volts, amps, ohms, watts) |
+| app/js/ui/ | the screens: calc.js, cut.js, fusion.js (Fusing tab), pipes.js (measured pipes on this phone), draw.js (pipe picture), ohm.js (Electric tab: Ohm's law), help.js; helpers el.js (builds elements) and store.js (settings on this phone) |
