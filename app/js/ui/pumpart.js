@@ -85,24 +85,36 @@ const DRAW = {
     label(svg, 'Eye: water in', 222, 220, cx + 6, cy + 11);
   },
 
-  submersible(svg, { agitator = false, trash = false } = {}) {
+  submersible(svg, { agitator = false, trash = false, grinder = false, hydraulic = false } = {}) {
     // Water in the pit, the pump standing in it.
     svg.append(s('rect', { x: 0, y: 70, width: W, height: H - 70, class: 'pa-water' }));
     svg.append(s('line', { x1: 0, y1: 70, x2: W, y2: 70, class: 'pa-waterline' }));
     svg.append(s('text', { x: W - 6, y: 64, class: 'pa-label', 'text-anchor': 'end' }, 'water level'));
     // Hose and cable up out of the pit.
     svg.append(s('path', { d: 'M178 40 V12 H250', class: 'pa-hose' }));
-    svg.append(s('path', { d: 'M136 40 Q120 10 70 8', class: 'pa-cable' }));
+    if (hydraulic) {
+      // Two oil hoses, pressure down and return up, instead of a power cable.
+      svg.append(s('path', { d: 'M134 40 Q118 10 66 8', class: 'pa-cable' }));
+      svg.append(s('path', { d: 'M144 40 Q130 18 78 20', class: 'pa-cable' }));
+    } else {
+      svg.append(s('path', { d: 'M136 40 Q120 10 70 8', class: 'pa-cable' }));
+    }
     // The can: motor on top, seals, pump end, strainer.
     svg.append(s('rect', { x: 118, y: 40, width: 84, height: 150, rx: 10, class: 'pa-casing' }));
-    svg.append(s('rect', { x: 130, y: 52, width: 60, height: 68, rx: 4, class: 'pa-motor' }));
-    for (let i = 0; i < 5; i++) svg.append(s('line', { x1: 134, y1: 60 + i * 13, x2: 186, y2: 60 + i * 13, class: 'pa-winding' }));
+    if (hydraulic) {
+      svg.append(s('rect', { x: 140, y: 70, width: 40, height: 40, rx: 6, class: 'pa-motor' }));
+      svg.append(impeller(160, 90, 12, 3));
+    } else {
+      svg.append(s('rect', { x: 130, y: 52, width: 60, height: 68, rx: 4, class: 'pa-motor' }));
+      for (let i = 0; i < 5; i++) svg.append(s('line', { x1: 134, y1: 60 + i * 13, x2: 186, y2: 60 + i * 13, class: 'pa-winding' }));
+    }
     svg.append(s('rect', { x: 140, y: 126, width: 40, height: 14, rx: 2, class: 'pa-oil' }));
     svg.append(s('line', { x1: 160, y1: 120, x2: 160, y2: 166, class: 'pa-shaft' }));
     svg.append(sideImpeller(128, 152, 64, 14));
     // A dewatering pump has a fine strainer; a trash pump a few legs and wide openings.
-    const bars = trash ? [124, 160, 196] : [124, 134, 144, 154, 164, 174, 184, 194];
+    const bars = trash || hydraulic ? [124, 160, 196] : grinder ? [124, 196] : [124, 134, 144, 154, 164, 174, 184, 194];
     for (const x of bars) svg.append(s('line', { x1: x, y1: 178, x2: x, y2: 190, class: 'pa-strainer' }));
+    if (grinder) svg.append(sideImpeller(140, 180, 40, 8));
     if (agitator) {
       svg.append(s('line', { x1: 160, y1: 190, x2: 160, y2: 204, class: 'pa-shaft' }));
       svg.append(sideImpeller(140, 202, 40, 8));
@@ -115,19 +127,101 @@ const DRAW = {
     }
     // Water: in the strainer, up the jacket past the motor, out the hose.
     svg.append(flow('M150 200 V170 M170 200 V170 M196 160 V48 L178 40 V14 H246'));
-    if (trash) {
+    if (trash || hydraulic) {
       // Rocks riding up with the water.
       for (const dl of [0, 0.9]) svg.append(s('circle', { cx: 196, cy: 160, r: 4, class: 'pa-rock', style: `animation-delay:${dl}s` }));
     }
-    label(svg, 'Cable', 30, 24, 96, 12);
-    label(svg, 'Motor', 12, 92, 130, 86);
+    label(svg, hydraulic ? 'Oil hoses' : 'Cable', 30, 24, 96, 12);
+    label(svg, hydraulic ? 'Hydraulic motor' : 'Motor', 12, 92, hydraulic ? 140 : 130, 86);
     label(svg, 'Seals + oil', 12, 134, 140, 133);
-    label(svg, trash ? 'Open impeller' : 'Impeller', 12, 162, 128, 159);
-    if (!agitator) label(svg, trash ? 'Big inlet' : 'Strainer', 12, 196, 122, 184);
+    label(svg, trash || hydraulic ? 'Open impeller' : 'Impeller', 12, 162, 128, 159);
+    if (grinder) label(svg, 'Cutter', 12, 196, 140, 184);
+    else if (!agitator) label(svg, trash || hydraulic ? 'Big inlet' : 'Strainer', 12, 196, 122, 184);
     label(svg, 'Hose', 262, 30, 246, 14);
   },
 
   subtrash(svg) { DRAW.submersible(svg, { trash: true }); },
+
+  grinder(svg) { DRAW.submersible(svg, { grinder: true }); },
+
+  hydraulic(svg) { DRAW.submersible(svg, { hydraulic: true }); },
+
+  sewage(svg) {
+    // A wet well: walls, floor, sewage coming in, the pump seated on its elbow.
+    svg.append(s('rect', { x: 70, y: 118, width: 190, height: 104, class: 'pa-water' }));
+    svg.append(s('line', { x1: 70, y1: 118, x2: 260, y2: 118, class: 'pa-waterline' }));
+    svg.append(s('path', { d: 'M70 14 V222 H260 V14', class: 'pa-ground' }));
+    svg.append(s('path', { d: 'M0 92 H70', class: 'pa-hose' }));
+    // Guide rails from the top down to the elbow.
+    for (const x of [206, 212]) svg.append(s('line', { x1: x, y1: 14, x2: x, y2: 196, class: 'pa-shaft' }));
+    // Floats hanging from the top: high alarm, start, stop.
+    svg.append(s('path', { d: 'M100 14 V160', class: 'pa-leader' }));
+    for (const y of [104, 132, 158]) svg.append(s('circle', { cx: 100, cy: y, r: 6, class: 'pa-float' }));
+    // Pump on the elbow, riser up with the check valve, force main out.
+    svg.append(s('rect', { x: 140, y: 150, width: 56, height: 62, rx: 8, class: 'pa-casing' }));
+    svg.append(s('rect', { x: 148, y: 158, width: 40, height: 30, rx: 4, class: 'pa-motor' }));
+    svg.append(sideImpeller(146, 194, 44, 10));
+    svg.append(s('path', { d: 'M196 204 H222 V30 H316', class: 'pa-hose' }));
+    svg.append(s('rect', { x: 196, y: 196, width: 30, height: 20, rx: 3, class: 'pa-casing' }));
+    svg.append(s('rect', { x: 214, y: 62, width: 16, height: 14, rx: 2, class: 'pa-check' }));
+    svg.append(flow('M8 92 H66 M168 214 L200 206 H222 V34 H312'));
+    label(svg, 'Sewage in', 8, 82, 30, 92);
+    label(svg, 'Floats', 12, 140, 94, 134);
+    label(svg, 'Guide rails', 316, 110, 212, 110, 'end');
+    label(svg, 'Check valve', 316, 82, 230, 70, 'end');
+    label(svg, 'Non-clog pump', 112, 140, 150, 152);
+    label(svg, 'Elbow', 316, 214, 226, 208, 'end');
+    label(svg, 'Force main', 316, 20, 300, 30, 'end');
+  },
+
+  diaphragm(svg) {
+    // Two chambers either side of the air valve, manifolds top and bottom.
+    svg.append(s('path', { d: 'M100 70 V38 H220 V70', class: 'pa-hose' }));
+    svg.append(s('path', { d: 'M100 150 V182 H220 V150', class: 'pa-hose' }));
+    svg.append(s('path', { d: 'M160 38 V8 M160 182 V222', class: 'pa-hose' }));
+    svg.append(s('rect', { x: 64, y: 70, width: 76, height: 80, rx: 36, class: 'pa-casing' }));
+    svg.append(s('rect', { x: 180, y: 70, width: 76, height: 80, rx: 36, class: 'pa-casing' }));
+    svg.append(s('rect', { x: 144, y: 74, width: 32, height: 22, rx: 3, class: 'pa-motor' }));
+    svg.append(s('path', { d: 'M176 85 H300', class: 'pa-cable' }));
+    svg.append(s('rect', { x: 150, y: 132, width: 20, height: 14, rx: 3, class: 'pa-check' }));
+    for (const [x, y] of [[100, 58], [220, 58], [100, 164], [220, 164]]) svg.append(s('circle', { cx: x, cy: y, r: 6, class: 'pa-float' }));
+    // The rod and both diaphragms shuttle back and forth together.
+    const g = s('g', { class: 'pa-dia' });
+    g.append(s('line', { x1: 126, y1: 110, x2: 194, y2: 110, class: 'pa-shaft' }));
+    g.append(s('path', { d: 'M126 76 Q110 110 126 144', class: 'pa-vane' }));
+    g.append(s('path', { d: 'M194 76 Q210 110 194 144', class: 'pa-vane' }));
+    svg.append(g);
+    svg.append(flow('M160 220 V184 H104 V154 M216 154 V184 M104 66 V40 H216 V66 M160 36 V10'));
+    label(svg, 'Outlet', 176, 14, 164, 12);
+    label(svg, 'Inlet', 176, 218, 164, 214);
+    label(svg, 'Ball checks', 236, 166, 226, 164);
+    label(svg, 'Diaphragm', 12, 64, 118, 92);
+    label(svg, 'Air valve', 316, 62, 176, 76, 'end');
+    label(svg, 'Air in', 316, 102, 296, 87, 'end');
+    label(svg, 'Exhaust', 12, 200, 152, 146);
+  },
+
+  booster(svg) {
+    // Motor on top, the stage stack inside a sleeve, inlet and outlet in line at the base.
+    svg.append(s('rect', { x: 132, y: 8, width: 56, height: 46, rx: 5, class: 'pa-motor' }));
+    for (let i = 0; i < 4; i++) svg.append(s('line', { x1: 136, y1: 16 + i * 10, x2: 184, y2: 16 + i * 10, class: 'pa-winding' }));
+    svg.append(s('rect', { x: 136, y: 58, width: 48, height: 120, rx: 6, class: 'pa-casing' }));
+    svg.append(s('line', { x1: 160, y1: 54, x2: 160, y2: 176, class: 'pa-shaft' }));
+    for (let i = 0; i < 5; i++) svg.append(sideImpeller(144, 66 + i * 22, 28, 10));
+    svg.append(s('rect', { x: 112, y: 178, width: 96, height: 24, rx: 4, class: 'pa-casing' }));
+    svg.append(s('path', { d: 'M8 190 H112 M208 190 H312', class: 'pa-hose' }));
+    // Pressure sensor on the outlet wired to the drive.
+    svg.append(s('rect', { x: 250, y: 172, width: 12, height: 12, rx: 2, class: 'pa-check' }));
+    svg.append(s('rect', { x: 232, y: 18, width: 62, height: 40, rx: 5, class: 'pa-motor' }));
+    svg.append(s('path', { d: 'M256 172 V58 M232 30 H188', class: 'pa-cable' }));
+    svg.append(flow('M10 190 H150 V64 M172 64 V184 L178 190 H308'));
+    label(svg, 'Motor', 12, 30, 132, 30);
+    label(svg, 'Stages', 12, 110, 144, 110);
+    label(svg, 'Inlet', 12, 214, 40, 192);
+    label(svg, 'Outlet', 316, 176, 296, 188, 'end');
+    label(svg, 'Pressure sensor', 316, 216, 258, 186, 'end');
+    label(svg, 'Drive (VFD)', 316, 12, 288, 18, 'end');
+  },
 
   slurry(svg) { DRAW.submersible(svg, { agitator: true }); },
 

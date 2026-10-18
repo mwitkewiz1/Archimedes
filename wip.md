@@ -3,7 +3,7 @@
 Open work only. Done items are deleted (git keeps them).
 
 ## Next
-- Pumps: pump and panel together (a float-controlled submersible, water side and electric side on one picture); phases and the motor nameplate reader after [2026-10-18]
+- Pumps: pump and panel together (a duplex lift station: floats, alternating pumps, the panel's ladder diagram); phases and the motor nameplate reader after [2026-10-18]
 
 ## Needs Matthew
 - N1 Card rules: 8 rules in CLAUDE.md are tagged [proposed]; read them and say "N1 yes" (or what to change) → [confirmed] tags — default: none confirmed until you say [2026-10-18]
@@ -18,8 +18,8 @@ Open work only. Done items are deleted (git keeps them).
 - **Electrical module** [2026-10-17] → app/
   Ohm's law, wire size and diagram symbols are in (Electric tab). Still to come: single vs three phase; resistors, diodes. Plain words and pictures.
 - **Pumps module** [2026-10-17] → app/
-  Pump curve and How they work are in (Pumps tab). Still to come: electric pump diagrams with the
-  electrical and water sides together.
+  Pump curve, How they work (13 kinds) and Which pump? are in (Pumps tab). Still to come: pump and
+  panel together, a duplex lift station panel being the natural first one.
 - **Blender project-planning add-ons** [2026-10-17] → app/
   After the BlenderLab workflow is nailed down.
 - **iPhone home-screen icon** [2026-10-17] → app/icons

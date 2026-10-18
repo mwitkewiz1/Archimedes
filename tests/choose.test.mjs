@@ -27,3 +27,11 @@ test('the rules of thumb', () => {
   assert.equal(choosePump({ water: 'slurry', depth: 'shallow', power: 'yes', size: 'big' }).kind, 'slurry');
   assert.equal(choosePump({ water: 'clear', depth: 'shallow', power: 'no', size: 'small' }).kind, 'gas');
 });
+
+test('the newer jobs', () => {
+  assert.equal(choosePump({ water: 'sewage', depth: 'shallow', power: 'yes', size: 'small' }).kind, 'grinder');
+  assert.equal(choosePump({ water: 'sewage', depth: 'deep', power: 'yes', size: 'big' }).kind, 'sewage');
+  assert.equal(choosePump({ water: 'thick', depth: 'shallow', power: 'no', size: 'big' }).kind, 'diaphragm');
+  assert.equal(choosePump({ water: 'boost', depth: 'shallow', power: 'yes', size: 'big' }).kind, 'booster');
+  assert.equal(choosePump({ water: 'trash', depth: 'deep', power: 'no', size: 'big' }).also, 'hydraulic');
+});
