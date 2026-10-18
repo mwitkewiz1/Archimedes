@@ -208,3 +208,15 @@ code { background: var(--key); padding: 1px 5px; border-radius: 4px; }
 .ohm-svg .flow { fill: none; stroke: var(--accent); stroke-width: 3; }
 .ohm-svg .ohm-watts { fill: var(--fuse); font-size: 18px; }
 .ohm-examples { display: flex; flex-wrap: wrap; gap: 8px; }
+
+/* Electric: tool switch, wire size */
+.subnav { display: flex; gap: 6px; margin-bottom: 8px; }
+.subnav a {
+  flex: 1; min-height: 44px; display: grid; place-items: center; border-radius: 10px;
+  background: var(--key); color: var(--ink); text-decoration: none; font-weight: 600; font-size: 15px;
+}
+.subnav a.on { background: var(--op); color: var(--op-ink); }
+.check { display: flex; gap: 12px; align-items: flex-start; min-height: 44px; padding: 8px 0; }
+.check input { width: 28px; height: 28px; flex: none; margin: 0; accent-color: var(--accent); }
+.check .ohm-what { display: block; min-height: 0; margin-top: 2px; }
+.ohm-svg .box { fill: var(--key); stroke: var(--ink); stroke-width: 1.5; }

@@ -4,6 +4,7 @@
 
 import { el } from './el.js';
 import { load, save } from './store.js';
+import { electricNav } from './electric.js';
 import { QUANTS, ORDER, solve, parseValue, formatNumber, withPrefix } from '../core/ohm.js';
 
 const SVG = 'http://www.w3.org/2000/svg';
@@ -89,6 +90,7 @@ export function renderOhm(view) {
   }
 
   view.append(el('section.ohm',
+    electricNav('ohm'),
     el('h1', 'Ohm\'s law'),
     el('p.note', 'Type any two. The other two work themselves out.'),
     el('div.two', fields),
@@ -112,7 +114,7 @@ export function renderOhm(view) {
     el('h2', 'Where it stops working'),
     el('p.note', 'This is exact for batteries and DC, and for heaters and plain bulbs on AC. ' +
       'A motor on AC pulls more amps than watts ÷ volts, and a motor\'s winding reads far fewer ohms on a meter than it acts like when it runs. ' +
-      'That is power factor, which gets its own tool later. Wire size and breakers are a different question too: coming next.'),
+      'That is power factor, which gets its own tool later. Wire size is its own tool: Wire size, at the top of this tab.'),
   ));
 
   for (const k of ORDER) inputs[k].value = text[k];

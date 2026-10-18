@@ -6,8 +6,12 @@ import { renderCut } from './ui/cut.js';
 import { renderHelp } from './ui/help.js';
 import { renderFusion } from './ui/fusion.js';
 import { renderOhm } from './ui/ohm.js';
+import { renderWire } from './ui/wire.js';
 
-const screens = { calc: renderCalc, cut: renderCut, fusion: renderFusion, ohm: renderOhm, help: renderHelp };
+const screens = { calc: renderCalc, cut: renderCut, fusion: renderFusion, ohm: renderOhm, wire: renderWire, help: renderHelp };
+
+// Screens that live under another tab: the Electric tab's tools.
+const TAB_OF = { wire: 'ohm' };
 
 function route() {
   const name = location.hash.replace(/^#\//, '') || 'calc';
@@ -15,8 +19,9 @@ function route() {
   const view = document.getElementById('view');
   view.replaceChildren();
   render(view);
+  const tab = TAB_OF[name] || (name in screens ? name : 'calc');
   for (const a of document.querySelectorAll('.tabs a')) {
-    a.classList.toggle('on', a.getAttribute('href') === `#/${name in screens ? name : 'calc'}`);
+    a.classList.toggle('on', a.getAttribute('href') === `#/${tab}`);
   }
   window.scrollTo(0, 0);
 }
