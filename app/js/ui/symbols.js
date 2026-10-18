@@ -4,7 +4,7 @@
 
 import { el } from './el.js';
 import { load, save } from './store.js';
-import { electricNav } from './electric.js';
+import { electricNav } from './subnav.js';
 import { SYMBOLS, GROUPS, searchSymbols } from '../core/symbols.js';
 
 const SVG = 'http://www.w3.org/2000/svg';

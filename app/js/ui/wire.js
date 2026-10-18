@@ -4,7 +4,7 @@
 
 import { el } from './el.js';
 import { load, save } from './store.js';
-import { electricNav } from './electric.js';
+import { electricNav } from './subnav.js';
 import { SYSTEMS, pickWire } from '../core/wire.js';
 import { parseValue, formatNumber } from '../core/ohm.js';
 

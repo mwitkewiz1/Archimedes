@@ -4,7 +4,7 @@
 
 import { el } from './el.js';
 import { load, save } from './store.js';
-import { electricNav } from './electric.js';
+import { electricNav } from './subnav.js';
 import { QUANTS, ORDER, solve, parseValue, formatNumber, withPrefix } from '../core/ohm.js';
 
 const SVG = 'http://www.w3.org/2000/svg';

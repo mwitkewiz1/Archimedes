@@ -7,6 +7,7 @@ import { load, save } from './store.js';
 import { PUMPS, PIPE_SIZES, MATERIALS, insideDiameter, dutyPoint, bep, feetToPsi } from '../core/pump.js';
 import { DRS } from '../core/fusion.js';
 import { drawCurve } from './curve.js';
+import { pumpsNav } from './subnav.js';
 
 const DEFAULTS = { pump: 'dewater', speed: 100, lift: 60, material: 'hdpe', size: '6', dr: '11', length: 1500, valve: 100 };
 
@@ -65,6 +66,7 @@ export function renderPump(view) {
   }
 
   view.append(el('section.pumps',
+    pumpsNav('pump'),
     el('h1', 'Pump curve'),
     el('p.note', 'A pump doesn\'t pick its own flow. Your pipe does. Move the sliders and watch where the two curves cross.'),
     el('div.pump-pin', out, chart),
