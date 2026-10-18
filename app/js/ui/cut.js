@@ -6,13 +6,14 @@ import { load, save } from './store.js';
 import { drawPipe } from './draw.js';
 import { parseMeasure, formatInches, onTape, toNumber } from '../core/measure.js';
 import { planCut, JOBS } from '../core/cut.js';
+import { loadPipes, pipeLoss } from './pipes.js';
 
 const FIELDS = {
   pipe: { label: 'Pipe is now', hint: `5'1"` },
   finished: { label: 'Needs to end up', hint: `4' 9 3/4"` },
   takeOff: { label: 'Or: take off', hint: '3 1/4' },
   kerf: { label: 'Saw blade eats', hint: '3/32' },
-  fuse: { label: 'Fusing eats, each end', hint: '1/8' },
+  fuse: { label: 'Your number: fusing eats, each pipe end', hint: '1/8' },
 };
 
 const JOB_FIELDS = {
@@ -22,7 +23,17 @@ const JOB_FIELDS = {
 };
 
 export function renderCut(view) {
-  const state = load('cut', { job: 'oneEnd', pipe: '', finished: '', takeOff: '', kerf: '3/32', fuse: '1/8' });
+  const state = load('cut', { job: 'oneEnd', pipe: '', finished: '', takeOff: '', kerf: '3/32', fuse: '', fuseFrom: '' });
+  // Where the fusing loss comes from: a measured pipe's id, 'manual', 'none' (no fusing), or '' (not picked).
+  const pipes = loadPipes().filter((p) => p.joints.length).map((p) => ({ id: p.id, ...pipeLoss(p) })).filter((p) => p.end);
+  if (!state.fuseFrom) state.fuseFrom = ''; // saved by a version before the Fusing tab
+  if (state.fuseFrom && !['manual', 'none'].includes(state.fuseFrom) && !pipes.some((p) => p.id === state.fuseFrom)) state.fuseFrom = '';
+  const fuseFrom = el('select', { id: 'f-fuseFrom', onchange: () => { state.fuseFrom = fuseFrom.value; update(); } },
+    el('option', { value: '' }, 'Pick the pipe…'),
+    pipes.map((p) => el('option', { value: p.id }, `${p.name}: ${formatInches(p.end)} each end`)),
+    el('option', { value: 'manual' }, 'Type my own number'),
+    el('option', { value: 'none' }, 'No fusing, just cutting'));
+  fuseFrom.value = state.fuseFrom || '';
   const tapeDenom = load('tapeDenom', 16);
   const out = el('div.cut-out', { 'aria-live': 'polite' });
   const inputs = {};
@@ -55,10 +66,15 @@ export function renderCut(view) {
     el('h1', 'Cut & fuse'),
     jobs,
     el('div.fields', fieldRows.slice(0, 3)),
-    el('details.losses', { open: !state.kerf || !state.fuse },
+    el('details.losses', { open: true },
       el('summary', 'Saw and fusing losses'),
-      el('div.fields', fieldRows.slice(3)),
-      el('p.note', 'Your own numbers: what your saw blade takes, and what one pipe end loses when it is faced and fused. A joint has two ends.')),
+      el('div.fields',
+        fieldRows[3],
+        el('label.field', { for: 'f-fuseFrom' }, el('span.field-label', 'Fusing loss, from the pipe'), fuseFrom),
+        fieldRows[4]),
+      el('p.note', pipes.length
+        ? 'Losses come from the joints you measured on the Fusing tab.'
+        : 'No pipes measured yet. Measure one joint on the Fusing tab, or type your own number.')),
     out,
   ));
 
@@ -67,10 +83,15 @@ export function renderCut(view) {
     return m ? m.value : null;
   }
 
+  function fuseLoss() {
+    if (state.fuseFrom === 'manual') return value('fuse');
+    return pipes.find((p) => p.id === state.fuseFrom)?.end || null;
+  }
+
   function update() {
     save('cut', state);
     for (const b of jobs.children) b.setAttribute('aria-checked', String(b.dataset.job === state.job));
-    const shown = new Set([...JOB_FIELDS[state.job], 'kerf', 'fuse']);
+    const shown = new Set([...JOB_FIELDS[state.job], 'kerf', ...(state.fuseFrom === 'manual' ? ['fuse'] : [])]);
     for (const [key, { echo, row }] of Object.entries(inputs)) {
       row.hidden = !shown.has(key);
       const raw = (state[key] || '').trim();
@@ -84,9 +105,15 @@ export function renderCut(view) {
     const plan = planCut({
       job: state.job,
       pipe: inPlace ? null : value('pipe'), finished: inPlace ? null : value('finished'), takeOff: value('takeOff'),
-      kerf: value('kerf') || undefined, fuse: value('fuse') || undefined,
+      kerf: value('kerf') || undefined, fuse: fuseLoss() || undefined,
     });
     if (!plan.ok) { out.replaceChildren(el('p.note.big-note', plan.error)); return; }
+    if (!state.fuseFrom || (state.fuseFrom === 'manual' && !value('fuse'))) {
+      out.replaceChildren(el('div.big-note',
+        el('p', "I don't know what fusing eats on this pipe yet, so I won't guess where to mark."),
+        el('p', 'Pick a pipe you measured, type your own number, or measure one joint on the ', el('a', { href: '#/fusion' }, 'Fusing tab'), '.')));
+      return;
+    }
     out.replaceChildren(
       drawPipe({ parts: plan.parts, ...drawingMarks(state.job, plan.numbers), openEnds: state.job === 'cutOut' }),
       el('ol.steps', plan.steps.map((s) => el(`li.step.${s.k}`,

@@ -1,7 +1,7 @@
 # Archimedes
 
 Field math and know-how for pipe, pumps and wiring, written for someone who knows engines, not pumps or electricity.
-app/ is an offline phone web app. First tool: a tape-measure fraction calculator and a cut-and-fuse planner for HDPE.
+app/ is an offline phone web app. First tool: a tape-measure fraction calculator and a cut-and-fuse planner for HDPE, with fusing loss measured by pipe size and DR.
 Matthew uses it; Claude writes it. Next: electrical (diagrams, amps, volts, wire size, phases), then pumps.
 
 ## Rules
@@ -20,5 +20,5 @@ Matthew uses it; Claude writes it. Next: electrical (diagrams, amps, volts, wire
 | File | Read when |
 |---|---|
 | wip.md | open work, questions for Matthew |
-| app/js/core/ | the math: measure.js (fractions, tape numbers), expr.js (calculator), cut.js (cut-and-fuse planner) |
-| app/js/ui/ | the screens: calc.js, cut.js, draw.js (pipe picture), help.js |
+| app/js/core/ | the math: measure.js (fractions, tape numbers), expr.js (calculator), cut.js (cut-and-fuse planner), fusion.js (pipe sizes, DR, fusing loss) |
+| app/js/ui/ | the screens: calc.js, cut.js, fusion.js (Fusing tab), pipes.js (measured pipes on this phone), draw.js (pipe picture), help.js |

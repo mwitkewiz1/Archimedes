@@ -3,11 +3,10 @@
 Open work only. Done items are deleted (git keeps them).
 
 ## Next
+- Measure one joint on each pipe you fuse (Fusing tab: marks back from each end, mark to mark after) → the app's loss for that size and DR [2026-10-17]
 - Try it on the phone: Fractions and Cut & fuse, on a real HDPE cut → what's wrong or slow to Claude [2026-10-17]
 
 ## Needs Matthew
-- N1 Fusion loss: is your 1/8" what ONE pipe end loses, or what the whole joint loses? The app takes it per end (a joint = 2 ends) — default: per end [2026-10-17]
-- N3 Push to GitHub (public): merge nightagent into main, then push [2026-10-17]
 
 ## Open
 - **Electrical module** [2026-10-17]: read wiring diagrams symbol by symbol; Ohm's law and power with

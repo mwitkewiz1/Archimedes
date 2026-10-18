@@ -4,8 +4,9 @@
 import { renderCalc } from './ui/calc.js';
 import { renderCut } from './ui/cut.js';
 import { renderHelp } from './ui/help.js';
+import { renderFusion } from './ui/fusion.js';
 
-const screens = { calc: renderCalc, cut: renderCut, help: renderHelp };
+const screens = { calc: renderCalc, cut: renderCut, fusion: renderFusion, help: renderHelp };
 
 function route() {
   const name = location.hash.replace(/^#\//, '') || 'calc';
