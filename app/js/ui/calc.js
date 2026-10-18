@@ -9,13 +9,15 @@ import { formatInches, onTape, toNumber } from '../core/measure.js';
 import { pretty, prettyTyping, fracBoxes } from './frac.js';
 
 // Each key: label, what it adds, an optional class, and a spoken name when the
-// label is a picture. ⌫ sits by = and C bottom left, where the thumb is.
+// label is a picture. Matthew's layout from the Keypad Lab: ⌫ top left, C bottom left.
+const FRAC = [() => fracBoxes(), '/', 'unit', 'fraction bar'];
+const AND = [() => ['3', fracBoxes()], ' ', 'unit', 'whole number and fraction'];
 const KEYS = [
-  ['7', '7'], ['8', '8'], ['9', '9'], ["ft '", "'", 'unit', 'feet'], ['÷', ' ÷ ', 'op', 'divide'],
-  ['4', '4'], ['5', '5'], ['6', '6'], ['in "', '"', 'unit', 'inches'], ['×', ' × ', 'op', 'times'],
-  ['1', '1'], ['2', '2'], ['3', '3'], [() => fracBoxes(), '/', 'unit', 'fraction bar'], ['−', ' − ', 'op', 'minus'],
-  ['0', '0'], ['.', '.'], [() => ['3', fracBoxes()], ' ', 'unit', 'whole number and fraction'], ['⌫', 'back', 'fn', 'back'], ['+', ' + ', 'op', 'plus'],
-  ['C', 'clear', 'fn', 'clear'], ['(', '('], [')', ')'], ['=', 'equals', 'eq wide', 'equals'],
+  ['⌫', 'back', 'fn', 'back'], ['(', '('], [')', ')'], ['in "', '"', 'unit', 'inches'], ['÷', ' ÷ ', 'op', 'divide'],
+  ['7', '7'], ['8', '8'], ['9', '9'], ["ft '", "'", 'unit', 'feet'], ['×', ' × ', 'op', 'times'],
+  ['4', '4'], ['5', '5'], ['6', '6'], AND, ['−', ' − ', 'op', 'minus'],
+  ['1', '1'], ['2', '2'], ['3', '3'], FRAC, ['+', ' + ', 'op', 'plus'],
+  ['C', 'clear', 'fn', 'clear'], ['0', '0'], ['.', '.'], ['=', 'equals', 'eq wide', 'equals'],
 ];
 
 export function renderCalc(view) {
@@ -100,6 +102,7 @@ function tryEval(line) {
   // Half a fraction isn't a mistake yet: say what goes in the empty box.
   if (/\d\/$/.test(line)) return { waiting: 'Now the bottom number.' };
   if (/\d $/.test(line)) return { waiting: 'Now the fraction: top number, the fraction key, bottom number.' };
+  if (/\d \d+$/.test(line)) return { waiting: 'Now the fraction key, then the bottom number.' };
   try { return evaluate(line); } catch (e) { return { error: e.message }; }
 }
 
