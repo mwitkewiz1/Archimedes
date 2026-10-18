@@ -12,13 +12,13 @@ Open work only. Done items are deleted (git keeps them).
 - Measure one joint on each pipe you fuse (Fusing tab: marks back from each end, mark to mark after) → the app's loss for that size and DR [2026-10-17]
 - Try it on the phone: Fractions and Cut & fuse, on a real HDPE cut → what's wrong or slow to Claude [2026-10-17]
 - Try the Electric tab: Ohm's law off a real nameplate or battery, wire size on a real run, and Symbols against a real panel's diagram → plain enough? anything missing? [2026-10-18]
-- Try the Pumps tab with a real job: lift, pipe size and length → does the dot land where the pump really runs? And How they work and Which pump?: anything wrong or missing for the pumps you run? [2026-10-18]
+- Try the Pumps tab with a real job: lift, pipe size and length → does the dot land where the pump really runs? And How they work, Which pump? and Troubleshoot: anything wrong, missing or out of order for the pumps you run and repair? [2026-10-18]
 
 ## Open
 - **Electrical module** [2026-10-17] → app/
   Ohm's law, wire size and diagram symbols are in (Electric tab). Still to come: single vs three phase; resistors, diodes. Plain words and pictures.
 - **Pumps module** [2026-10-17] → app/
-  Pump curve, How they work (13 kinds) and Which pump? are in (Pumps tab). Still to come: pump and
+  Pump curve, How they work (13 kinds), Which pump? and Troubleshoot are in (Pumps tab). Still to come: pump and
   panel together, a duplex lift station panel being the natural first one.
 - **Blender project-planning add-ons** [2026-10-17] → app/
   After the BlenderLab workflow is nailed down.
