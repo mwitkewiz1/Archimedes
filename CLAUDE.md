@@ -14,11 +14,12 @@ Matthew uses it; Claude writes it. Next: electrical (diagrams, amps, volts, wire
 - No day-job data: nothing from his employer goes in this repo. [proposed 2026-10-17]
 - Done means Matthew used it and said so. [proposed 2026-10-17]
 - Checks: node --test "tests/*.test.mjs" [check 2026-10-17]
-- Push: main once Checks pass, after Matthew says push. The repo is public (github.com/mwitkewiz1/Archimedes): nothing private in it. [proposed 2026-10-17]
+- Push: main once Checks pass, read back first and on a typed yes (docs/decisions.md, areas house and repo). The repo is public: nothing private in it. [proposed 2026-10-17]
 
 ## Where things live
 | File | Read when |
 |---|---|
 | wip.md | open work, questions for Matthew |
+| docs/decisions.md | you need a past owner ruling: grep by area, never read whole |
 | app/js/core/ | the math: measure.js (fractions, tape numbers), expr.js (calculator), cut.js (cut-and-fuse planner), fusion.js (pipe sizes, DR, fusing loss) |
 | app/js/ui/ | the screens: calc.js, cut.js, fusion.js (Fusing tab), pipes.js (measured pipes on this phone), draw.js (pipe picture), help.js; helpers el.js (builds elements) and store.js (settings on this phone) |

@@ -1,0 +1,6 @@
+Read when: you need a past owner ruling. Grep by area; never read whole.
+- 2026-10-17 · name · The app and the repo are called Archimedes, with no "Sense" on the end · "i absolutely love Archimedes and it doesn't require Sense after it this time" · the screw pump plus the math covers both halves of the app · [matthew]
+- 2026-10-17 · scope · Standalone for now, not inside his warehouse app; maybe a link from the warehouse app later. Not settled for good: revisit if the two grow together · "right now standalone with maybe a link from warehouse app later imo" · he isn't sure which is better yet · [matthew]
+- 2026-10-17 · repo · Public GitHub repo, which he created himself · "i did it myself not you so you know i meant it" · no company data in it, and he may share it · [matthew]
+- 2026-10-17 · house · Big or hard-to-undo moves (a name, a new repo, a push, a delete) get read back in one line and wait for his typed yes, even after a button said yes · "that might get annoying but lets do it for a little while" · prewritten replies have gone out without him meaning to send them · [matthew]
+- 2026-10-18 · fusion · Fusing loss is measured per pipe size and DR and never guessed; his own experience is one 6" fusion · "my exposure isnt' enough to give coherent data on. more input is requred for sure" · the number varies and nobody has measured it yet · [matthew]
