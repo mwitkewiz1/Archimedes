@@ -1,5 +1,5 @@
 // frac.js — writes fractions the way a hand does: whole number full size, the
-// fraction stacked small beside it. pretty('73 17/32"') gives nodes for el().
+// fraction small beside it, top raised, slash, bottom lowered (⁵⁄₃₂). pretty('73 17/32"') gives nodes for el().
 // Only a slash with no spaces is a fraction; " / " with spaces is divide.
 
 import { el } from './el.js';
@@ -8,7 +8,7 @@ import { el } from './el.js';
 const FRAC = /(\d+)[ -](\d+)\/(\d+)|(\d+)\/(\d+)/g;
 
 export function fracEl(n, d) {
-  return el('span.fr', { role: 'img', 'aria-label': `${n}/${d}` }, el('span.fr-n', n), el('span.fr-d', d));
+  return el('span.fr', { role: 'img', 'aria-label': `${n}/${d}` }, el('span.fr-n', n), el('span.fr-s', '⁄'), el('span.fr-d', d));
 }
 
 export function pretty(text) {
