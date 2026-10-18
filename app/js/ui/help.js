@@ -21,7 +21,7 @@ export function renderHelp(view) {
     el('h2', 'Your tape'),
     el('label.field', { for: 'tape' }, el('span.field-label', 'Smallest mark on your tape'), pick),
     el('h2', 'Coming'),
-    el('p.note', "The Electric tab has Ohm's law, wire size and diagram symbols. Next there: phases. Then pumps (how each kind works, pump curves)."),
+    el('p.note', "The Electric tab has Ohm's law, wire size and diagram symbols. Next there: phases. The Pumps tab has the pump curve; how each kind of pump works comes next."),
     el('p.foot', 'Archimedes · by [MW]Sense · works with no signal once opened'),
   ));
 }

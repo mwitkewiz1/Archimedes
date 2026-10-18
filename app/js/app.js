@@ -8,8 +8,9 @@ import { renderFusion } from './ui/fusion.js';
 import { renderOhm } from './ui/ohm.js';
 import { renderWire } from './ui/wire.js';
 import { renderSymbols } from './ui/symbols.js';
+import { renderPump } from './ui/pump.js';
 
-const screens = { calc: renderCalc, cut: renderCut, fusion: renderFusion, ohm: renderOhm, wire: renderWire, symbols: renderSymbols, help: renderHelp };
+const screens = { calc: renderCalc, cut: renderCut, fusion: renderFusion, ohm: renderOhm, wire: renderWire, symbols: renderSymbols, pump: renderPump, help: renderHelp };
 
 // Screens that live under another tab: the Electric tab's tools.
 const TAB_OF = { wire: 'ohm', symbols: 'ohm' };
