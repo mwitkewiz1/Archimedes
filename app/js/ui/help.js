@@ -22,6 +22,6 @@ export function renderHelp(view) {
     el('label.field', { for: 'tape' }, el('span.field-label', 'Smallest mark on your tape'), pick),
     el('h2', 'Coming'),
     el('p.note', 'Electrical (wiring diagrams, amps, volts, wire size, phases) and pumps (how each kind works, pump curves) are next, one at a time.'),
-    el('p.foot', 'FieldSense · by [MW]Sense · works with no signal once opened'),
+    el('p.foot', 'Archimedes · by [MW]Sense · works with no signal once opened'),
   ));
 }

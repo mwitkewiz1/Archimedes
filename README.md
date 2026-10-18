@@ -1,6 +1,6 @@
-# FieldSense
+# Archimedes
 
-Field math on the phone, offline. By [MW]Sense.
+Pump and ohm calculator, fractional measurement for fusion techniques. On the phone, offline. By [MW]Sense.
 
 - **Fractions**: a tape-measure calculator. Type `5'1" − 3 1/4" − 3/32"` on its own keypad and get
   57 17/32", the feet-and-inches version, and the nearest mark on your tape.

@@ -1,7 +1,7 @@
 // store.js — small per-phone settings (last kerf, fuse loss, calculator
 // history). Browser storage can be missing or blocked; every call survives that.
 
-const KEY = 'fieldsense';
+const KEY = 'archimedes';
 
 function readAll() {
   try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch { return {}; }

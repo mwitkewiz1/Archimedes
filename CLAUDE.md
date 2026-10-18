@@ -1,4 +1,4 @@
-# FieldSense
+# Archimedes
 
 Field math and know-how for pipe, pumps and wiring, written for someone who knows engines, not pumps or electricity.
 app/ is an offline phone web app. First tool: a tape-measure fraction calculator and a cut-and-fuse planner for HDPE.
@@ -14,7 +14,7 @@ Matthew uses it; Claude writes it. Next: electrical (diagrams, amps, volts, wire
 - No day-job data: nothing from his employer goes in this repo. [proposed 2026-10-17]
 - Done means Matthew used it and said so. [proposed 2026-10-17]
 - Checks: node --test "tests/*.test.mjs" [check 2026-10-17]
-- Push: no remote yet; GitHub repo, public or private, is Matthew's call. [proposed 2026-10-17]
+- Push: main once Checks pass, after Matthew says push. The repo is public (github.com/mwitkewiz1/Archimedes): nothing private in it. [proposed 2026-10-17]
 
 ## Where things live
 | File | Read when |
