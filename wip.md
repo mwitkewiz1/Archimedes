@@ -6,7 +6,6 @@ Open work only. Done items are deleted (git keeps them).
 - Single vs three phase on the Electric tab, then a motor nameplate reader; then pumps [2026-10-18]
 
 ## Needs Matthew
-- N2 Turn on hosting: repo Settings → Pages → Source: GitHub Actions; then Actions → Publish app → Run workflow → the app is at https://mwitkewiz1.github.io/Archimedes/ — default: stays offline-only until you do [2026-10-18]
 - N1 Card rules: 8 rules in CLAUDE.md are tagged [proposed]; read them and say "N1 yes" (or what to change) → [confirmed] tags — default: none confirmed until you say [2026-10-18]
 
 ## On the floor
