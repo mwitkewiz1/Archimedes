@@ -6,6 +6,7 @@ Open work only. Done items are deleted (git keeps them).
 - Pumps: pump and panel together (a duplex lift station: floats, alternating pumps, the panel's ladder diagram); phases and the motor nameplate reader after [2026-10-18]
 
 ## Needs Matthew
+- N2 Where the pump catalog script lives: it reads your item list, so it can't go in this public repo, and right now it sits in a temporary folder that goes away. Default: a private folder beside the repo, C:\Dev\Archimedes-private, never pushed anywhere. Say "N2 yes" or name the place [2026-10-18]
 - N1 Card rules: 8 rules in CLAUDE.md are tagged [proposed]; read them and say "N1 yes" (or what to change) → [confirmed] tags — default: none confirmed until you say [2026-10-18]
 
 ## On the floor
@@ -18,7 +19,8 @@ Open work only. Done items are deleted (git keeps them).
 - **Electrical module** [2026-10-17] → app/
   Ohm's law, wire size and diagram symbols are in (Electric tab). Still to come: single vs three phase; resistors, diodes. Plain words and pictures.
 - **Pumps module** [2026-10-17] → app/
-  Pump curve, How they work (13 kinds), Which pump? and Troubleshoot are in (Pumps tab). Still to come: pump and
+  Our pumps (228 from his list), Pump curve, How they work (13 kinds), Which pump? and Troubleshoot are in
+  (Pumps tab). Most listed pumps have no head numbers, so no curve yet: spec-sheet numbers would add them. Still to come: pump and
   panel together, a duplex lift station panel being the natural first one.
 - **Blender project-planning add-ons** [2026-10-17] → app/
   After the BlenderLab workflow is nailed down.

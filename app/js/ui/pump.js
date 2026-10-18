@@ -7,6 +7,7 @@ import { load, save } from './store.js';
 import { PUMPS, PIPE_SIZES, MATERIALS, insideDiameter, dutyPoint, bep, feetToPsi } from '../core/pump.js';
 import { DRS } from '../core/fusion.js';
 import { drawCurve } from './curve.js';
+import { CATALOG, pumpName, curveFrom } from '../core/catalog.js';
 import { pumpsNav } from './subnav.js';
 
 const DEFAULTS = { pump: 'dewater', speed: 100, lift: 60, material: 'hdpe', size: '6', dr: '11', length: 1500, valve: 100 };
@@ -21,7 +22,14 @@ const ZONE = {
 
 export function renderPump(view) {
   const st = { ...DEFAULTS, ...load('pumpPlay', {}) };
-  if (!PUMPS.some((p) => p.id === st.pump)) st.pump = DEFAULTS.pump;
+  // The examples, plus a pump sent over from Our pumps with an estimated curve.
+  const pumps = [...PUMPS];
+  const picked = /^cat-(\d+)$/.exec(st.pump || '');
+  const cat = picked && CATALOG[+picked[1]];
+  const est = cat && curveFrom(cat);
+  if (est) pumps.unshift({ id: st.pump, name: `${pumpName(cat)} (estimated curve)`, ...est, bestEff: 0.6 });
+  if (!pumps.some((p) => p.id === st.pump)) st.pump = DEFAULTS.pump;
+  const estNote = el('p.note');
 
   const out = el('div.pump-out', { 'aria-live': 'polite' });
   const more = el('div.pump-more');
@@ -54,7 +62,8 @@ export function renderPump(view) {
     save('pumpPlay', st);
     drRow.hidden = st.material !== 'hdpe';
     for (const r of sliders) r.show();
-    const pump = PUMPS.find((p) => p.id === st.pump);
+    const pump = pumps.find((p) => p.id === st.pump);
+    estNote.textContent = pump.how ? `Estimated curve: ${pump.how} Efficiency assumed 60%. Check it against the pump's spec sheet before you count on it.` : '';
     const id = insideDiameter(st);
     const sys = { lift: st.lift, length: st.length, id, c: MATERIALS[st.material].c, valveOpen: st.valve / 100 };
     const speed = st.speed / 100;
@@ -72,7 +81,8 @@ export function renderPump(view) {
     el('div.pump-pin', out, chart),
     el('div.legend', el('span.lg.pump', 'pump'), el('span.lg.sys', 'your pipe'), el('span.lg.eff', 'efficiency'), el('span.lg.band', 'good range')),
     el('div.fields',
-      select('pump', 'Pump', PUMPS.map((p) => [p.id, p.name])),
+      select('pump', 'Pump', pumps.map((p) => [p.id, p.name])),
+      estNote,
       sliders[0],
       el('div.two',
         select('material', 'Pipe', Object.entries(MATERIALS).map(([k, m]) => [k, m.name])),
@@ -90,7 +100,7 @@ export function renderPump(view) {
       el('li', el('strong', 'BEP'), ' (best efficiency point) is where the pump runs smoothest. The shaded band is the range to stay in: 70 to 120% of BEP flow, best 80 to 110%.'),
       el('li', 'Slowing a pump with a drive: flow drops with speed, head drops with speed squared. Half speed is half the flow and a quarter of the head.'),
     ),
-    el('p.note', 'The pumps here are made-up examples with round numbers. A real pump\'s curve is on its spec sheet. Curves are for clean water: slurry makes less head than the curve shows.'),
+    el('p.note', 'The "Example" pumps are made up with round numbers. Pick a pump on Our pumps to bring its listed numbers here. A real pump\'s curve is on its spec sheet. Curves are for clean water: slurry makes less head than the curve shows.'),
   ));
   update();
 }

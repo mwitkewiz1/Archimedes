@@ -368,3 +368,7 @@ code { background: var(--key); padding: 1px 5px; border-radius: 4px; }
 .fr-tap .caret { height: .9em; }
 .key.tall { grid-row: span 2; }
 .key.tall .fr { font-size: 1.7em; }
+
+/* A switch with four tools goes two by two */
+.subnav { flex-wrap: wrap; }
+.subnav a { flex: 1 1 40%; }

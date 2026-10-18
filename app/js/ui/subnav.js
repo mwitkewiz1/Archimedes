@@ -10,6 +10,7 @@ const ELECTRIC = [
 ];
 
 const PUMPS = [
+  ['catalog', 'Our pumps'],
   ['pump', 'Pump curve'],
   ['kinds', 'How they work'],
   ['trouble', 'Troubleshoot'],
