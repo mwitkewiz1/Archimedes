@@ -6,16 +6,16 @@ import { el } from './el.js';
 import { load, save } from './store.js';
 import { evaluate } from '../core/expr.js';
 import { formatInches, onTape, toNumber } from '../core/measure.js';
-import { pretty } from './frac.js';
+import { pretty, prettyTyping, fracBoxes } from './frac.js';
 
-const FRACTIONS = ['1/2', '1/4', '1/8', '1/16', '1/32'];
-// Each key: label, what it adds, and an optional class.
+// Each key: label, what it adds, an optional class, and a spoken name when the
+// label is a picture. ⌫ sits by = and C bottom left, where the thumb is.
 const KEYS = [
-  ['C', 'clear', 'fn'], ['⌫', 'back', 'fn'], ["ft '", "'", 'unit'], ['in "', '"', 'unit'], ['÷', ' ÷ ', 'op'],
-  ['7', '7'], ['8', '8'], ['9', '9'], ['a⁄b', '/', 'unit'], ['×', ' × ', 'op'],
-  ['4', '4'], ['5', '5'], ['6', '6'], ['(', '('], ['−', ' − ', 'op'],
-  ['1', '1'], ['2', '2'], ['3', '3'], [')', ')'], ['+', ' + ', 'op'],
-  ['0', '0'], ['.', '.'], ['and', ' ', 'unit'], ['=', 'equals', 'eq wide'],
+  ['7', '7'], ['8', '8'], ['9', '9'], ["ft '", "'", 'unit', 'feet'], ['÷', ' ÷ ', 'op', 'divide'],
+  ['4', '4'], ['5', '5'], ['6', '6'], ['in "', '"', 'unit', 'inches'], ['×', ' × ', 'op', 'times'],
+  ['1', '1'], ['2', '2'], ['3', '3'], [() => fracBoxes(), '/', 'unit', 'fraction bar'], ['−', ' − ', 'op', 'minus'],
+  ['0', '0'], ['.', '.'], [() => ['3', fracBoxes()], ' ', 'unit', 'whole number and fraction'], ['⌫', 'back', 'fn', 'back'], ['+', ' + ', 'op', 'plus'],
+  ['C', 'clear', 'fn', 'clear'], ['(', '('], [')', ')'], ['=', 'equals', 'eq wide', 'equals'],
 ];
 
 export function renderCalc(view) {
@@ -31,8 +31,6 @@ export function renderCalc(view) {
   const histHead = el('h2.small', 'Earlier');
 
   function add(text) {
-    // A fraction key right after a whole number means "and": 3 then ¼ is 3 1/4.
-    if (/^\d+\/\d+$/.test(text) && /\d$/.test(line)) text = ' ' + text;
     line += text;
     show();
   }
@@ -47,7 +45,7 @@ export function renderCalc(view) {
 
   function keep() {
     const r = tryEval(line);
-    if (!r || r.error) return;
+    if (!r || r.error || r.waiting) return;
     history = [{ line, text: resultText(r) }, ...history.filter((h) => h.line !== line)].slice(0, 20);
     save('calcHistory', history);
     line = r.unit === 'length' ? plainInches(r.value) : String(+toNumber(r.value).toFixed(4));
@@ -58,7 +56,7 @@ export function renderCalc(view) {
 
   function show() {
     save('calcLine', line);
-    input.replaceChildren(...(line ? pretty(line) : [el('span.muted', pretty(`5'1" − 3 1/4"`))]), el('span.caret'));
+    input.replaceChildren(...(line ? prettyTyping(line) : [el('span.muted', pretty(`5'1" − 3 1/4"`))]), el('span.caret'));
     answer.replaceChildren(...answerParts(tryEval(line), tapeDenom, line === roundedLine));
     hist.replaceChildren(...history.map((h) =>
       el('li', el('button.hist', { onclick: () => { line = h.line; show(); } },
@@ -67,9 +65,9 @@ export function renderCalc(view) {
   }
 
   const pad = el('div.keypad',
-    el('div.fracs', FRACTIONS.map((f) => el('button.key.frac', { onclick: () => add(f) }, f))),
-    el('div.keys', KEYS.map(([label, what, cls]) =>
-      el(`button.key${cls ? '.' + cls.split(' ').join('.') : ''}`, { onclick: () => press(what), 'aria-label': label === 'a⁄b' ? 'fraction bar' : label }, label))),
+    el('div.keys', KEYS.map(([label, what, cls, name]) =>
+      el(`button.key${cls ? '.' + cls.split(' ').join('.') : ''}`, { onclick: () => press(what), 'aria-label': name || label },
+        typeof label === 'function' ? label() : label))),
   );
 
   view.append(
@@ -99,6 +97,9 @@ export function renderCalc(view) {
 
 function tryEval(line) {
   if (!line.trim()) return null;
+  // Half a fraction isn't a mistake yet: say what goes in the empty box.
+  if (/\d\/$/.test(line)) return { waiting: 'Now the bottom number.' };
+  if (/\d $/.test(line)) return { waiting: 'Now the fraction: top number, the fraction key, bottom number.' };
   try { return evaluate(line); } catch (e) { return { error: e.message }; }
 }
 
@@ -115,6 +116,7 @@ function resultText(r) {
 function answerParts(r, denom, rounded = false) {
   if (!r) return [el('div.big.muted', '0"'), el('div.note', pretty('Type a sum with the keys. Example: 5\'1" − 3 1/4" − 3/32"'))];
   if (r.error) return [el('div.big.muted', '…'), el('div.note.warn', r.error)];
+  if (r.waiting) return [el('div.big.muted', '…'), el('div.note', r.waiting)];
   if (r.unit === 'count') {
     const n = toNumber(r.value);
     return [

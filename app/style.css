@@ -92,14 +92,12 @@ code { background: var(--key); padding: 1px 5px; border-radius: 4px; }
 .note { color: var(--muted); font-size: 15px; margin: 6px 0; }
 .warn { color: var(--warn) !important; }
 
-.keypad .fracs { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin-bottom: 6px; }
 .keypad .keys { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
 .key {
   min-height: 52px; border: 0; border-radius: 10px; background: var(--key);
   font-size: 22px; font-weight: 600; touch-action: manipulation;
 }
 .key:active { filter: brightness(.9); }
-.key.frac { font-size: 17px; min-height: 44px; background: var(--key-fn); }
 .key.fn, .key.unit { background: var(--key-fn); font-size: 18px; }
 .key.op { background: var(--op); color: var(--op-ink); }
 .key.eq { background: var(--accent); color: var(--accent-ink); }
@@ -241,6 +239,7 @@ code { background: var(--key); padding: 1px 5px; border-radius: 4px; }
 .fr { display: inline-flex; flex-direction: column; align-items: center; vertical-align: middle;
   position: relative; top: -0.3em; font-size: max(.55em, 11px); line-height: 1; margin: 0 .1em 0 .12em; }
 .fr.solo { font-size: max(.72em, 11px); margin-left: 0; }
+.fr-box { display: inline-block; width: .7em; height: .8em; border: 1.5px dashed currentColor; border-radius: 2px; opacity: .55; vertical-align: middle; }
 .fr-n { border-bottom: max(1.5px, .09em) solid currentColor; padding: 0 .15em .06em; }
 .fr-d { padding: .06em .15em 0; }
 /* Fractions inside drawings: HTML text in the SVG, so they stack the same way */
@@ -253,3 +252,6 @@ code { background: var(--key); padding: 1px 5px; border-radius: 4px; }
 .calc-line .muted { color: var(--muted); font-weight: 400; }
 .caret { display: inline-block; width: 2px; height: 1em; background: var(--accent); vertical-align: -0.12em; margin-left: 2px; animation: blink 1s steps(1) infinite; }
 @keyframes blink { 50% { opacity: 0; } }
+
+/* Keypad keys drawn as pictures: the fraction boxes sit on the key's middle */
+.key .fr { top: 0; font-size: .8em; }

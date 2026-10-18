@@ -12,7 +12,7 @@ export function renderHelp(view) {
     el('h1', 'How to type it'),
     el('ul.rules',
       el('li', 'Feet and inches: ', el('code', `5'1"`), ' or ', el('code', '5ft 1in'), '. No mark means inches.'),
-      el('li', 'Fractions: ', el('code', '3 1/4'), ' or ', el('code', '3-1/4'), '. Use "and" on the keypad for the space.'),
+      el('li', 'Fractions: ', el('code', '3 1/4'), ' or ', el('code', '3-1/4'), '. On the keypad: 3, then the key with a 3 and a fraction on it, then 1, the fraction key, 4.'),
       el('li', 'A hyphen between a whole number and a fraction is a tape number: ', el('code', '3-1/4'), ' is three and a quarter, not three minus a quarter. To subtract, use the − key.'),
       el('li', 'Times and divide by a plain number for halves and copies: ', el('code', '57 7/8 ÷ 2'), '.'),
       el('li', 'A length divided by a length is how many fit: ', el('code', `61 ÷ 4 3/4"`), '.'),
