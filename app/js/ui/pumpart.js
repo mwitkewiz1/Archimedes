@@ -170,12 +170,17 @@ const DRAW = {
     svg.append(s('path', { d: 'M212 100 H262 V212', class: 'pa-hose' }));
     svg.append(s('rect', { x: 216, y: 92, width: 12, height: 16, class: 'pa-check' }));
     svg.append(s('path', { d: 'M174 76 V30 H110', class: 'pa-hose' }));
+    // Knife gate on the riser: body across the pipe, stem out the side to its handwheel.
+    svg.append(s('rect', { x: 165, y: 46, width: 18, height: 12, rx: 2, class: 'pa-check' }));
+    svg.append(s('line', { x1: 183, y1: 52, x2: 198, y2: 52, class: 'pa-cable' }));
+    svg.append(s('line', { x1: 198, y1: 45, x2: 198, y2: 59, class: 'pa-strainer' }));
     svg.append(flow('M262 214 V104 L216 100 M174 96 V34 L114 30'));
     label(svg, 'Engine', 12, 176, 60, 140);
     label(svg, 'Priming chamber', 112, 200, 172, 134);
     label(svg, 'Check valve', 250, 76, 222, 92);
     label(svg, 'Suction hose', 296, 140, 264, 150, 'end');
-    label(svg, 'Discharge', 60, 22, 110, 30);
+    label(svg, 'Discharge', 40, 18, 110, 28);
+    label(svg, 'Knife gate valve', 206, 40, 198, 46);
   },
 };
 

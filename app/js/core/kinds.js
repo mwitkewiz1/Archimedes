@@ -92,10 +92,12 @@ export const KINDS = [
       'On start, the impeller churns that water and pulls the air out of the suction hose a bit at a time.',
       'Once the air is out, water from the hole follows and it pumps like any centrifugal.',
       'A check valve on the suction keeps the chamber from draining back when it stops.',
+      'Water leaves through a knife gate valve and out the discharge hose.',
     ],
     parts: [
       ['Priming chamber', 'Holds the water the pump needs to pull air out of the suction hose.', 'Empty chamber: it spins and never catches. Fill it before the first start.'],
       ['Suction hose and check valve', 'The pull side. It has to be airtight.', 'One leaky coupling and it never primes: it just keeps pulling air.'],
+      ['Knife gate valve (discharge)', 'A flat blade that slides across the discharge, before the hose. Shuts it off to change or move hose, and can throttle the pump back onto its curve when the discharge hose is short.', 'Grit packs the seat so the blade will not close all the way. Left shut on start-up, the air the pump pushes out while priming has nowhere to go and it will not catch.'],
       ['Open (trash) impeller', 'Fewer, thicker vanes so rocks and sticks pass.', 'Wears against the wear plate; flow drops.'],
       ['Engine', 'Diesel, sized to the pump\'s horsepower.', 'Run far right on the curve (too much flow) and it lugs, the same as the motor overload tripping on an electric pump.'],
     ],
