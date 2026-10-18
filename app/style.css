@@ -248,7 +248,7 @@ code { background: var(--key); padding: 1px 5px; border-radius: 4px; }
 .fo-text.lbl { font: 600 12px system-ui, sans-serif; }
 .fo-text.fuse-text { color: var(--fuse); }
 .fo-text.scrap-text { color: var(--scrap-line); }
-.calc-line { min-height: 1.6em; font-size: 26px; font-weight: 600; font-family: inherit; overflow-wrap: anywhere; }
+.calc-line { min-height: 1.9em; font-size: 32px; font-weight: 600; font-family: inherit; overflow-wrap: anywhere; }
 .calc-line .muted { color: var(--muted); font-weight: 400; }
 .caret { display: inline-block; width: 2px; height: 1em; background: var(--accent); vertical-align: -0.12em; margin-left: 2px; animation: blink 1s steps(1) infinite; }
 @keyframes blink { 50% { opacity: 0; } }
@@ -356,3 +356,15 @@ code { background: var(--key); padding: 1px 5px; border-radius: 4px; }
 .cause-tag { font-weight: 700; color: var(--muted); }
 .cause-links { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 8px; }
 .cause-links a { color: var(--accent); font-weight: 600; min-height: 44px; display: inline-flex; align-items: center; }
+
+/* Calculator: fractions you can tap. Each box's tap area reaches past its edge
+   (outward, never into the other box) so a fingertip lands it. */
+.calc-line .fr.edit { font-size: .8em; top: -0.18em; margin: 0 .2em; }
+.calc-line .fr.edit .fr-box { width: .8em; height: .9em; }
+.fr-tap { position: relative; min-width: 1em; text-align: center; cursor: pointer; border-radius: 4px; }
+.fr-tap.fr-n::after { content: ""; position: absolute; inset: -22px -12px 0; }
+.fr-tap.fr-d::after { content: ""; position: absolute; inset: 0 -12px -22px; }
+.fr-tap.on { background: var(--key); box-shadow: 0 0 0 2px var(--accent); }
+.fr-tap .caret { height: .9em; }
+.key.tall { grid-row: span 2; }
+.key.tall .fr { font-size: 1.7em; }

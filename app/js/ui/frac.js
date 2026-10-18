@@ -31,15 +31,3 @@ export function fracBoxes(n, d) {
   const box = () => el('span.fr-box');
   return el('span.fr.solo', { 'aria-hidden': 'true' }, el('span.fr-n', n ?? box()), el('span.fr-d', d ?? box()));
 }
-
-// pretty() for a line still being typed: a fraction half done shows with an
-// empty box where the next number goes. "3 " → 3 □/□, "3 1/" → 3 1/□, "1/" → 1/□.
-export function prettyTyping(text) {
-  let m = text.match(/(\d+)[ -](\d+)\/$/);
-  if (m) return [...pretty(text.slice(0, m.index)), m[1], fracBoxes(m[2])];
-  m = text.match(/(\d+)\/$/);
-  if (m) return [...pretty(text.slice(0, m.index)), fracBoxes(m[1])];
-  m = text.match(/(\d+) (\d*)$/);
-  if (m) return [...pretty(text.slice(0, m.index)), m[1], fracBoxes(m[2] || undefined)];
-  return pretty(text);
-}
