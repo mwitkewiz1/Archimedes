@@ -17,5 +17,5 @@ Open work only. Done items are deleted (git keeps them).
   can play with.
 - **Blender project-planning add-ons** [2026-10-17]: after the BlenderLab workflow is nailed down.
 - **iPhone home-screen icon** [2026-10-17]: iOS wants a PNG apple-touch-icon; app/icons has only the SVG.
-- **Starfleet roster** [2026-10-17]: Archimedes isn't in roster.json, and has no house kit (a first
-  install is its own job with his rulings).
+- **House kit** [2026-10-17]: Archimedes has no house kit (orders/). A first install is its own job,
+  with his rulings first (Starfleet card).

@@ -7,6 +7,10 @@ Pump and ohm calculator, fractional measurement for fusion techniques. On the ph
 - **Cut & fuse**: for pipe that gets sawn and butt-fused. Pick the job (cut one end, trim both ends,
   or cut a piece out and fuse it back), type the lengths, and get a drawing plus numbered steps:
   where to mark, which side of the line to saw on, and what you'll end up with.
+- **Fusing**: what butt fusion eats, measured once per pipe (IPS or DIPS size plus DR): mark each
+  pipe the same distance back, measure mark to mark after fusing. Cut & fuse uses those numbers and
+  won't guess for a pipe nobody has measured. It also shows outside diameter and wall thickness, so
+  DR makes sense.
 
 Coming: electrical (reading wiring diagrams; amps, volts, wire size, phases), then pumps.
 

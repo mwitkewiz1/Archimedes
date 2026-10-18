@@ -21,4 +21,4 @@ Matthew uses it; Claude writes it. Next: electrical (diagrams, amps, volts, wire
 |---|---|
 | wip.md | open work, questions for Matthew |
 | app/js/core/ | the math: measure.js (fractions, tape numbers), expr.js (calculator), cut.js (cut-and-fuse planner), fusion.js (pipe sizes, DR, fusing loss) |
-| app/js/ui/ | the screens: calc.js, cut.js, fusion.js (Fusing tab), pipes.js (measured pipes on this phone), draw.js (pipe picture), help.js |
+| app/js/ui/ | the screens: calc.js, cut.js, fusion.js (Fusing tab), pipes.js (measured pipes on this phone), draw.js (pipe picture), help.js; helpers el.js (builds elements) and store.js (settings on this phone) |
