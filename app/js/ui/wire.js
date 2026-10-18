@@ -62,6 +62,8 @@ export function renderWire(view) {
     el('ul.rules',
       el('li', 'Length is one way, supply to load. The math counts the trip back.'),
       el('li', 'Amps: the nameplate number (FLA on a motor). Only watts? Use the Ohm\'s law tool: amps = watts ÷ volts.'),
+      el('li', 'Reading a motor plate: ', el('code', '575|60|3'), ' is 575 volts, 60 hertz (cycles a second), 3 phase. ' +
+        'A 460 V motor runs on a 480 V supply, a 575 V motor on 600 V: the plate is a little under the supply on purpose.'),
       el('li', 'Three phase loses less than single phase for the same amps, because the phases share the trip back.'),
     ),
     el('h2', 'What this doesn\'t cover'),

@@ -37,11 +37,10 @@ test('480 V three phase, 50 A, 200 ft', () => {
   assert.ok(Math.abs(r.drop - Math.sqrt(3) * 200 * 50 * 0.491 / 1000) < 1e-9);
 });
 
-test('575 V and 630 V three phase lose a smaller share than 480 V', () => {
+test('575 V three phase loses a smaller share than 480 V', () => {
   const at = (system) => pickWire({ system, amps: 60, feet: 400 });
   assert.ok(at('ac575').dropPct < at('ac480').dropPct);
-  assert.ok(at('ac630').dropPct < at('ac575').dropPct);
-  assert.equal(at('ac630').system.volts, 630);
+  assert.equal(at('ac575').system.volts, 575); // the motor's rating: the stricter base for %
 });
 
 test('fixture wire only on DC', () => {

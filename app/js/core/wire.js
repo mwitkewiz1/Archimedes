@@ -38,9 +38,8 @@ export const SYSTEMS = [
   { id: 'ac120', label: '120 V', volts: 120, kind: '1ph' },
   { id: 'ac240', label: '240 V single phase', volts: 240, kind: '1ph' },
   { id: 'ac208', label: '208 V three phase', volts: 208, kind: '3ph' },
-  { id: 'ac480', label: '480 V three phase', volts: 480, kind: '3ph' },
-  { id: 'ac575', label: '575 V three phase', volts: 575, kind: '3ph' },
-  { id: 'ac630', label: '630 V three phase', volts: 630, kind: '3ph' },
+  { id: 'ac480', label: '480 V three phase (motor plate says 460)', volts: 480, kind: '3ph' },
+  { id: 'ac575', label: '575 V three phase (600 V supply)', volts: 575, kind: '3ph' },
 ];
 
 // How many wire-lengths the current runs through: out and back is 2; three
