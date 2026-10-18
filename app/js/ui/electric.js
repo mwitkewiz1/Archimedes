@@ -6,6 +6,7 @@ import { el } from './el.js';
 const TOOLS = [
   ['ohm', 'Ohm\'s law'],
   ['wire', 'Wire size'],
+  ['symbols', 'Symbols'],
 ];
 
 export function electricNav(current) {

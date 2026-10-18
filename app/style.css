@@ -220,3 +220,19 @@ code { background: var(--key); padding: 1px 5px; border-radius: 4px; }
 .check input { width: 28px; height: 28px; flex: none; margin: 0; accent-color: var(--accent); }
 .check .ohm-what { display: block; min-height: 0; margin-top: 2px; }
 .ohm-svg .box { fill: var(--key); stroke: var(--ink); stroke-width: 1.5; }
+
+/* Electric: diagram symbols */
+.chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0 4px; }
+.chip { min-height: 44px; padding: 0 14px; border-radius: 22px; border: 1px solid var(--line); background: var(--card); font-size: 15px; font-weight: 600; }
+.chip[aria-pressed="true"] { background: var(--op); color: var(--op-ink); border-color: var(--op); }
+.sym { display: grid; grid-template-columns: 112px 1fr; gap: 12px; align-items: start;
+  background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 10px; margin-bottom: 8px; }
+.sym-svg { width: 112px; height: auto; background: var(--bg); border-radius: 8px; }
+.sym-svg .wire, .ladder .wire { fill: none; stroke: var(--ink); stroke-width: 2.5; stroke-linejoin: round; stroke-linecap: round; }
+.ladder .wire { stroke-width: 2; vector-effect: non-scaling-stroke; }
+.sym-svg .dot, .ladder .dot { fill: var(--ink); }
+.sym-svg .sym-text, .ladder .sym-text { fill: var(--ink); font: 700 14px system-ui, sans-serif; }
+.sym-name { font-weight: 700; }
+.sym-tag { font-size: 14px; color: var(--accent); font-weight: 600; }
+.sym-says { margin: 4px 0 0; font-size: 15px; }
+.ladder { margin: 8px 0; }

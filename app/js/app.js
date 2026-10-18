@@ -7,11 +7,12 @@ import { renderHelp } from './ui/help.js';
 import { renderFusion } from './ui/fusion.js';
 import { renderOhm } from './ui/ohm.js';
 import { renderWire } from './ui/wire.js';
+import { renderSymbols } from './ui/symbols.js';
 
-const screens = { calc: renderCalc, cut: renderCut, fusion: renderFusion, ohm: renderOhm, wire: renderWire, help: renderHelp };
+const screens = { calc: renderCalc, cut: renderCut, fusion: renderFusion, ohm: renderOhm, wire: renderWire, symbols: renderSymbols, help: renderHelp };
 
 // Screens that live under another tab: the Electric tab's tools.
-const TAB_OF = { wire: 'ohm' };
+const TAB_OF = { wire: 'ohm', symbols: 'ohm' };
 
 function route() {
   const name = location.hash.replace(/^#\//, '') || 'calc';
