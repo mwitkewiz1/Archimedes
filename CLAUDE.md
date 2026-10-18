@@ -21,6 +21,7 @@ Matthew uses it; Claude writes it. Next: electrical (diagrams, amps, volts, wire
 | File | Read when |
 |---|---|
 | wip.md | the digest shows its Next, Needs and Open; open it to work an item |
+| .github/workflows/pages.yml | you change how the app goes online: every push to main runs the checks, then publishes app/ to GitHub Pages |
 | docs/decisions.md | you need a past owner ruling: grep by area, never read whole |
 | app/js/core/ | the math: measure.js (fractions, tape numbers), expr.js (calculator), cut.js (cut-and-fuse planner), fusion.js (pipe sizes, DR, fusing loss), ohm.js (volts, amps, ohms, watts), wire.js (copper wire size: amps and voltage drop), symbols.js (diagram symbols: drawings, plain words, search) |
 | app/js/ui/ | the screens: calc.js, cut.js, fusion.js (Fusing tab), pipes.js (measured pipes on this phone), draw.js (pipe picture), ohm.js, wire.js and symbols.js (Electric tab tools, switched by electric.js), help.js; helpers el.js (builds elements) and store.js (settings on this phone) |

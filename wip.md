@@ -6,12 +6,12 @@ Open work only. Done items are deleted (git keeps them).
 - Single vs three phase on the Electric tab, then a motor nameplate reader; then pumps [2026-10-18]
 
 ## Needs Matthew
+- N2 Turn on hosting: repo Settings → Pages → Source: GitHub Actions; then Actions → Publish app → Run workflow → the app is at https://mwitkewiz1.github.io/Archimedes/ — default: stays offline-only until you do [2026-10-18]
 - N1 Card rules: 8 rules in CLAUDE.md are tagged [proposed]; read them and say "N1 yes" (or what to change) → [confirmed] tags — default: none confirmed until you say [2026-10-18]
 
 ## On the floor
 - Measure one joint on each pipe you fuse (Fusing tab: marks back from each end, mark to mark after) → the app's loss for that size and DR [2026-10-17]
 - Try it on the phone: Fractions and Cut & fuse, on a real HDPE cut → what's wrong or slow to Claude [2026-10-17]
-
 - Try the Electric tab: Ohm's law off a real nameplate or battery, wire size on a real run, and Symbols against a real panel's diagram → plain enough? anything missing? [2026-10-18]
 
 ## Open
@@ -24,5 +24,3 @@ Open work only. Done items are deleted (git keeps them).
   After the BlenderLab workflow is nailed down.
 - **iPhone home-screen icon** [2026-10-17] → app/icons
   iOS wants a PNG apple-touch-icon; app/icons has only the SVG.
-- **Phone hosting** [2026-10-18] → .github/workflows
-  GitHub Pages serves the repo root or docs/, not app/; a small deploy workflow puts app/ online.
