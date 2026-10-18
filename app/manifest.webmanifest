@@ -1,13 +1,15 @@
 {
   "name": "Archimedes",
   "short_name": "Archimedes",
-  "description": "Field math for pipe, pumps and wiring: a tape-measure fraction calculator and a cut-and-fuse planner, on the phone and offline.",
+  "description": "Field math and know-how for pipe, pumps and wiring: a tape-measure fraction calculator, cut-and-fuse planner, electrical tools and pump guides, on the phone and offline.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
   "background_color": "#f3f5f8",
   "theme_color": "#1f3b57",
   "icons": [
-    { "src": "icons/icon.svg", "sizes": "any", "type": "image/svg+xml" }
+    { "src": "icons/icon.svg", "sizes": "any", "type": "image/svg+xml" },
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" }
   ]
 }

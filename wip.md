@@ -22,5 +22,3 @@ Open work only. Done items are deleted (git keeps them).
   panel together, a duplex lift station panel being the natural first one.
 - **Blender project-planning add-ons** [2026-10-17] → app/
   After the BlenderLab workflow is nailed down.
-- **iPhone home-screen icon** [2026-10-17] → app/icons
-  iOS wants a PNG apple-touch-icon; app/icons has only the SVG.

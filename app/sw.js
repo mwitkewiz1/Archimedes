@@ -1,12 +1,15 @@
 // sw.js — caches the app so it opens with no signal. Bump VERSION whenever
 // any file below changes, or phones keep the old copy.
-const VERSION = 'archimedes-v18';
+const VERSION = 'archimedes-v19';
 const FILES = [
   './',
   'index.html',
   'style.css',
   'manifest.webmanifest',
   'icons/icon.svg',
+  'icons/apple-touch-icon.png',
+  'icons/icon-192.png',
+  'icons/icon-512.png',
   'js/app.js',
   'js/ui/el.js',
   'js/ui/frac.js',
