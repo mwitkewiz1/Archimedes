@@ -111,7 +111,7 @@ code { background: var(--key); padding: 1px 5px; border-radius: 4px; }
   background: var(--card); border: 1px solid var(--line); border-radius: 10px;
   padding: 10px 12px; margin-bottom: 6px; min-height: 44px;
 }
-.hist-line { color: var(--muted); font-family: ui-monospace, Menlo, Consolas, monospace; overflow-wrap: anywhere; }
+.hist-line { color: var(--muted); overflow-wrap: anywhere; font-weight: 600; }
 .hist-ans { font-weight: 700; white-space: nowrap; }
 
 /* Cut & fuse */
@@ -236,3 +236,13 @@ code { background: var(--key); padding: 1px 5px; border-radius: 4px; }
 .sym-tag { font-size: 14px; color: var(--accent); font-weight: 600; }
 .sym-says { margin: 4px 0 0; font-size: 15px; }
 .ladder { margin: 8px 0; }
+
+/* Fractions written by hand: whole number full size, fraction stacked at half size */
+.fr { display: inline-flex; flex-direction: column; align-items: center; vertical-align: middle;
+  position: relative; top: -0.3em; font-size: max(.55em, 11px); line-height: 1; margin: 0 .1em 0 .12em; }
+.fr-n { border-bottom: max(1.5px, .09em) solid currentColor; padding: 0 .15em .06em; }
+.fr-d { padding: .06em .15em 0; }
+.calc-line { min-height: 1.6em; font-size: 26px; font-weight: 600; font-family: inherit; overflow-wrap: anywhere; }
+.calc-line .muted { color: var(--muted); font-weight: 400; }
+.caret { display: inline-block; width: 2px; height: 1em; background: var(--accent); vertical-align: -0.12em; margin-left: 2px; animation: blink 1s steps(1) infinite; }
+@keyframes blink { 50% { opacity: 0; } }
