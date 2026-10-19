@@ -372,3 +372,5 @@ code { background: var(--key); padding: 1px 5px; border-radius: 4px; }
 /* A switch with four tools goes two by two */
 .subnav { flex-wrap: wrap; }
 .subnav a { flex: 1 1 40%; }
+.curve-form { margin-top: 10px; border-top: 1px solid var(--line); padding-top: 10px; }
+.primary.short { width: auto; padding: 0 18px; }

@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { COLUMNS, ROWS } from '../app/js/core/catalog-data.js';
-import { CATALOG, pumpName, searchCatalog, curveFrom, said } from '../app/js/core/catalog.js';
+import { CATALOG, pumpName, searchCatalog, curveFrom, checkCurveNumbers, said } from '../app/js/core/catalog.js';
 import { KINDS } from '../app/js/core/kinds.js';
 import { pumpHead } from '../app/js/core/pump.js';
 
@@ -55,4 +55,16 @@ test('numbers in a search are numbers, not text', () => {
   assert.ok(searchCatalog('30hp 460').every((p) => p.hp === 30 && p.volts === 460));
   assert.ok(searchCatalog('4"').every((p) => p.discharge === 4));
   assert.ok(searchCatalog('slurry 460v').every((p) => p.kind === 'slurry' && p.volts === 460));
+});
+
+test('curve numbers you enter are checked, then win over an estimate', () => {
+  assert.equal(checkCurveNumbers({ shutoff: 120, flow: 300 }).ok, false);
+  assert.match(checkCurveNumbers({ shutoff: 100, flow: 300, head: 120 }).error, /less than the shutoff/);
+  assert.ok(checkCurveNumbers({ shutoff: 140, flow: 300, head: 110 }).ok);
+  const c = curveFrom({ flow: 300, head: 120 }, { shutoff: 160, flow: 280, head: 125 });
+  assert.equal(c.yours, true);
+  assert.equal(pumpHead(c, 0), 160);
+  assert.equal(pumpHead(c, 280), 125);
+  assert.ok(curveFrom({ hp: 5 }, { shutoff: 90, flow: 100, head: 70 }), 'a pump with no listed curve gets one from your numbers');
+  assert.equal(curveFrom({ flow: 300, head: 120 }, { shutoff: 50, flow: 1, head: 80 }).yours, undefined, 'bad numbers fall back to the estimate');
 });

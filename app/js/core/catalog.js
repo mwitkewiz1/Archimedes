@@ -57,11 +57,23 @@ export function searchCatalog(query, kind) {
   });
 }
 
-// A curve to try on the Pump curve, from what the list gives, always marked an
-// estimate. Rated flow and head: taken as BEP, shutoff assumed 25% above it.
-// Max flow and max head: the ends of the curve, BEP placed at 60% of max flow.
-// Nothing to go on: null.
-export function curveFrom(p) {
+// Curve numbers typed off a pump's spec sheet or nameplate: shutoff head (no
+// flow), a rated flow, and the head at that flow. Returns { ok, curve } or
+// { ok: false, error } in plain words.
+export function checkCurveNumbers({ shutoff, flow, head }) {
+  if (!(shutoff > 0) || !(flow > 0) || !(head > 0)) return { ok: false, error: 'Fill in all three numbers.' };
+  if (head >= shutoff) return { ok: false, error: 'The head at a flow has to be less than the shutoff head: a pump makes its most head with nothing flowing.' };
+  if (shutoff > 3000 || flow > 50000) return { ok: false, error: 'Those are bigger than any pump here. Check the units: feet of head, gallons a minute.' };
+  return { ok: true, curve: { shutoff, bepFlow: flow, bepHead: head } };
+}
+
+// A curve to try on the Pump curve. Numbers you entered win. Otherwise from
+// what the list gives, always marked an estimate. Rated flow and head: taken
+// as BEP, shutoff assumed 25% above it. Max flow and max head: the ends of the
+// curve, BEP placed at 60% of max flow. Nothing to go on: null.
+export function curveFrom(p, mine) {
+  const yours = mine && checkCurveNumbers(mine);
+  if (yours?.ok) return { ...yours.curve, yours: true, how: 'From the numbers you entered off its spec sheet; its best point taken at your rated flow.' };
   if (p.flow && p.head) {
     return { shutoff: Math.round(p.head * 1.25), bepFlow: p.flow, bepHead: p.head, how: 'Rated flow and head taken as its best point; shutoff head assumed 25% above it.' };
   }

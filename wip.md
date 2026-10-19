@@ -19,7 +19,9 @@ Open work only. Done items are deleted (git keeps them).
   Ohm's law, wire size and diagram symbols are in (Electric tab). Still to come: single vs three phase; resistors, diodes. Plain words and pictures.
 - **Pumps module** [2026-10-17] → app/
   Our pumps (228 from his list), Pump curve, How they work (13 kinds), Which pump? and Troubleshoot are in
-  (Pumps tab). Most listed pumps have no head numbers, so no curve yet: spec-sheet numbers would add them. Still to come: pump and
+  (Pumps tab). The Pump curve lists every pump with a curve. Most listed pumps have no head numbers: anyone can
+  add a pump's three curve numbers on their own phone (Our pumps, Add curve numbers); numbers he gathers from spec
+  sheets could go in the shared catalog instead. Still to come: pump and
   panel together, a duplex lift station panel being the natural first one.
 - **Blender project-planning add-ons** [2026-10-17] → app/
   After the BlenderLab workflow is nailed down.

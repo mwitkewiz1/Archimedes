@@ -23,6 +23,9 @@ paths:
   never let text from the list into it. [check tests/catalog.test.mjs] holds every row to a kind id and numbers.
 - That script is private/catalog.py, in the ignored private/ folder; its README says how to rebuild.
   [check tests/private.test.mjs] fails if anything in private/ is ever tracked.
+- Curve numbers typed on Our pumps live on that phone only, under 'pumpCurves' keyed by the catalog row's id, and
+  win over the list's estimate. A regenerated catalog-data.js can renumber rows: keep row order stable, or those
+  saved numbers land on the wrong pump.
 - Every fraction shown on screen goes through pretty() in ui/frac.js, so all of them stack alike (docs/decisions.md, area
   ui). SVG text can't stack, so drawings put it in through richText() in ui/draw.js (HTML in a foreignObject). Left flat
   on purpose: dropdown options (the phone draws those) and Help's typing examples (they show what you type).
