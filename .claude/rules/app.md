@@ -19,7 +19,7 @@ paths:
 - New or renamed file in app/: add it to FILES in app/sw.js and bump VERSION, or phones keep the old copy.
   [check tests/cache.test.mjs] catches a file missing from FILES; the VERSION bump is still on you.
 - A tab with several tools gets a switch from ui/subnav.js and its routes in TAB_OF in app.js, so the tab stays lit.
-- core/catalog-data.js is generated from his item list by a script kept off this public repo: never hand-edit it, and
+- core/catalog-data.js is generated from his item list by private/catalog.py (ignored, never committed): never hand-edit it, and
   never let text from the list into it. [check tests/catalog.test.mjs] holds every row to a kind id and numbers.
 - Every fraction shown on screen goes through pretty() in ui/frac.js, so all of them stack alike (docs/decisions.md, area
   ui). SVG text can't stack, so drawings put it in through richText() in ui/draw.js (HTML in a foreignObject). Left flat

@@ -6,7 +6,6 @@ Open work only. Done items are deleted (git keeps them).
 - Pumps: pump and panel together (a duplex lift station: floats, alternating pumps, the panel's ladder diagram); phases and the motor nameplate reader after [2026-10-18]
 
 ## Needs Matthew
-- N2 Where the pump catalog script lives: it reads your item list, so it can't go in this public repo, and right now it sits in a temporary folder that goes away. Default: a private folder beside the repo, C:\Dev\Archimedes-private, never pushed anywhere. Say "N2 yes" or name the place [2026-10-18]
 - N1 Card rules: 8 rules in CLAUDE.md are tagged [proposed]; read them and say "N1 yes" (or what to change) → [confirmed] tags — default: none confirmed until you say [2026-10-18]
 
 ## On the floor
