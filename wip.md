@@ -11,7 +11,7 @@ Open work only. Done items are deleted (git keeps them).
 - N1 Card rules: 8 rules in CLAUDE.md are tagged [proposed]; read them and say "N1 yes" (or what to change) → [confirmed] tags — default: none confirmed until you say [2026-10-18]
 
 ## On the floor
-- Measure one joint on each pipe you fuse (Fusing tab: marks back from each end, mark to mark after) → the app's loss for that size and DR [2026-10-17]
+- Measure one joint on each pipe you fuse (Fusion tab, Fusing loss: marks back from each end, mark to mark after) → the app's loss for that size and DR [2026-10-17]
 - Try it on the phone: Fractions and Cut & fuse, on a real HDPE cut → what's wrong or slow to Claude [2026-10-17]
 - Try the Electric tab: Ohm's law off a real nameplate or battery, wire size on a real run, and Symbols against a real panel's diagram → plain enough? anything missing? [2026-10-18]
 - Try the Pumps tab with a real job: lift, pipe size and length → does the dot land where the pump really runs? And How they work, Which pump?, Troubleshoot and Our pumps: anything wrong, missing or out of order for the pumps you run and repair? Add curve numbers for a pump you know and check it runs where it should [2026-10-18]
@@ -21,6 +21,8 @@ Open work only. Done items are deleted (git keeps them).
 - Try Motor amps on a real pump's plate: HP, volts, CODE, FLA, SF → do wire, breaker, overload and generator match what's installed? [2026-10-24]
 
 - Try Phases: does the picture make one against three phase click? Check a real panel against What should it read, and three leg readings in Imbalance [2026-10-24]
+
+- Try the Valves tab: work each kind's cutaway, step a Cla-Val through its jobs, set the needles on Adjust, and Troubleshoot a valve you know → wrong, missing or not how your valves act? Which Cla-Val models and pilots do you actually see? [2026-10-24]
 
 ## Open
 - **Electrical module** [2026-10-17] → app/

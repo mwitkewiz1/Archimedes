@@ -2,6 +2,7 @@
 // you'd say them, get a picture and numbered steps with tape numbers.
 
 import { el } from './el.js';
+import { fuseNav } from './subnav.js';
 import { pretty } from './frac.js';
 import { load, save } from './store.js';
 import { drawPipe } from './draw.js';
@@ -64,6 +65,7 @@ export function renderCut(view) {
   });
 
   view.append(el('section.cut',
+    fuseNav('cut'),
     el('h1', 'Cut & fuse'),
     jobs,
     el('div.fields', fieldRows.slice(0, 3)),
@@ -74,8 +76,8 @@ export function renderCut(view) {
         el('label.field', { for: 'f-fuseFrom' }, el('span.field-label', 'Fusing loss, from the pipe'), fuseFrom),
         fieldRows[4]),
       el('p.note', pipes.length
-        ? 'Losses come from the joints you measured on the Fusing tab.'
-        : 'No pipes measured yet. Measure one joint on the Fusing tab, or type your own number.')),
+        ? 'Losses come from the joints you measured on Fusing loss.'
+        : 'No pipes measured yet. Measure one joint on Fusing loss, or type your own number.')),
     out,
   ));
 
@@ -112,7 +114,7 @@ export function renderCut(view) {
     if (!state.fuseFrom || (state.fuseFrom === 'manual' && !value('fuse'))) {
       out.replaceChildren(el('div.big-note',
         el('p', "I don't know what fusing eats on this pipe yet, so I won't guess where to mark."),
-        el('p', 'Pick a pipe you measured, type your own number, or measure one joint on the ', el('a', { href: '#/fusion' }, 'Fusing tab'), '.')));
+        el('p', 'Pick a pipe you measured, type your own number, or measure one joint on the ', el('a', { href: '#/fusion' }, 'Fusing loss'), '.')));
       return;
     }
     out.replaceChildren(

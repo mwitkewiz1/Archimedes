@@ -1,7 +1,8 @@
-// fusion.js (screen) — the Fusing tab: how to measure what a joint eats, a
+// fusion.js (screen) — Fusing loss, on the Fusion tab: how to measure what a joint eats, a
 // form to record it by pipe size and DR, and the list of pipes measured so far.
 
 import { el } from './el.js';
+import { fuseNav } from './subnav.js';
 import { pretty } from './frac.js';
 import { load, save } from './store.js';
 import { loadPipes, savePipes, pipeLoss, findOrAddPipe } from './pipes.js';
@@ -96,6 +97,7 @@ export function renderFusion(view) {
   across.oninput = () => { form.across = across.value; update(); };
 
   view.append(el('section.fusion',
+    fuseNav('fusion'),
     el('h1', 'Fusing loss'),
     el('p.note', 'Facing and fusing eat a little off each pipe end. It grows with wall thickness, so it changes with pipe size and DR, and with how long the facer runs. Measure it once for each pipe you fuse.'),
     el('h2', 'Measure it once'),

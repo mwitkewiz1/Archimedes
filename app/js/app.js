@@ -15,11 +15,15 @@ import { renderCatalog } from './ui/catalog.js';
 import { renderLift } from './ui/lift.js';
 import { renderMotor } from './ui/motor.js';
 import { renderPhase } from './ui/phase.js';
+import { renderValve } from './ui/valve.js';
+import { renderControl } from './ui/control.js';
+import { renderAdjust } from './ui/adjust.js';
+import { renderVTrouble } from './ui/vtrouble.js';
 
-const screens = { calc: renderCalc, cut: renderCut, fusion: renderFusion, ohm: renderOhm, wire: renderWire, symbols: renderSymbols, pump: renderPump, kinds: renderKinds, trouble: renderTrouble, catalog: renderCatalog, lift: renderLift, motor: renderMotor, phase: renderPhase, help: renderHelp };
+const screens = { calc: renderCalc, cut: renderCut, fusion: renderFusion, ohm: renderOhm, wire: renderWire, symbols: renderSymbols, pump: renderPump, kinds: renderKinds, trouble: renderTrouble, catalog: renderCatalog, lift: renderLift, motor: renderMotor, phase: renderPhase, valve: renderValve, control: renderControl, adjust: renderAdjust, vtrouble: renderVTrouble, help: renderHelp };
 
-// Screens that live under another tab: the Electric and Pumps tabs' tools.
-const TAB_OF = { wire: 'ohm', motor: 'ohm', phase: 'ohm', symbols: 'ohm', kinds: 'pump', trouble: 'pump', catalog: 'pump', lift: 'pump' };
+// Screens that live under another tab: the Fusion, Electric, Pumps and Valves tabs' tools.
+const TAB_OF = { fusion: 'cut', control: 'valve', adjust: 'valve', vtrouble: 'valve', wire: 'ohm', motor: 'ohm', phase: 'ohm', symbols: 'ohm', kinds: 'pump', trouble: 'pump', catalog: 'pump', lift: 'pump' };
 
 function route() {
   const name = location.hash.replace(/^#\//, '') || 'calc';

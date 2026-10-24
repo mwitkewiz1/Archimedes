@@ -448,3 +448,49 @@ code { background: var(--key); padding: 1px 5px; border-radius: 4px; }
 .three-in { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 10px 0; }
 .chip:disabled { opacity: .4; }
 .zone-chip.watch { background: var(--sys); }
+
+/* Valves: cutaways, control valve, adjust trace */
+.valve-art .va-wall { stroke: var(--ink); stroke-width: 2; }
+.valve-art .va-flange { fill: var(--key-fn); stroke: var(--ink); stroke-width: 1.2; }
+.valve-art .va-part { fill: var(--sys); stroke: var(--ink); stroke-width: 1.4; }
+.valve-art .va-seat { fill: var(--ink); }
+.valve-art .va-wheel { fill: var(--key-fn); stroke: var(--ink); stroke-width: 1.6; }
+.valve-art .va-handle { stroke: var(--bad); stroke-width: 6; stroke-linecap: round; }
+.valve-art .va-bore { fill: var(--card); }
+.valve-art .va-arrow { fill: none; stroke: var(--pump); stroke-width: 3; stroke-linecap: round; }
+.valve-art .va-air { stroke: var(--muted); stroke-width: 3; stroke-dasharray: 3 5; }
+.valve-art .va-bubble { fill: var(--card); stroke: var(--pump); stroke-width: 1.5; }
+.valve-art .va-in { fill: var(--pump); opacity: .3; }
+.valve-art .va-cover { fill: var(--pump); }
+.valve-art .va-diaphragm { fill: none; stroke: var(--ink); stroke-width: 4; stroke-linecap: round; }
+.valve-art .va-spring { fill: none; stroke: var(--muted); stroke-width: 2; }
+.valve-art .va-tube { fill: none; stroke: var(--muted); stroke-width: 4; stroke-linejoin: round; }
+.valve-art .va-tube.on { stroke: var(--pump); stroke-dasharray: 6 5; }
+.valve-art .va-pilot { fill: var(--key-fn); stroke: var(--ink); stroke-width: 1.5; }
+.valve-art .va-pilot.on { fill: var(--good); }
+.valve-art .va-restrict { fill: var(--ink); }
+.valve-art .va-gauge { fill: var(--card); stroke: var(--ink); stroke-width: 2; }
+.valve-art .va-gauge-num { fill: var(--ink); font: 700 13px system-ui, sans-serif; }
+.valve-art .va-tank { fill: none; stroke: var(--ink); stroke-width: 1.5; }
+@media (prefers-reduced-motion: no-preference) {
+  .valve-art .va-tube.on { animation: pa-flow .9s linear infinite; }
+}
+.small-pic { max-width: 260px; margin: 0 auto; }
+.valve-guide li { margin-bottom: 6px; }
+.valve-guide .small-btn { margin: 2px 4px 0 0; }
+.five-segs { grid-template-columns: repeat(5, 1fr); }
+.range { width: 100%; height: 44px; accent-color: var(--accent); }
+.verdicts { display: grid; gap: 8px; margin: 8px 0; }
+.adjust-trace .at-draw { fill: var(--key); }
+.adjust-trace .at-note, .adjust-trace .at-axis { fill: var(--muted); font: 600 11px system-ui, sans-serif; }
+.adjust-trace .at-grid { stroke: var(--line); stroke-width: 1; }
+.adjust-trace .at-set { stroke: var(--ink); stroke-width: 1.5; stroke-dasharray: 5 4; }
+.adjust-trace .at-in { fill: none; stroke: var(--sys); stroke-width: 2; }
+.adjust-trace .at-out { fill: none; stroke: var(--pump); stroke-width: 2.5; }
+.adjust-trace .at-open { fill: none; stroke: var(--good); stroke-width: 2; }
+.adjust-trace .at-cursor { stroke: var(--ink); stroke-width: 1; }
+.legend .lg { white-space: nowrap; margin-right: 10px; }
+.legend .lg::before { content: ""; display: inline-block; width: 16px; height: 3px; margin-right: 5px; vertical-align: middle; }
+.legend .lg-out::before { background: var(--pump); }
+.legend .lg-in::before { background: var(--sys); }
+.legend .lg-set::before { border-top: 2px dashed var(--ink); height: 0; }
