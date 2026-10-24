@@ -6,6 +6,7 @@ import { el } from './el.js';
 const ELECTRIC = [
   ['ohm', 'Ohm\'s law'],
   ['wire', 'Wire size'],
+  ['motor', 'Motor amps'],
   ['symbols', 'Symbols'],
 ];
 

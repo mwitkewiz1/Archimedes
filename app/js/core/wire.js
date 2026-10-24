@@ -58,12 +58,12 @@ export function dropVolts(size, amps, feet, kind) {
   return LOOP[kind] * feet * amps * size.ohmsPerK / 1000;
 }
 
-// job: { system (id), amps, feet (one way), continuous (bool), maxDrop (0.03) }.
+// job: { system (id) or sys ({ volts, kind, label }), amps, feet (one way), continuous (bool), maxDrop (0.03) }.
 // Returns { ok, size, sizeAmps, designAmps, drop, dropPct, decidedBy, smaller }
 // or { ok: false, error }. decidedBy is 'amps' or 'drop': which check set the size.
 // smaller says why the next size down fails.
 export function pickWire(job) {
-  const sys = SYSTEMS.find((s) => s.id === job.system);
+  const sys = job.sys || SYSTEMS.find((s) => s.id === job.system);
   if (!sys) return { ok: false, error: 'Pick what the circuit runs on.' };
   if (!(job.amps > 0)) return { ok: false, error: 'Type the amps the load pulls (on its nameplate).' };
   if (!(job.feet > 0)) return { ok: false, error: 'Type how far the wire runs, one way, in feet.' };

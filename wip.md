@@ -3,9 +3,9 @@
 Open work only. Done items are deleted (git keeps them).
 
 ## Next
-- **Electric: motor amps and generator size** [2026-10-24]
-  The duplex lift station went in (Pumps tab, v22; float wiring NO/NC v23). Next: motor amps from HP, volts and phase (code table), then
-  generator size to start it; after that, phases and the motor nameplate reader.
+- **Electric: phases and the motor nameplate reader** [2026-10-24]
+  Motor amps went in (Electric tab, v24): code-table amps, wire, breaker, overload, generator. Next: single vs three
+  phase in plain words and pictures, then a nameplate reader that fills Motor amps from what the plate says.
 
 ## Needs Matthew
 - N1 Card rules: 8 rules in CLAUDE.md are tagged [proposed]; read them and say "N1 yes" (or what to change) → [confirmed] tags — default: none confirmed until you say [2026-10-18]
@@ -18,10 +18,13 @@ Open work only. Done items are deleted (git keeps them).
 
 - Try the Lift station: play a cycle, trip a pump, stick a float, Silence the alarm, wire a float backwards (NC) → does it run like your stations? Floats, relays or wording that don't match what you see in a real panel [2026-10-24]
 
+- Try Motor amps on a real pump's plate: HP, volts, CODE, FLA, SF → do wire, breaker, overload and generator match what's installed? [2026-10-24]
+- iPhone: go Lift station → Pump curve again (v24) → does the screen still shrink? [2026-10-24]
+
 ## Open
 - **Electrical module** [2026-10-17] → app/
-  Ohm's law, wire size and diagram symbols are in (Electric tab). Still to come: motor amps from HP, volts and phase
-  (code table), breaker and overload size, generator size to start it; single vs three phase; resistors, diodes.
+  Ohm's law, wire size, motor amps (breaker, overload, generator) and diagram symbols are in (Electric tab). Still to
+  come: single vs three phase; the motor nameplate reader; resistors, diodes.
   Plain words and pictures.
 - **Pumps module** [2026-10-17] → app/
   Our pumps (228 from his list), Pump curve, How they work (13 kinds), Which pump? and Troubleshoot are in
