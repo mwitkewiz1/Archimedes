@@ -32,5 +32,9 @@ Open work only. Done items are deleted (git keeps them).
   sheets could go in the shared catalog instead. The Lift station is in too. Still to come: Pump curve extras:
   fittings and hose, slurry weight, two pumps side by side or stacked, a suction-side
   cavitation check.
+- **Our pumps: read flow and head the script missed** [2026-10-24] → private/catalog.py (laptop only)
+  Only 12 of 228 pumps carry both flow and head; he says most descriptions have the specs. Rerun the script, list
+  descriptions that mention flow or head (GPM, ft, TDH, m³/h, psi) but came out empty or odd (10 HP booster read as
+  3 GPM at 446 ft), fix the parse, regenerate keeping row order.
 - **Blender project-planning add-ons** [2026-10-17] → app/
   After the BlenderLab workflow is nailed down.
