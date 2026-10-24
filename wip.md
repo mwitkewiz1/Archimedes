@@ -3,9 +3,9 @@
 Open work only. Done items are deleted (git keeps them).
 
 ## Next
-- **Electric: phases and the motor nameplate reader** [2026-10-24]
-  Motor amps went in (Electric tab, v24): code-table amps, wire, breaker, overload, generator. Next: single vs three
-  phase in plain words and pictures, then a nameplate reader that fills Motor amps from what the plate says.
+- **Electric: the motor nameplate reader** [2026-10-24]
+  Phases went in (Electric tab, v25): waves, rotation, lost phase, service readings, imbalance. Next: a nameplate
+  reader that fills Motor amps from what the plate says (HP, V, FLA, SF, CODE, PH).
 
 ## Needs Matthew
 - N1 Card rules: 8 rules in CLAUDE.md are tagged [proposed]; read them and say "N1 yes" (or what to change) → [confirmed] tags — default: none confirmed until you say [2026-10-18]
@@ -20,10 +20,12 @@ Open work only. Done items are deleted (git keeps them).
 
 - Try Motor amps on a real pump's plate: HP, volts, CODE, FLA, SF → do wire, breaker, overload and generator match what's installed? [2026-10-24]
 
+- Try Phases: does the picture make one against three phase click? Check a real panel against What should it read, and three leg readings in Imbalance [2026-10-24]
+
 ## Open
 - **Electrical module** [2026-10-17] → app/
-  Ohm's law, wire size, motor amps (breaker, overload, generator) and diagram symbols are in (Electric tab). Still to
-  come: single vs three phase; the motor nameplate reader; resistors, diodes.
+  Ohm's law, wire size, motor amps (breaker, overload, generator), phases and diagram symbols are in (Electric tab).
+  Still to come: the motor nameplate reader; resistors, diodes.
   Plain words and pictures.
 - **Pumps module** [2026-10-17] → app/
   Our pumps (228 from his list), Pump curve, How they work (13 kinds), Which pump? and Troubleshoot are in

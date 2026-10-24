@@ -424,3 +424,27 @@ code { background: var(--key); padding: 1px 5px; border-radius: 4px; }
 .wire-row { display: grid; gap: 6px; }
 .two-segs { grid-template-columns: 1fr 1fr; }
 .lift-well .lw-nc { fill: var(--bad); }
+
+/* Electric: phases */
+.phase-art { margin: 8px 0; }
+.phase-art .ph-axis { stroke: var(--line); stroke-width: 1; }
+.phase-art .ph-tick { fill: var(--muted); font: 11px system-ui, sans-serif; }
+.phase-art .ph-name { font: 700 11px system-ui, sans-serif; }
+.phase-art .ph-wave { fill: none; stroke-width: 2.5; }
+.phase-art .ph-l1, .phase-art .ph-c1 { stroke: var(--pump); } .phase-art .ph-t1 { fill: var(--pump); }
+.phase-art .ph-l2, .phase-art .ph-c2 { stroke: var(--sys); } .phase-art .ph-t2 { fill: var(--sys); }
+.phase-art .ph-l3, .phase-art .ph-c3 { stroke: var(--good); } .phase-art .ph-t3 { fill: var(--good); }
+.phase-art .ph-c1 { fill: var(--pump); } .phase-art .ph-c2 { fill: var(--sys); } .phase-art .ph-c3 { fill: var(--good); }
+.phase-art .ph-stator { fill: var(--key); stroke: var(--ink); stroke-width: 1.5; }
+.phase-art .ph-rotor { fill: var(--key-fn); stroke: var(--ink); stroke-width: 1.5; }
+.phase-art .ph-mark { stroke: var(--ink); stroke-width: 3; stroke-linecap: round; }
+.phase-art .ph-field { stroke: var(--bad); stroke-width: 4; stroke-linecap: round; }
+.phase-art .ph-track { fill: var(--key); }
+.phase-art .ph-power { fill: var(--fuse); }
+.phase-art .ph-avg { stroke: var(--ink); stroke-width: 1; stroke-dasharray: 3 3; }
+.read-table { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 4px 12px; margin: 8px 0; }
+.read-row { display: flex; justify-content: space-between; gap: 8px; min-height: 40px; align-items: center; }
+.read-row + .read-row { border-top: 1px solid var(--line); }
+.three-in { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 10px 0; }
+.chip:disabled { opacity: .4; }
+.zone-chip.watch { background: var(--sys); }

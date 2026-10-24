@@ -7,6 +7,7 @@ const ELECTRIC = [
   ['ohm', 'Ohm\'s law'],
   ['wire', 'Wire size'],
   ['motor', 'Motor amps'],
+  ['phase', 'Phases'],
   ['symbols', 'Symbols'],
 ];
 
