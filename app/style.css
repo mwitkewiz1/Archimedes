@@ -374,3 +374,45 @@ code { background: var(--key); padding: 1px 5px; border-radius: 4px; }
 .subnav a { flex: 1 1 40%; }
 .curve-form { margin-top: 10px; border-top: 1px solid var(--line); padding-top: 10px; }
 .primary.short { width: auto; padding: 0 18px; }
+
+/* Pumps: lift station */
+.lift-pin { position: sticky; top: 0; z-index: 2; background: var(--bg); padding: 4px 0 2px; }
+.lift-pin .lift-well { max-height: 28vh; }
+.lift-now { min-height: 4.2em; margin: 6px 0 0; font-size: 14px; line-height: 1.3; }
+.lift-play { display: flex; gap: 8px; margin: 8px 0; }
+.lift-play .small-btn { flex: 1; font-weight: 600; }
+.lift-well .lw-wall { fill: var(--key-fn); }
+.lift-well .lw-inside { fill: var(--card); }
+.lift-well .lw-mark { stroke: var(--muted); stroke-width: 1; stroke-dasharray: 2 4; }
+.lift-well .lw-up .pa-float { fill: var(--good); }
+.lift-well .lw-run .pa-motor { fill: var(--good); }
+.lift-well .lw-trip .pa-motor { fill: var(--bad); }
+.lift-well .lw-tag { fill: var(--muted); }
+.lift-well .lw-pour { opacity: .6; }
+.lift-well .lw-storm { stroke-width: 6; }
+.doors { display: grid; gap: 8px; }
+.door { margin: 0; display: grid; gap: 8px; }
+.door-head { display: flex; align-items: center; gap: 10px; font-size: 17px; }
+.door-ol { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.lift-lead { margin-left: auto; color: var(--accent); font-weight: 600; font-size: 14px; }
+.lamp { width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--ink); background: var(--key); flex: none; }
+.lamp.green.on { background: var(--good); box-shadow: 0 0 10px var(--good); }
+.lamp.red.on { background: var(--bad); box-shadow: 0 0 10px var(--bad); }
+.segs { display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+.seg { min-height: 48px; border: 0; background: transparent; font-weight: 600; }
+.seg + .seg { border-left: 1px solid var(--line); }
+.seg[aria-pressed="true"] { background: var(--op); color: var(--op-ink); }
+.small-btn:disabled { opacity: .4; }
+.lift-ladder .ld-text, .lift-power .ld-text { fill: var(--ink); font: 600 10px system-ui, sans-serif; }
+.lift-ladder .ld-title, .lift-power .ld-title { fill: var(--muted); font: 700 11px system-ui, sans-serif; }
+.ladder .ld-live { stroke: var(--good); stroke-width: 3; }
+.ladder .ld-shut { fill: transparent; }
+.ladder .ld-shut.on { fill: var(--good); }
+.ladder .ld-load { fill: var(--card); }
+.ladder .ld-load.on { fill: var(--good); }
+.ladder .ld-load.ld-red.on, .ladder path.ld-load.on { fill: var(--bad); }
+.ladder .ld-load.on + text.ld-in { fill: #fff; }
+.ladder .ld-box { fill: var(--key); }
+.lift-log { padding-left: 20px; font-size: 14px; color: var(--muted); }
+.lift-log li { margin-bottom: 6px; }
+.lift-log li:first-child { color: var(--ink); }

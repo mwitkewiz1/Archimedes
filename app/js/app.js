@@ -12,11 +12,12 @@ import { renderPump } from './ui/pump.js';
 import { renderKinds } from './ui/kinds.js';
 import { renderTrouble } from './ui/trouble.js';
 import { renderCatalog } from './ui/catalog.js';
+import { renderLift } from './ui/lift.js';
 
-const screens = { calc: renderCalc, cut: renderCut, fusion: renderFusion, ohm: renderOhm, wire: renderWire, symbols: renderSymbols, pump: renderPump, kinds: renderKinds, trouble: renderTrouble, catalog: renderCatalog, help: renderHelp };
+const screens = { calc: renderCalc, cut: renderCut, fusion: renderFusion, ohm: renderOhm, wire: renderWire, symbols: renderSymbols, pump: renderPump, kinds: renderKinds, trouble: renderTrouble, catalog: renderCatalog, lift: renderLift, help: renderHelp };
 
 // Screens that live under another tab: the Electric and Pumps tabs' tools.
-const TAB_OF = { wire: 'ohm', symbols: 'ohm', kinds: 'pump', trouble: 'pump', catalog: 'pump' };
+const TAB_OF = { wire: 'ohm', symbols: 'ohm', kinds: 'pump', trouble: 'pump', catalog: 'pump', lift: 'pump' };
 
 function route() {
   const name = location.hash.replace(/^#\//, '') || 'calc';

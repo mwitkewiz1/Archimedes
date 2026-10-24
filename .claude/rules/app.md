@@ -31,3 +31,5 @@ paths:
   on purpose: dropdown options (the phone draws those) and Help's typing examples (they show what you type).
 - el() skips null and false children, but the DOM's own replaceChildren() and append() print them as the word
   "null". Pass optional pieces to those as ...(cond ? [node] : []).
+- The lift station's ladder drawing comes from LADDER in core/lift.js, not from settle(): change both together.
+  [check tests/lift.test.mjs] fails when a rung's load and its contacts disagree.

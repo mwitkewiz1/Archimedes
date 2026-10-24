@@ -14,6 +14,7 @@ const PUMPS = [
   ['pump', 'Pump curve'],
   ['kinds', 'How they work'],
   ['trouble', 'Troubleshoot'],
+  ['lift', 'Lift station'],
 ];
 
 function toolNav(tools, current, name) {
