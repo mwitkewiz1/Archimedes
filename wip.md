@@ -4,7 +4,7 @@ Open work only. Done items are deleted (git keeps them).
 
 ## Next
 - **Electric: motor amps and generator size** [2026-10-24]
-  The duplex lift station went in (Pumps tab, v22). Next: motor amps from HP, volts and phase (code table), then
+  The duplex lift station went in (Pumps tab, v22; float wiring NO/NC v23). Next: motor amps from HP, volts and phase (code table), then
   generator size to start it; after that, phases and the motor nameplate reader.
 
 ## Needs Matthew
@@ -16,7 +16,7 @@ Open work only. Done items are deleted (git keeps them).
 - Try the Electric tab: Ohm's law off a real nameplate or battery, wire size on a real run, and Symbols against a real panel's diagram → plain enough? anything missing? [2026-10-18]
 - Try the Pumps tab with a real job: lift, pipe size and length → does the dot land where the pump really runs? And How they work, Which pump?, Troubleshoot and Our pumps: anything wrong, missing or out of order for the pumps you run and repair? Add curve numbers for a pump you know and check it runs where it should [2026-10-18]
 
-- Try the Lift station: play a cycle, trip a pump, stick a float, Silence the alarm → does it run like your stations? Floats, relays or wording that don't match what you see in a real panel [2026-10-24]
+- Try the Lift station: play a cycle, trip a pump, stick a float, Silence the alarm, wire a float backwards (NC) → does it run like your stations? Floats, relays or wording that don't match what you see in a real panel [2026-10-24]
 
 ## Open
 - **Electrical module** [2026-10-17] → app/

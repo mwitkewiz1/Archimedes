@@ -416,3 +416,6 @@ code { background: var(--key); padding: 1px 5px; border-radius: 4px; }
 .lift-log { padding-left: 20px; font-size: 14px; color: var(--muted); }
 .lift-log li { margin-bottom: 6px; }
 .lift-log li:first-child { color: var(--ink); }
+.wire-row { display: grid; gap: 6px; }
+.two-segs { grid-template-columns: 1fr 1fr; }
+.lift-well .lw-nc { fill: var(--bad); }

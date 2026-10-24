@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { start, step, nextEvent, setHOA, trip, reset, pressSilence, setFault } from '../app/js/core/lift.js';
+import { start, step, nextEvent, setHOA, trip, reset, pressSilence, setFault, setWiring } from '../app/js/core/lift.js';
 
 // Play the station for some seconds; note each time a pump starts.
 function run(s, seconds, dt = 0.05) {
@@ -91,7 +91,8 @@ test('every step says something', () => {
 test('the drawn ladder agrees with the logic, rung by rung', async () => {
   const { LADDER, passes } = await import('../app/js/core/lift.js');
   const setups = [start(), trip(start(), 0), setFault(start(), 'storm', true), setFault(start(), 'leadStuck', true),
-    setHOA(start(), 1, 'hand'), trip(trip(start(), 0), 1)];
+    setHOA(start(), 1, 'hand'), trip(trip(start(), 0), 1), setWiring(start(), 'lead', 'nc'), setWiring(start(), 'alarm', 'nc'),
+    setWiring(setWiring(start(), 'off', 'nc'), 'lag', 'nc')];
   for (let s of setups) {
     for (let t = 0; t < 40; t += 0.05) {
       s = step(s, 0.05);
@@ -99,4 +100,25 @@ test('the drawn ladder agrees with the logic, rung by rung', async () => {
       for (const r of LADDER) assert.equal(passes(r.seq, s), r.load.on(s), `${r.title} at level ${s.level.toFixed(1)}`);
     }
   }
+});
+
+test('a lead float wired normally closed starts the pump at the Off float, over and over', () => {
+  let s = setWiring(start(), 'lead', 'nc');
+  assert.ok(s.f.lead && !s.up.lead, 'closed while hanging down');
+  const { s: after, starts } = run(s, 30);
+  assert.ok(starts.length >= 10, `short-cycles: ${starts.length} starts in 30 s`);
+  assert.ok(after.level < 20, 'the well never fills past the Off float');
+});
+
+test('an alarm float wired normally closed sounds on an empty well', () => {
+  let s = setWiring(start(), 'alarm', 'nc');
+  assert.ok(s.light && s.horn);
+  s = setWiring(s, 'alarm', 'no');
+  assert.ok(!s.light, 'wired right again, it goes quiet');
+});
+
+test('rewiring a float says what its contact does now', async () => {
+  const { explain } = await import('../app/js/core/lift.js');
+  const a = start();
+  assert.match(explain(a, setWiring(a, 'lag', 'nc')).join(' '), /Lag float is rewired to normally closed.*hanging down, its contact is now closed/);
 });

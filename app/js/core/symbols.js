@@ -67,7 +67,9 @@ export const SYMBOLS = [
     draw: [['line', 0, 24, 27, 24], ['line', 73, 24, 100, 24], ['circle', 30, 24, 3], ['circle', 70, 24, 3],
       ['line', 24, 29, 76, 29], ['line', 50, 29, 50, 8], ['line', 43, 8, 57, 8]] },
   { id: 'float', group: 'switch', name: 'Float switch', tag: 'FS, LS (level switch)',
-    says: 'The ball is the float. Water lifts it and the switch closes (or opens) at a set level. It is what turns a sump or dewatering pump on and off.',
+    says: 'The ball is the float. Water lifts it and the switch closes (or opens) at a set level. It is what turns a sump or dewatering pump on and off. ' +
+      'A 3-wire float has a common, a normally open and a normally closed wire: common to NO closes when it tips up (pump down), common to NC closes when it hangs (pump up, filling). ' +
+      'Colors differ by maker; meter it: hanging, common beeps to NC; tipped up, common beeps to NO.',
     draw: [['line', 0, 25, 27, 25], ['line', 73, 25, 100, 25], ['circle', 30, 25, 3], ['circle', 70, 25, 3],
       ['line', 32, 23, 66, 12], ['line', 49, 18, 49, 34], ['circle', 49, 40, 6]] },
   { id: 'pressure', group: 'switch', name: 'Pressure switch', tag: 'PS',

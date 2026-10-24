@@ -4,7 +4,7 @@
 
 import { el } from './el.js';
 import { pumpsNav } from './subnav.js';
-import { start, step, explain, nextEvent, setHOA, trip, reset, pressSilence, setFault } from '../core/lift.js';
+import { FLOATS, start, step, explain, nextEvent, setHOA, trip, reset, pressSilence, setFault, setWiring } from '../core/lift.js';
 import { wellArt, ladderArt, powerArt } from './liftart.js';
 
 const FAULTS = [
@@ -47,6 +47,13 @@ export function renderLift(view) {
   const silenceBtn = el('button.small-btn', { onclick: () => act(pressSilence(st)) }, 'Silence');
   const alarmRow = el('div.pipe-card.door', el('div.door-head', alarmLamp, el('strong', 'High water alarm')), el('div.door-ol', alarmText, silenceBtn));
 
+  // Float wiring: common to normally open (pump down) or to normally closed (pump up).
+  const wiring = FLOATS.map((f) => {
+    const segs = [['no', 'Pump down (NO)'], ['nc', 'Pump up (NC)']].map(([k, label]) =>
+      el('button.seg', { onclick: () => act(setWiring(st, f.id, k)) }, label));
+    return { segs, row: el('div.wire-row', el('strong', `${f.name} float`), el('div.segs.two-segs', { role: 'group', 'aria-label': `${f.name} float wiring` }, segs)) };
+  });
+
   const faults = FAULTS.map(([key, label]) => el('button.chip', { onclick: () => act(setFault(st, key, !st[key])) }, label));
 
   function draw() {
@@ -65,6 +72,7 @@ export function renderLift(view) {
     alarmLamp.classList.toggle('on', st.light);
     alarmText.textContent = !st.light ? 'Off' : st.horn ? 'Light on, horn sounding' : 'Light on, horn silenced';
     silenceBtn.disabled = !st.horn;
+    wiring.forEach((w, k) => w.segs.forEach((b, j) => b.setAttribute('aria-pressed', String(['no', 'nc'][j] === st.wired[FLOATS[k].id]))));
     faults.forEach((b, k) => b.setAttribute('aria-pressed', String(!!st[FAULTS[k][0]])));
   }
 
@@ -96,6 +104,12 @@ export function renderLift(view) {
     el('div.doors', doors.map((d) => d.card), alarmRow),
     el('h2', 'Make trouble'),
     el('div.chips', faults),
+    el('h2', 'Float wiring'),
+    el('p.note', 'A float has three wires: a common, a normally open (NO) and a normally closed (NC). Use the common and one other; cap the third. ' +
+      'Common to NO: the contact closes when the float tips up, for pumping a well down. Common to NC: it closes when the float hangs down, for filling a tank. ' +
+      'Colors differ by maker, so meter it: with the float hanging, the pair that beeps is common and NC; tip it up and common beeps to NO. The wire in both pairs is the common.'),
+    el('div.doors', wiring.map((w) => w.row)),
+    el('p.note', 'Wire one backwards and play it. A backwards Lead float starts the pump at the Off float, over and over (short-cycling). A backwards Off float stops the pumps once water covers it, so the well fills to the alarm. A backwards Alarm float sounds on an empty well and stays quiet when it floods.'),
     el('h2', 'Inside the panel: the ladder'),
     el('p.note', 'Power comes in on L1 and crosses a rung to reach L2. Lit wires have power; a filled gap is a closed contact. Each rung is drawn on its own; the same relay\'s contacts show up in other rungs by name (CR1, CR2, ALT, SIL).'),
     ladder.svg,

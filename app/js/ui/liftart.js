@@ -39,14 +39,15 @@ export function wellArt() {
   const floats = FLOATS.map((f, k) => {
     const y = yOf(f.at);
     svg.append(s('line', { x1: 68, x2: 212, y1: y, y2: y, class: 'lw-mark' }));
-    svg.append(s('text', { x: 56, y: y + 4, class: 'pa-label', 'text-anchor': 'end' }, f.name));
+    const name = s('text', { x: 56, y: y + 4, class: 'pa-label', 'text-anchor': 'end' }, f.name);
+    svg.append(name);
     const x = 80 + k * 6;
     const cable = s('line', { x1: bracket.x, y1: bracket.y, x2: x, y2: y, class: 'pa-cable' });
     const body = s('ellipse', { cx: 0, cy: 0, rx: 9, ry: 4.5, class: 'pa-float' });
     const g = s('g', {});
     g.append(body);
     svg.append(cable, g);
-    return { x, y, g, cable };
+    return { x, y, g, cable, name };
   });
   svg.append(s('rect', { x: 66, y: 31, width: 10, height: 5, class: 'pa-frame' }));
 
@@ -77,7 +78,9 @@ export function wellArt() {
     pour.classList.toggle('lw-storm', st.storm);
     FLOATS.forEach((f, k) => {
       const fl = floats[k];
-      const up = st.f[f.id];
+      const up = st.up[f.id];
+      fl.name.textContent = st.wired[f.id] === 'nc' ? `${f.name} NC` : f.name;
+      fl.name.classList.toggle('lw-nc', st.wired[f.id] === 'nc');
       // Up: tipped up, riding the surface near its tether's reach. Down: hanging, nose down.
       const fy = up ? Math.max(fl.y - 8, y) : fl.y + 6;
       fl.g.setAttribute('transform', `translate(${fl.x + (up ? 8 : 0)} ${fy}) rotate(${up ? -25 : 75})`);
@@ -108,9 +111,11 @@ function contact(g, x, y, kind, label) {
     g.append(s('line', { x1: x + 33, y1: y - 9, x2: x + 33, y2: y + 9, class: 'wire' }));
   }
   if (kind === 'nc') g.append(s('line', { x1: x + 12, y1: y + 10, x2: x + 38, y2: y - 10, class: 'wire' }));
-  if (kind === 'float') g.append(s('path', { d: `M${x + 25} ${y + 3} V${y + 9}`, class: 'wire' }), s('circle', { cx: x + 25, cy: y + 12, r: 3, class: 'wire' }));
+  // A float's slash shows only while it is wired normally closed.
+  const slash = kind === 'float' ? s('line', { x1: x + 12, y1: y + 10, x2: x + 38, y2: y - 10, class: 'wire' }) : null;
+  if (slash) g.append(slash, s('path', { d: `M${x + 25} ${y + 3} V${y + 9}`, class: 'wire' }), s('circle', { cx: x + 25, cy: y + 12, r: 3, class: 'wire' }));
   g.append(s('text', { x: x + 25, y: y - (kind === 'pb' ? 19 : 13), class: 'ld-text', 'text-anchor': 'middle' }, label));
-  return shut;
+  return { shut, slash };
 }
 
 function load(g, x, y, kind, label) {
@@ -137,6 +142,7 @@ export function ladderArt() {
   const svg = s('svg', { class: 'pipe ladder lift-ladder', role: 'img', 'aria-label': 'The control circuit as a ladder diagram, lit where power reaches' });
   const wires = []; // [line, node]
   const contacts = []; // [shut rect, closed(s)]
+  const slashes = []; // [NC slash, which float]: drawn only while that float is wired normally closed
   const loads = []; // [body, on(s)]
   const edges = []; // [a, b, closed(s)]: contacts join nodes when closed
   const parent = [];
@@ -173,7 +179,9 @@ export function ladderArt() {
         const out = node();
         wire(x, y, x + 17, y, n);
         wire(x + 33, y, x + EW, y, out);
-        contacts.push([contact(svg, x, y, item.k, item.label), item.closed]);
+        const { shut, slash } = contact(svg, x, y, item.k, item.label);
+        contacts.push([shut, item.closed]);
+        if (slash) slashes.push([slash, item.float]);
         edges.push([n, out, item.closed]);
         x += EW;
         n = out;
@@ -212,6 +220,7 @@ export function ladderArt() {
     }
     for (const [l, n] of wires) l.classList.toggle('ld-live', live.has(find(n)));
     for (const [r, closed] of contacts) r.classList.toggle('on', closed(st));
+    for (const [l, id] of slashes) l.style.display = st.wired[id] === 'nc' ? '' : 'none';
     for (const [b, on] of loads) b.classList.toggle('on', on(st));
   }
   return { svg, update };
