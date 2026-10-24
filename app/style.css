@@ -49,6 +49,11 @@
 
 * { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; }
+/* iPhone zooms the whole page out if anything pokes past the screen, and keeps that zoom on the
+   next screen; clip (unlike hidden) leaves sticky headers working. Double-tap zoom off on
+   everything you tap fast; pinch still works. */
+html, body { overflow-x: clip; }
+a, button, input, select, summary, label { touch-action: manipulation; }
 body {
   margin: 0;
   background: var(--bg);
