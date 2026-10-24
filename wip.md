@@ -19,7 +19,6 @@ Open work only. Done items are deleted (git keeps them).
 - Try the Lift station: play a cycle, trip a pump, stick a float, Silence the alarm, wire a float backwards (NC) → does it run like your stations? Floats, relays or wording that don't match what you see in a real panel [2026-10-24]
 
 - Try Motor amps on a real pump's plate: HP, volts, CODE, FLA, SF → do wire, breaker, overload and generator match what's installed? [2026-10-24]
-- iPhone: go Lift station → Pump curve again (v24) → does the screen still shrink? [2026-10-24]
 
 ## Open
 - **Electrical module** [2026-10-17] → app/
