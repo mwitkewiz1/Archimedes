@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { SUPPLIES, sizesFor, fullLoadAmps, hpValue, maxBreaker, overload, generator } from '../app/js/core/motor.js';
+import { SUPPLIES, sizesFor, fullLoadAmps, hpValue, maxBreaker, overload, generator, sizingAmps } from '../app/js/core/motor.js';
 
 test('full-load amps match the code tables', () => {
   assert.equal(fullLoadAmps('1', '1ph230'), 8.0);
@@ -48,4 +48,11 @@ test('generator: starting kick sizes it across the line; a drive needs less', ()
   assert.ok(vfd.kw < atl.kw);
   const hiCode = generator({ hp: '10', fla: 14, volts: 460, phase: 3, code: 'L', start: 'atl' });
   assert.ok(hiCode.kw > atl.kw, 'a higher code letter needs a bigger generator');
+});
+
+test('a motor under 1200 RPM is sized from its plate amps, others from the table', () => {
+  assert.deepEqual(sizingAmps(15.2, 17, 1150), { amps: 17, from: 'plate' });
+  assert.deepEqual(sizingAmps(15.2, 13.6, 1750), { amps: 15.2, from: 'table' });
+  assert.deepEqual(sizingAmps(15.2, null, 1150), { amps: 15.2, from: 'table' });
+  assert.deepEqual(sizingAmps(15.2, 13.6, null), { amps: 15.2, from: 'table' });
 });

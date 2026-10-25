@@ -3,9 +3,10 @@
 Open work only. Done items are deleted (git keeps them).
 
 ## Next
-- **Electric: the motor nameplate reader** [2026-10-24]
-  Phases went in (Electric tab, v25): waves, rotation, lost phase, service readings, imbalance. Next: a nameplate
-  reader that fills Motor amps from what the plate says (HP, V, FLA, SF, CODE, PH).
+- **Electric: resistors and diodes** [2026-10-25]
+  Nameplate went in (Electric tab, v28): a drawn plate copied box for box, each box explained on a tap, the plate
+  checked against the supply, and Fill in Motor amps (which now sizes a motor under 1200 RPM from its plate).
+  Next: ask him what resistors and diodes should cover, then build it.
 
 ## Needs Matthew
 - N1 Card rules: 8 rules in CLAUDE.md are tagged [proposed]; read them and say "N1 yes" (or what to change) → [confirmed] tags — default: none confirmed until you say [2026-10-18]
@@ -25,12 +26,14 @@ Open work only. Done items are deleted (git keeps them).
 
 - Try Phases: does the picture make one against three phase click? Check a real panel against What should it read, and three leg readings in Imbalance [2026-10-24]
 
+- Try Nameplate on a real motor: copy its plate, tap each box, then Fill in Motor amps → plain enough? anything the checks get wrong, or a box your plates have that isn't there? [2026-10-25]
+
 - Try the Valves tab: work each kind's cutaway, step a Cla-Val through its jobs, set the needles on Adjust, and Troubleshoot a valve you know → wrong, missing or not how your valves act? Which Cla-Val models and pilots do you actually see? [2026-10-24]
 
 ## Open
 - **Electrical module** [2026-10-17] → app/
-  Ohm's law, wire size, motor amps (breaker, overload, generator), phases and diagram symbols are in (Electric tab).
-  Still to come: the motor nameplate reader; resistors, diodes.
+  Ohm's law, wire size, motor amps (breaker, overload, generator), the nameplate reader, phases and diagram symbols
+  are in (Electric tab). Still to come: resistors, diodes.
   Plain words and pictures.
 - **Pumps module** [2026-10-17] → app/
   Our pumps (228 from his list), Pump curve, How they work (13 kinds), Which pump? and Troubleshoot are in

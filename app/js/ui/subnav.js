@@ -12,6 +12,7 @@ const ELECTRIC = [
   ['ohm', 'Ohm\'s law'],
   ['wire', 'Wire size'],
   ['motor', 'Motor amps'],
+  ['plate', 'Nameplate'],
   ['phase', 'Phases'],
   ['symbols', 'Symbols'],
 ];

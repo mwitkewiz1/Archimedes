@@ -71,6 +71,12 @@ export function maxBreaker(fla) {
   return { limit, size: STANDARD.find((a) => a >= limit - 1e-9) ?? null };
 }
 
+// The amps wire and breakers are sized from: the table's, except a motor under
+// 1200 RPM, which the code sizes from its nameplate (430.6(A)(1)).
+export function sizingAmps(tableAmps, plateAmps, rpm) {
+  return rpm > 0 && rpm < 1200 && plateAmps > 0 ? { amps: plateAmps, from: 'plate' } : { amps: tableAmps, from: 'table' };
+}
+
 // Overload trip setting from the nameplate amps: 125% with a service factor of
 // 1.15 or more, else 115% (430.32(A)(1)).
 export function overload(nameplateAmps, serviceFactor) {

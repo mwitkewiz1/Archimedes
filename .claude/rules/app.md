@@ -28,7 +28,9 @@ paths:
   saved numbers land on the wrong pump.
 - Every fraction shown on screen goes through pretty() in ui/frac.js, so all of them stack alike (docs/decisions.md, area
   ui). SVG text can't stack, so drawings put it in through richText() in ui/draw.js (HTML in a foreignObject). Left flat
-  on purpose: dropdown options (the phone draws those) and Help's typing examples (they show what you type).
+  on purpose: dropdown options (the phone draws those), Help's typing examples (they show what you type), and
+  Nameplate's VOLTS lines: pretty() would stack a volts mark like 230/460 as a fraction. [check tests/plate.test.mjs]
+  keeps volts marks out of every other Nameplate line.
 - el() skips null and false children, but the DOM's own replaceChildren() and append() print them as the word
   "null". Pass optional pieces to those as ...(cond ? [node] : []).
 - The lift station's ladder drawing comes from LADDER in core/lift.js, not from settle(): change both together.
