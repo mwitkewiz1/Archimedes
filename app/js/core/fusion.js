@@ -38,6 +38,11 @@ export function pipeName({ system, size, dr }) {
   return `${size}" ${system} DR ${dr}`;
 }
 
+// The key a measured pipe is kept under on the phone.
+export function pipeId({ system, size, dr }) {
+  return `${system}-${size}-${dr}`.replace(/[^\w.-]+/g, '_');
+}
+
 // Wall thickness = outside diameter ÷ DR. Null if the size isn't in the table.
 export function wall({ system, size, dr }) {
   const od = odOf(system, size);

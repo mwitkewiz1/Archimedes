@@ -45,3 +45,12 @@ export const fuseNav = (current) => toolNav(FUSE, current, 'Fusion tools');
 export const electricNav = (current) => toolNav(ELECTRIC, current, 'Electric tools');
 export const pumpsNav = (current) => toolNav(PUMPS, current, 'Pump tools');
 export const valvesNav = (current) => toolNav(VALVES, current, 'Valve tools');
+
+// The bottom tabs and the tools under each, for the menu.
+export const TABS = [
+  ['calc', 'Fractions', [['calc', 'Tape-measure calculator']]],
+  ['cut', 'Fusion', FUSE],
+  ['ohm', 'Electric', ELECTRIC],
+  ['pump', 'Pumps', PUMPS],
+  ['valve', 'Valves', VALVES],
+];

@@ -4,7 +4,7 @@
 
 import { load, save } from './store.js';
 import { parseMeasure } from '../core/measure.js';
-import { jointLoss, summarize, perEnd, pipeName } from '../core/fusion.js';
+import { jointLoss, summarize, perEnd, pipeName, pipeId } from '../core/fusion.js';
 
 export function loadPipes() {
   return load('pipes', []);
@@ -33,7 +33,7 @@ export function pipeLoss(pipe) {
 export function findOrAddPipe(pipes, { system, size, dr }) {
   let p = pipes.find((x) => x.system === system && x.size === size && x.dr === dr);
   if (!p) {
-    p = { id: `${system}-${size}-${dr}`.replace(/[^\w.-]+/g, '_'), system, size, dr, joints: [] };
+    p = { id: pipeId({ system, size, dr }), system, size, dr, joints: [] };
     pipes.push(p);
   }
   return p;

@@ -12,7 +12,18 @@ export const CATALOG = ROWS.map((row, id) => {
   return p;
 });
 // The order a list shows them: kinds as How they work lists them, then by horsepower.
-const SHOWN = [...CATALOG].sort((a, b) => ORDER[a.kind] - ORDER[b.kind] || (a.hp || 0) - (b.hp || 0));
+const shown = (list) => [...list].sort((a, b) => ORDER[a.kind] - ORDER[b.kind] || (a.hp || 0) - (b.hp || 0));
+const SHOWN = shown(CATALOG);
+
+// Our pumps on this phone: the list above, with the pump list from your data
+// file (core/backup.js) laid over it. A row with the same id replaces that
+// pump, so curve numbers saved under its id stay on it; a new id adds a pump.
+export function ourCatalog(imported) {
+  if (!imported?.rows?.length) return CATALOG;
+  const byId = new Map(CATALOG.map((p) => [p.id, p]));
+  for (const r of imported.rows) byId.set(r.id, { ...r, imported: true });
+  return [...byId.values()];
+}
 
 const KIND_NAME = Object.fromEntries(KINDS.map((k) => [k.id, k.name.replace(/ \(.*\)$/, '')]));
 
@@ -37,18 +48,19 @@ export function pumpName(p) {
 
 // Every part of the search has to fit. Numbers are numbers, not text: "30 hp"
 // is exactly 30 HP (not 230 V), "460" or "460v" a 460 V pump, '4"' a 4" discharge,
-// a bare number any spec equal to it. Words match the name: "slurry", "3-phase".
+// a bare number any spec equal to it. Words match the name: "slurry", "3-phase",
+// or a model name from your data file. Pass a list (ourCatalog) to search it instead.
 const SPEC = [
   [/^(\d*\.?\d+)\s*hp$/, (p, n) => p.hp === n],
   [/^(\d{3})\s*v$/, (p, n) => p.volts === n],
   [/^(\d*\.?\d+)\s*(?:"|in)$/, (p, n) => p.discharge === n],
   [/^(\d*\.?\d+)\s*gpm$/, (p, n) => [p.flow, p.maxflow].includes(n)],
 ];
-export function searchCatalog(query, kind) {
+export function searchCatalog(query, kind, list) {
   const terms = String(query || '').toLowerCase().replace(/(\d)\s+(hp|v|gpm|"|in)\b/g, '$1$2').split(/\s+/).filter(Boolean);
-  return SHOWN.filter((p) => {
+  return (list && list !== CATALOG ? shown(list) : SHOWN).filter((p) => {
     if (kind && p.kind !== kind) return false;
-    const name = pumpName(p).toLowerCase();
+    const name = `${p.name || ''} ${pumpName(p)}`.toLowerCase();
     return terms.every((t) => {
       for (const [re, fits] of SPEC) { const m = t.match(re); if (m) return fits(p, +m[1]); }
       if (/^\d*\.?\d+$/.test(t)) return [p.hp, p.volts, p.discharge, p.rpm, p.flow, p.maxflow].includes(+t);
@@ -67,13 +79,16 @@ export function checkCurveNumbers({ shutoff, flow, head }) {
   return { ok: true, curve: { shutoff, bepFlow: flow, bepHead: head } };
 }
 
-// A curve to try on the Pump curve. Numbers you entered win. Otherwise from
-// what the list gives, always marked an estimate. Rated flow and head: taken
+// A curve to try on the Pump curve. Numbers on this phone (typed, or from your
+// data file) win. Otherwise from what the list gives, always marked an estimate. Rated flow and head: taken
 // as BEP, shutoff assumed 25% above it. Max flow and max head: the ends of the
 // curve, BEP placed at 60% of max flow. Nothing to go on: null.
 export function curveFrom(p, mine) {
   const yours = mine && checkCurveNumbers(mine);
-  if (yours?.ok) return { ...yours.curve, yours: true, how: 'From the numbers you entered off its spec sheet; its best point taken at your rated flow.' };
+  if (yours?.ok) {
+    const how = mine.file ? 'From the curve numbers in your data file; its best point taken at the rated flow.' : 'From the numbers you entered off its spec sheet; its best point taken at your rated flow.';
+    return { ...yours.curve, yours: true, how };
+  }
   if (p.flow && p.head) {
     return { shutoff: Math.round(p.head * 1.25), bepFlow: p.flow, bepHead: p.head, how: 'Rated flow and head taken as its best point; shutoff head assumed 25% above it.' };
   }

@@ -12,7 +12,7 @@ Open work only. Done items are deleted (git keeps them).
 - N1 Card rules: 8 rules in CLAUDE.md are tagged [proposed]; read them and say "N1 yes" (or what to change) → [confirmed] tags — default: none confirmed until you say [2026-10-18]
 - N2 Our pumps, full descriptions: your item list export cuts every Description at 99 characters, so most heads
   ("BEP 65 GPM at ...") never reach the script. Can you export it with the full text (or the spec sheets' numbers)? → I rerun
-  private/catalog.py on it (laptop only) — default: stays at what the cut text gives [2026-10-24]
+  the private build's catalog script on it (laptop only) and Import gets it to the phones — default: stays at what the cut text gives [2026-10-24]
 
 ## On the floor
 - Measure one joint on each pipe you fuse (Fusion tab, Fusing loss: marks back from each end, mark to mark after) → the app's loss for that size and DR [2026-10-17]
@@ -28,16 +28,18 @@ Open work only. Done items are deleted (git keeps them).
 
 - Try Nameplate on a real motor: copy its plate, tap each box, then Fill in Motor amps → plain enough? anything the checks get wrong, or a box your plates have that isn't there? [2026-10-25]
 
+- Try the menu (☰) and Backup and Import: Back up this phone, AirDrop the file to another phone, Import it there → did the curve numbers and joints land? Does the menu sit right where the ? was? [2026-10-25]
+
 - Try Resistors and Diodes: read a real resistor's bands, check a panel heater or a transducer's 250 Ω with the meter, test a diode and a bridge on the diode setting, and flip the flyback setups → plain enough? anything that isn't how your panels are wired? [2026-10-25]
 
 - Try the Valves tab: work each kind's cutaway, step a Cla-Val through its jobs, set the needles on Adjust, and Troubleshoot a valve you know → wrong, missing or not how your valves act? Which Cla-Val models and pilots do you actually see? [2026-10-24]
 
 ## Open
 - **Pumps module** [2026-10-17] → app/
-  Our pumps (228 from his list), Pump curve, How they work (13 kinds), Which pump? and Troubleshoot are in
+  Our pumps (230 from his list), Pump curve, How they work (13 kinds), Which pump? and Troubleshoot are in
   (Pumps tab). The Pump curve lists every pump with a curve. Most listed pumps have no head numbers: anyone can
   add a pump's three curve numbers on their own phone (Our pumps, Add curve numbers); numbers he gathers from spec
-  sheets could go in the shared catalog instead. The Lift station is in too. Still to come: Pump curve extras:
+  sheets go in his data file (the private build) and reach phones through Import. The Lift station is in too. Still to come: Pump curve extras:
   fittings and hose, slurry weight, two pumps side by side or stacked, a suction-side
   cavitation check.
 - **Blender project-planning add-ons** [2026-10-17] → app/

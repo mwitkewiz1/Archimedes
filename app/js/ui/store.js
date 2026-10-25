@@ -12,10 +12,15 @@ export function load(name, fallback) {
   return v === undefined ? fallback : v;
 }
 
+// True when it stuck; false when storage is off or full.
 export function save(name, value) {
+  return saveAll({ [name]: value });
+}
+
+// Several at once, in one write: all of them stick or none do.
+export function saveAll(values) {
   try {
-    const all = readAll();
-    all[name] = value;
-    localStorage.setItem(KEY, JSON.stringify(all));
-  } catch { /* storage off: the app still works, it just forgets */ }
+    localStorage.setItem(KEY, JSON.stringify({ ...readAll(), ...values }));
+    return true;
+  } catch { return false; /* storage off: the app still works, it just forgets */ }
 }

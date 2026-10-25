@@ -6,7 +6,7 @@ import { el } from './el.js';
 import { load, save } from './store.js';
 import { pumpsNav } from './subnav.js';
 import { KINDS } from '../core/kinds.js';
-import { CATALOG, pumpName, searchCatalog, curveFrom, checkCurveNumbers, said } from '../core/catalog.js';
+import { ourCatalog, pumpName, searchCatalog, curveFrom, checkCurveNumbers, said } from '../core/catalog.js';
 import { PIPE_SIZES, MATERIALS, insideDiameter, frictionHead } from '../core/pump.js';
 
 const SHOW = 40; // cards at a time; the search narrows the rest
@@ -28,13 +28,15 @@ function startOn(p, curve) {
 
 export function renderCatalog(view) {
   const st = { q: '', kind: '', ...load('catalog', {}) };
-  const counts = Object.fromEntries(KINDS.map((k) => [k.id, CATALOG.filter((p) => p.kind === k.id).length]));
+  const imported = load('pumpList', null);
+  const pumps = ourCatalog(imported);
+  const counts = Object.fromEntries(KINDS.map((k) => [k.id, pumps.filter((p) => p.kind === k.id).length]));
 
   const search = el('input.measure', { type: 'search', id: 'cat-q', placeholder: 'Search: 30 hp, 460, slurry, 4"…', autocomplete: 'off',
     oninput: () => { st.q = search.value; show(); } });
   search.value = st.q;
   const kindSel = el('select', { id: 'cat-kind', onchange: () => { st.kind = kindSel.value; show(); } },
-    el('option', { value: '' }, `Every kind (${CATALOG.length})`),
+    el('option', { value: '' }, `Every kind (${pumps.length})`),
     KINDS.filter((k) => counts[k.id]).map((k) => el('option', { value: k.id, selected: k.id === st.kind }, `${k.name.replace(/ \(.*\)$/, '')} (${counts[k.id]})`)));
   const count = el('p.note');
   const list = el('div.parts');
@@ -55,9 +57,10 @@ export function renderCatalog(view) {
     const form = el('div.curve-form');
     form.hidden = true;
     const node = el('div.part-card.cat-card',
-      el('div.part-name', pumpName(p)),
+      el('div.part-name', p.name || pumpName(p)),
+      p.name ? el('p.part-does', pumpName(p)) : null,
       specs.length ? el('p.part-does', specs.join(' · ')) : null,
-      mine ? el('p.part-fails', `Your curve numbers: shutoff ${mine.shutoff} ft, ${mine.flow} GPM at ${mine.head} ft.`) : null,
+      mine ? el('p.part-fails', `${mine.file ? 'From your data file' : 'Your curve numbers'}: shutoff ${mine.shutoff} ft, ${mine.flow} GPM at ${mine.head} ft.`) : null,
       el('span.cause-links',
         el('button.small-btn', { onclick: () => go('#/kinds', 'pumpKind', p.kind) }, 'How it works'),
         el('button.small-btn', { onclick: () => go('#/trouble', 'trouble', { kind: p.kind, symptom: '' }) }, 'Troubleshoot'),
@@ -75,7 +78,7 @@ export function renderCatalog(view) {
       const [shutoff, shutoffRow] = box('s', 'Shutoff head, ft (no flow)', mine?.shutoff);
       const [flow, flowRow] = box('f', 'A rated flow, GPM', mine?.flow ?? p.flow);
       const [head, headRow] = box('h', 'Head at that flow, ft', mine?.head ?? p.head);
-      const msg = el('p.note', 'From the pump\'s spec sheet or curve. Saved on this phone; it doesn\'t change the list for anyone else.');
+      const msg = el('p.note', 'From the pump\'s spec sheet or curve. Saved on this phone; it doesn\'t change the list for anyone else. To pass them on: Menu, Back up this phone.');
       const keep = () => {
         const n = { shutoff: +shutoff.value, flow: +flow.value, head: +head.value };
         const r = checkCurveNumbers(n);
@@ -93,14 +96,14 @@ export function renderCatalog(view) {
       };
       form.replaceChildren(el('div.fields', shutoffRow, flowRow, headRow), msg,
         el('span.cause-links', el('button.primary.short', { onclick: keep }, 'Save curve numbers'),
-          mine ? el('button.small-btn', { onclick: drop }, 'Remove mine') : null));
+          mine ? el('button.small-btn', { onclick: drop }, mine.file ? 'Remove these' : 'Remove mine') : null));
     }
     return node;
   }
 
   function show() {
     save('catalog', st);
-    const found = searchCatalog(st.q, st.kind);
+    const found = searchCatalog(st.q, st.kind, pumps);
     count.textContent = found.length > SHOW ? `${found.length} pumps, showing the first ${SHOW}. Search to narrow it.` : `${found.length} pump${found.length === 1 ? '' : 's'}`;
     list.replaceChildren(...found.slice(0, SHOW).map(card));
   }
@@ -109,6 +112,7 @@ export function renderCatalog(view) {
     pumpsNav('catalog'),
     el('h1', 'Our pumps'),
     el('p.note', 'The kinds and sizes we work with, by spec. Numbers are as listed; anything estimated says so. A pump gets a Pump curve button when the list had enough numbers, or when you add its curve numbers.'),
+    imported ? el('p.note', `With the pump list from your data file, built ${imported.built.slice(0, 10)}.`) : null,
     el('div.fields',
       el('label.field', { for: 'cat-kind' }, el('span.field-label', 'Kind'), kindSel),
       el('label.field', { for: 'cat-q' }, el('span.field-label', 'Search'), search)),

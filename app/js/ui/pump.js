@@ -7,7 +7,7 @@ import { load, save } from './store.js';
 import { PUMPS, PIPE_SIZES, MATERIALS, insideDiameter, dutyPoint, bep, feetToPsi } from '../core/pump.js';
 import { DRS } from '../core/fusion.js';
 import { drawCurve } from './curve.js';
-import { CATALOG, pumpName, curveFrom } from '../core/catalog.js';
+import { ourCatalog, pumpName, curveFrom } from '../core/catalog.js';
 import { pumpsNav } from './subnav.js';
 
 const DEFAULTS = { pump: 'dewater', speed: 100, lift: 60, material: 'hdpe', size: '6', dr: '11', length: 1500, valve: 100 };
@@ -23,11 +23,11 @@ const ZONE = {
 export function renderPump(view) {
   const st = { ...DEFAULTS, ...load('pumpPlay', {}) };
   // The examples, then every pump on Our pumps that has a curve: from curve
-  // numbers entered on this phone first, else estimated from the list.
+  // numbers on this phone (typed or from your data file) first, else estimated from the list.
   const mine = load('pumpCurves', {});
-  const ours = CATALOG.map((p) => {
+  const ours = ourCatalog(load('pumpList', null)).map((p) => {
     const c = curveFrom(p, mine[p.id]);
-    return c && { id: `cat-${p.id}`, name: `${pumpName(p)}${c.yours ? '' : ' (estimated)'}`, ...c, bestEff: 0.6 };
+    return c && { id: `cat-${p.id}`, name: `${p.name ? `${p.name}: ` : ''}${pumpName(p)}${c.yours ? '' : ' (estimated)'}`, ...c, bestEff: 0.6 };
   }).filter(Boolean);
   const pumps = [...PUMPS, ...ours];
   if (!pumps.some((p) => p.id === st.pump)) st.pump = DEFAULTS.pump;

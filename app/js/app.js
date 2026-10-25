@@ -4,6 +4,7 @@
 import { renderCalc } from './ui/calc.js';
 import { renderCut } from './ui/cut.js';
 import { renderHelp } from './ui/help.js';
+import { renderMenu } from './ui/menu.js';
 import { renderFusion } from './ui/fusion.js';
 import { renderOhm } from './ui/ohm.js';
 import { renderWire } from './ui/wire.js';
@@ -23,10 +24,10 @@ import { renderControl } from './ui/control.js';
 import { renderAdjust } from './ui/adjust.js';
 import { renderVTrouble } from './ui/vtrouble.js';
 
-const screens = { calc: renderCalc, cut: renderCut, fusion: renderFusion, ohm: renderOhm, wire: renderWire, symbols: renderSymbols, pump: renderPump, kinds: renderKinds, trouble: renderTrouble, catalog: renderCatalog, lift: renderLift, motor: renderMotor, plate: renderPlate, phase: renderPhase, resistor: renderResistor, diode: renderDiode, valve: renderValve, control: renderControl, adjust: renderAdjust, vtrouble: renderVTrouble, help: renderHelp };
+const screens = { calc: renderCalc, cut: renderCut, fusion: renderFusion, ohm: renderOhm, wire: renderWire, symbols: renderSymbols, pump: renderPump, kinds: renderKinds, trouble: renderTrouble, catalog: renderCatalog, lift: renderLift, motor: renderMotor, plate: renderPlate, phase: renderPhase, resistor: renderResistor, diode: renderDiode, valve: renderValve, control: renderControl, adjust: renderAdjust, vtrouble: renderVTrouble, menu: renderMenu, help: renderHelp };
 
-// Screens that live under another tab: the Fusion, Electric, Pumps and Valves tabs' tools.
-const TAB_OF = { fusion: 'cut', control: 'valve', adjust: 'valve', vtrouble: 'valve', wire: 'ohm', motor: 'ohm', plate: 'ohm', phase: 'ohm', symbols: 'ohm', resistor: 'ohm', diode: 'ohm', kinds: 'pump', trouble: 'pump', catalog: 'pump', lift: 'pump' };
+// Screens that live under another tab: the Fusion, Electric, Pumps and Valves tabs' tools, and Help under the menu.
+const TAB_OF = { fusion: 'cut', control: 'valve', adjust: 'valve', vtrouble: 'valve', wire: 'ohm', motor: 'ohm', plate: 'ohm', phase: 'ohm', symbols: 'ohm', resistor: 'ohm', diode: 'ohm', kinds: 'pump', trouble: 'pump', catalog: 'pump', lift: 'pump', help: 'menu' };
 
 function route() {
   const name = location.hash.replace(/^#\//, '') || 'calc';

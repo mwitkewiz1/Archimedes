@@ -13,19 +13,22 @@ paths:
   scrambles the size list (core/fusion.js).
 - Lengths are fractions {n, d} from core/measure.js. Don't do math on floats; format only at the end (formatInches).
 - Settings on the phone sit under one localStorage key, 'archimedes' (ui/store.js). Saved state may come from an
-  older version: fill new fields in on load (ui/cut.js does it for fuseFrom), never assume they exist.
+  older version: fill new fields in on load (ui/cut.js does it for fuseFrom), never assume they exist. Values that
+  must land together (an import) go through saveAll(), one write: all stick or none do.
 - Joint dates use the phone's local day (toLocaleDateString('en-CA')), not toISOString, which is UTC and runs a day
   ahead in the evening.
 - New or renamed file in app/: add it to FILES in app/sw.js and bump VERSION, or phones keep the old copy.
   [check tests/cache.test.mjs] catches a file missing from FILES; the VERSION bump is still on you.
 - A tab with several tools gets a switch from ui/subnav.js and its routes in TAB_OF in app.js, so the tab stays lit.
-- core/catalog-data.js is generated from his item list by a script kept off this public repo: never hand-edit it, and
+- core/catalog-data.js was generated from his item list by a script now in the private build: never hand-edit it, and
   never let text from the list into it. [check tests/catalog.test.mjs] holds every row to a kind id and numbers.
-- That script is private/catalog.py, in the ignored private/ folder; its README says how to rebuild.
-  [check tests/private.test.mjs] fails if anything in private/ is ever tracked.
-- Curve numbers typed on Our pumps live on that phone only, under 'pumpCurves' keyed by the catalog row's id, and
-  win over the list's estimate. A regenerated catalog-data.js can renumber rows: keep row order stable, or those
-  saved numbers land on the wrong pump.
+  It stays as it is: your data file's pump list ('pumpList') lies over it by row id (core/catalog.js ourCatalog),
+  so a changed row order would put imported pumps and saved curve numbers on the wrong pump.
+- private/ stays in .gitignore, now empty. [check tests/private.test.mjs] fails if anything in private/ is ever
+  tracked, or any backup or data file anywhere.
+- Curve numbers on Our pumps live on the phone under 'pumpCurves' keyed by the catalog row's id, and win over the
+  list's estimate. Marked file: true, they came in with an Import; unmarked (every save from before Import),
+  someone typed them on this phone, and an Import never overwrites those (core/backup.js mergeBackup).
 - Every fraction shown on screen goes through pretty() in ui/frac.js, so all of them stack alike (docs/decisions.md, area
   ui). SVG text can't stack, so drawings put it in through richText() in ui/draw.js (HTML in a foreignObject). Left flat
   on purpose: dropdown options (the phone draws those), Help's typing examples (they show what you type), and
