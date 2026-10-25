@@ -1,6 +1,6 @@
 // sw.js — caches the app so it opens with no signal. Bump VERSION whenever
 // any file below changes, or phones keep the old copy.
-const VERSION = 'archimedes-v28';
+const VERSION = 'archimedes-v29';
 const FILES = [
   './',
   'index.html',
@@ -25,6 +25,9 @@ const FILES = [
   'js/ui/motor.js',
   'js/ui/plate.js',
   'js/ui/phase.js',
+  'js/ui/resistor.js',
+  'js/ui/diode.js',
+  'js/ui/diodeart.js',
   'js/ui/valve.js',
   'js/ui/valveart.js',
   'js/ui/control.js',
@@ -50,6 +53,8 @@ const FILES = [
   'js/core/motor.js',
   'js/core/plate.js',
   'js/core/phase.js',
+  'js/core/resistor.js',
+  'js/core/diode.js',
   'js/core/valve.js',
   'js/core/control.js',
   'js/core/adjust.js',

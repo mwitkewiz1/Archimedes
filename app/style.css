@@ -529,3 +529,44 @@ code { background: var(--key); padding: 1px 5px; border-radius: 4px; }
 .pcheck.pc-note { border-left-color: var(--accent); }
 .plate-go { display: grid; gap: 8px; margin: 10px 0; }
 .pbox-about { margin: 8px 0 12px; }
+
+/* Electric: resistors and diodes. Live wires crawl the way the current goes. */
+.subnav.many a { flex-basis: 30%; }
+.rd-art { margin: 8px 0; }
+.rd-art .wire, .rd-art .lead, .rd-art .live, .rd-art .trace, .rd-art .trace-in, .rd-art .spark, .rd-art .axis, .rd-art .ref { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.rd-art .wire { stroke: var(--ink); stroke-width: 2.5; }
+.rd-art .wire.thick { stroke-width: 6; }
+.rd-art .wire.faint { stroke: var(--line); stroke-dasharray: 3 5; }
+.rd-art .lead { stroke: var(--muted); stroke-width: 3; }
+.rd-art .tri, .rd-art .dotf { fill: var(--ink); }
+.rd-art .live { stroke: var(--accent); stroke-width: 3.5; stroke-dasharray: 7 9; }
+.rd-art .diode.live .wire { stroke: var(--accent); } .rd-art .diode.live .tri, .rd-art .tri.live { fill: var(--accent); }
+.rd-art .diode.short .wire { stroke: var(--bad); } .rd-art .diode.short .tri { fill: var(--bad); }
+.rd-art .live.bad, .rd-art .spark, .rd-art .trace.bad { stroke: var(--bad); }
+.rd-art .spark { stroke-width: 2.5; }
+.rd-art .lbl { fill: var(--ink); font: 600 12px system-ui, sans-serif; } .rd-art .lbl.bad { fill: var(--bad); }
+.rd-art .dim { fill: var(--muted); font: 11px system-ui, sans-serif; }
+.rd-art .sym { fill: var(--ink); font: 700 14px system-ui, sans-serif; }
+.rd-art .coil, .rd-art .lamp-off { fill: var(--card); stroke: var(--ink); stroke-width: 2.5; }
+.rd-art .lamp-on { fill: var(--fuse); stroke: var(--ink); stroke-width: 2.5; }
+.rd-art .fuse-ok { fill: var(--key); stroke: var(--ink); stroke-width: 2; }
+.rd-art .fuse-blown { fill: var(--scrap-bg); stroke: var(--bad); stroke-width: 2; }
+.rd-art .axis { stroke: var(--line); } .rd-art .ref { stroke: var(--muted); stroke-dasharray: 4 4; }
+.rd-art .trace { stroke: var(--pump); stroke-width: 3; } .rd-art .trace-in { stroke: var(--muted); stroke-width: 1.5; }
+/* The parts' own paint: the same in the dark. */
+.rd-art .body { fill: #e3cf9f; stroke: #8a7346; stroke-width: 1.5; }
+.rd-art .band-none { fill: none; stroke: #8a7346; stroke-dasharray: 3 3; }
+.rd-art .band.on rect:first-child { stroke: var(--accent); stroke-width: 3; }
+.rd-art .hit { fill: transparent; cursor: pointer; }
+.rd-art .dbody { fill: #2b2b2b; } .rd-art .dstripe { fill: #c8ccd0; }
+.rd-art .led { fill: var(--scrap-bg); stroke: var(--bad); stroke-width: 2; }
+@media (prefers-reduced-motion: no-preference) { .rd-art .live { animation: pa-flow .9s linear infinite; } }
+.bands { display: grid; grid-template-columns: repeat(var(--n, 4), minmax(0, 1fr)); gap: 6px; margin: 8px 0; }
+.band-btn { min-height: 56px; display: grid; justify-items: center; align-content: center; gap: 3px; padding: 4px 2px; border: 2px solid var(--line); border-radius: 10px; background: var(--card); font-size: 13px; font-weight: 600; }
+.band-btn[aria-pressed="true"], .swatch-btn[aria-pressed="true"] { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
+.swatches { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; margin: 8px 0; }
+.swatch-btn { min-height: 48px; display: flex; align-items: center; gap: 6px; padding: 0 6px; border: 1px solid var(--line); border-radius: 10px; background: var(--card); font-size: 14px; font-weight: 600; text-align: left; }
+.swatch { width: 22px; height: 22px; border-radius: 50%; border: 1px solid var(--muted); flex: none; }
+.rlist { display: grid; gap: 8px; margin: 8px 0; }
+.rrow { display: grid; grid-template-columns: 1fr 48px; gap: 8px; align-items: end; }
+.four-segs { grid-template-columns: repeat(4, 1fr); }

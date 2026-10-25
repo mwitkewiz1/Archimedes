@@ -21,7 +21,7 @@ export function renderHelp(view) {
     el('h2', 'Your tape'),
     el('label.field', { for: 'tape' }, el('span.field-label', 'Smallest mark on your tape'), pick),
     el('h2', 'Coming'),
-    el('p.note', 'Fusion has Cut & fuse and Fusing loss. Electric has Ohm\'s law, wire size, motor amps, a nameplate reader, phases and diagram symbols. Pumps has your pumps, the pump curve, how each kind works, troubleshooting and a lift station. Valves has the kinds, control valves, adjusting a pressure reducer and troubleshooting. Next: resistors and diodes.'),
+    el('p.note', 'Fusion has Cut & fuse and Fusing loss. Electric has Ohm\'s law, wire size, motor amps, a nameplate reader, phases, diagram symbols, resistors and diodes. Pumps has your pumps, the pump curve, how each kind works, troubleshooting and a lift station. Valves has the kinds, control valves, adjusting a pressure reducer and troubleshooting. Next: pump curve extras (fittings and hose, two pumps together).'),
     el('p.foot', 'Archimedes · by [MW]Sense · works with no signal once opened'),
   ));
 }

@@ -3,10 +3,10 @@
 Open work only. Done items are deleted (git keeps them).
 
 ## Next
-- **Electric: resistors and diodes** [2026-10-25]
-  Nameplate went in (Electric tab, v28): a drawn plate copied box for box, each box explained on a tap, the plate
-  checked against the supply, and Fill in Motor amps (which now sizes a motor under 1200 RPM from its plate).
-  Next: ask him what resistors and diodes should cover, then build it.
+- **Pumps: the next piece** [2026-10-25]
+  Electrical is built: Resistors and Diodes went in (Electric tab, v29), branch electric-resistors-diodes until he
+  says push. By his ruling pumps come next. Next: ask him which Pump curve extra first (fittings and hose, slurry
+  weight, two pumps together, a suction-side cavitation check), then build it.
 
 ## Needs Matthew
 - N1 Card rules: 8 rules in CLAUDE.md are tagged [proposed]; read them and say "N1 yes" (or what to change) → [confirmed] tags — default: none confirmed until you say [2026-10-18]
@@ -28,13 +28,11 @@ Open work only. Done items are deleted (git keeps them).
 
 - Try Nameplate on a real motor: copy its plate, tap each box, then Fill in Motor amps → plain enough? anything the checks get wrong, or a box your plates have that isn't there? [2026-10-25]
 
+- Try Resistors and Diodes: read a real resistor's bands, check a panel heater or a transducer's 250 Ω with the meter, test a diode and a bridge on the diode setting, and flip the flyback setups → plain enough? anything that isn't how your panels are wired? [2026-10-25]
+
 - Try the Valves tab: work each kind's cutaway, step a Cla-Val through its jobs, set the needles on Adjust, and Troubleshoot a valve you know → wrong, missing or not how your valves act? Which Cla-Val models and pilots do you actually see? [2026-10-24]
 
 ## Open
-- **Electrical module** [2026-10-17] → app/
-  Ohm's law, wire size, motor amps (breaker, overload, generator), the nameplate reader, phases and diagram symbols
-  are in (Electric tab). Still to come: resistors, diodes.
-  Plain words and pictures.
 - **Pumps module** [2026-10-17] → app/
   Our pumps (228 from his list), Pump curve, How they work (13 kinds), Which pump? and Troubleshoot are in
   (Pumps tab). The Pump curve lists every pump with a curve. Most listed pumps have no head numbers: anyone can

@@ -15,6 +15,8 @@ const ELECTRIC = [
   ['plate', 'Nameplate'],
   ['phase', 'Phases'],
   ['symbols', 'Symbols'],
+  ['resistor', 'Resistors'],
+  ['diode', 'Diodes'],
 ];
 
 const PUMPS = [
@@ -32,8 +34,9 @@ const VALVES = [
   ['vtrouble', 'Troubleshoot'],
 ];
 
+// Over six tools go three to a row.
 function toolNav(tools, current, name) {
-  return el('nav.subnav', { 'aria-label': name },
+  return el(tools.length > 6 ? 'nav.subnav.many' : 'nav.subnav', { 'aria-label': name },
     tools.map(([id, label]) =>
       el('a', { href: `#/${id}`, class: id === current ? 'on' : null, 'aria-current': id === current ? 'page' : null }, label)));
 }
