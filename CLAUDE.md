@@ -5,16 +5,16 @@ app/ is an offline phone web app. First tool: a tape-measure fraction calculator
 Matthew uses it; Claude writes it. Then: electrical (diagrams, amps, volts, wire size, phases), pumps and valves.
 
 ## Rules
-- Phone first, offline first: one hand, gloves, no signal. 44pt+ tap targets, no hover. [proposed 2026-10-17]
-- For a beginner: plain words, a picture where a picture helps, every number shown the way a tape reads. [proposed 2026-10-17]
+- Phone first, offline first: one hand, gloves, no signal. 44pt+ tap targets, no hover. [confirmed 2026-10-25]
+- For a beginner: plain words, a picture where a picture helps, every number shown the way a tape reads. [confirmed 2026-10-25]
 - Exact math: lengths are fractions (app/js/core/measure.js), never floats; round only when showing. [check tests/math.test.mjs]
-- app/js/core/ stays pure (no DOM, no storage) so the node tests cover it. [proposed 2026-10-17]
-- Boring tech: plain HTML, CSS and ES modules; no build step, no framework. When any file in app/ changes, bump VERSION in app/sw.js. [proposed 2026-10-17]
+- app/js/core/ stays pure (no DOM, no storage) so the node tests cover it. [confirmed 2026-10-25]
+- Boring tech: plain HTML, CSS and ES modules; no build step, no framework. When any file in app/ changes, bump VERSION in app/sw.js. [confirmed 2026-10-25]
 - A code file in app/ is at most 600 lines (tests/growth.test.mjs). Never raise the number: that is Matthew's call. [check tests/growth.test.mjs]
-- Work data lives on the phones and in the private build, never in this repo: no pump list, gathered curve numbers, backups or anything else from his employer. The repo holds code, general know-how and blank templates; Backup and Import (app/js/core/backup.js) carry the data between a phone and the private build. tests/private.test.mjs keeps backups and data files out. [proposed 2026-10-25]
-- Done means Matthew used it and said so. [proposed 2026-10-17]
+- Work data lives on the phones and in the private build, never in this repo: no pump list, gathered curve numbers, backups or anything else from his employer. The repo holds code, general know-how and blank templates; Backup and Import (app/js/core/backup.js) carry the data between a phone and the private build. tests/private.test.mjs keeps backups and data files out. [confirmed 2026-10-25]
+- Done means Matthew used it and said so. [confirmed 2026-10-25]
 - Checks: node --test "tests/*.test.mjs" [check 2026-10-17]
-- Push: main once Checks pass, read back first and on a typed yes (docs/decisions.md, areas house and repo). The repo is public: nothing private in it. [proposed 2026-10-17]
+- Push: main once Checks pass, read back first and on a typed yes (docs/decisions.md, areas house and repo). The repo is public: nothing private in it. [confirmed 2026-10-25]
 - Named: none
 - Public: yes
 

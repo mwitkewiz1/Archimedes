@@ -9,7 +9,6 @@ Open work only. Done items are deleted (git keeps them).
   cavitation check), then build it.
 
 ## Needs Matthew
-- N1 Card rules: 8 rules in CLAUDE.md are tagged [proposed]; read them and say "N1 yes" (or what to change) → [confirmed] tags — default: none confirmed until you say [2026-10-18]
 - N2 Our pumps, full descriptions: your item list export cuts every Description at 99 characters, so most heads
   ("BEP 65 GPM at ...") never reach the script. Can you export it with the full text (or the spec sheets' numbers)? → I rerun
   the private build's catalog script on it (laptop only) and Import gets it to the phones — default: stays at what the cut text gives [2026-10-24]
