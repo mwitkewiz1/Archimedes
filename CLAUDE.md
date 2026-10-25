@@ -16,6 +16,7 @@ Matthew uses it; Claude writes it. Then: electrical (diagrams, amps, volts, wire
 - Checks: node --test "tests/*.test.mjs" [check 2026-10-17]
 - Push: main once Checks pass, read back first and on a typed yes (docs/decisions.md, areas house and repo). The repo is public: nothing private in it. [proposed 2026-10-17]
 - Named: none
+- Public: yes
 
 ## Where things live
 | File | Read when |
