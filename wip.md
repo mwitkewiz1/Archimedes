@@ -4,9 +4,9 @@ Open work only. Done items are deleted (git keeps them).
 
 ## Next
 - **Pumps: the next piece** [2026-10-25]
-  Electrical is built: Resistors and Diodes went in (Electric tab, v29), branch electric-resistors-diodes until he
-  says push. By his ruling pumps come next. Next: ask him which Pump curve extra first (fittings and hose, slurry
-  weight, two pumps together, a suction-side cavitation check), then build it.
+  Electrical is built: Resistors and Diodes went in (Electric tab, v29). By his ruling pumps come next.
+  Next: ask him which Pump curve extra first (fittings and hose, slurry weight, two pumps together, a suction-side
+  cavitation check), then build it.
 
 ## Needs Matthew
 - N1 Card rules: 8 rules in CLAUDE.md are tagged [proposed]; read them and say "N1 yes" (or what to change) → [confirmed] tags — default: none confirmed until you say [2026-10-18]
