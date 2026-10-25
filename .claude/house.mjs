@@ -4,9 +4,10 @@
 // Borg's work (.claude/borg.mjs, its own job); the digest only says when it has some.
 import { spawnSync } from 'node:child_process';
 import fs from 'node:fs';
+import os from 'node:os';
 import path from 'node:path';
 
-const KIT = 'house v3';
+const KIT = 'house v4';
 const DIGEST = 3000, NEXT = 1500, METER = 300000; // the digest's own output caps and the context meter; never rules
 const PROSE = /\.(md|txt|markdown|rst)$/i;
 const TEXT = /\.(md|txt|markdown|rst|js|mjs|cjs|json|html?|css|ya?ml|sh|csv|svg|xml|webmanifest)$|(^|\/)[^./]+$/i;
@@ -18,6 +19,9 @@ const ALLOWED = new RegExp(`^(?:CLAUDE\\.md|README\\.md|wip\\.md|wip/${KEBAB}\\.
   `|\\.claude/rules/${KEBAB}\\.md|\\.claude/skills/${KEBAB}/SKILL\\.md)$`);
 const BOARD = ['Next', 'Needs Matthew', 'On the floor', 'Open'];
 const MODES = { start, prompt, cooler: gate, gate, check, prove };
+// His overrule path: only his explicit words to overrule the Cooler skip it, for that one push (decisions, area house, 2026-10-18).
+const OVERRULE = "the Cooler: only Matthew's explicit words to overrule the Cooler skip it, for that one push: git -c core.hooksPath=no-hooks push;" +
+  ' then say plainly that it was skipped and run the Checks by hand. A plain order, a button or your own judgment never skips it; never --no-verify.';
 
 const lf = s => String(s ?? '').replace(/\r\n/g, '\n');
 const norm = s => String(s).replace(/\s+/g, ' ').trim();
@@ -128,13 +132,14 @@ function scope(text) {
 }
 // Script lines. A "- Budget:" line (house v1) is no longer used: it is ignored, and check reports it once.
 function card(text) {
-  const c = { checks: null, push: null, named: null, oldBudget: false, globs: [], count: {} };
+  const c = { checks: null, push: null, named: null, public: false, oldBudget: false, globs: [], count: {} };
   for (const u of units(text ?? '')) {
-    const m = /^- (Checks|Push|Budget|Named): (.*)$/.exec(u.text);
+    const m = /^- (Checks|Push|Budget|Named|Public): (.*)$/.exec(u.text);
     if (!m) continue;
     if (m[1] === 'Budget') { c.oldBudget = true; continue; }
     const v = m[2].replace(/(?:\s*\[(?:matthew|confirmed|check|lesson|claude)\b[^\]]*\])+\s*$/, '').trim();
     c.count[m[1]] = (c.count[m[1]] || 0) + 1;
+    if (m[1] === 'Public') { c.public ||= /^yes\b/i.test(v); continue; }
     c[m[1].toLowerCase()] ??= v;
   }
   if (c.named && !/^none$/i.test(c.named)) {
@@ -176,8 +181,27 @@ function lost(base, local) {
   const have = new Set();
   for (const f of local.files) if (TEXT.test(f)) for (const u of units(local.read(f) ?? '')) have.add(keyOf(u.text));
   return [...keep].filter(([k]) => !have.has(k)).map(([k, f]) => ({ law: 'B5 protected line', file: f,
-    what: `"${clip(k, 90)}" is gone`, fix: 'restore it, or move it whole (tag included) to its new home or _archive/',
+    what: `"${clip(k, 90)}" is gone`, fix: 'restore it, or move it whole (tag included) to its new home or _archive/; private data comes out only on his word (the overrule line below)',
     block: true, key: 'B5|' + k }));
+}
+
+// B7: a public repo (card line "- Public: yes") never takes an employer's or other private name. The names live outside
+// every repo, in ~/.claude/private-names.txt (one per line; HOUSE_PRIVATE_NAMES names another file), so the list itself
+// is never published. null: no list on this machine (a cloud clone), so nothing is checked.
+function privateNames() {
+  const t = (() => { try { return fs.readFileSync(process.env.HOUSE_PRIVATE_NAMES || path.join(os.homedir(), '.claude', 'private-names.txt'), 'utf8'); } catch { return null; } })();
+  if (t == null) return null;
+  return lf(t).split('\n').map(s => s.trim()).filter(s => s && !s.startsWith('#')).map(n => ({ n, re: new RegExp(`(?<!\\w)${esc(n)}(?!\\w)`, 'gi') }));
+}
+// Each file where a name shows up more often than in base (base null: any at all).
+function privateHits(local, base, names) {
+  const out = [], count = (t, re) => (t ? (t.match(re) || []).length : 0);
+  for (const f of local.files.filter(f => TEXT.test(f))) for (const { n, re } of names) {
+    const k = count(local.read(f), re), was = base ? count(base.read(f), re) : 0;
+    if (k > was) out.push({ law: 'B7 private name in a public repo', file: f, what: `"${n}" ${base ? `${k - was} more time${k - was === 1 ? '' : 's'}` : `${k} time${k === 1 ? '' : 's'}`}`,
+      fix: 'take it out: private data never goes in a public repo, and history too if it was ever pushed', block: true, key: `B7|${n}|${f}` });
+  }
+  return out;
 }
 
 // Reported, never blocking. History markers, dead names and long decision rows went to the Borg (borg.mjs);
@@ -192,7 +216,7 @@ function reportedLaws(t, root, c, rules, add) {
     for (const h of ['Rules', 'Where things live']) if (!s.has(h)) bad.push(['CLAUDE.md', `no ## ${h}`, 'add the heading']);
     for (const k of ['Checks', 'Push', 'Named']) if (c[k.toLowerCase()] == null) bad.push(['CLAUDE.md', `no "- ${k}:" line`, 'add it under ## Rules']);
     if (c.oldBudget) bad.push(['CLAUDE.md', 'the "- Budget:" line is no longer used (no size blocks anything)', 'remove it; it is a protected line, so move it whole to _archive/']);
-    const loose = items(s.get('Rules')).filter(u => !/^- (?:Named|Budget|Borg skip): /.test(u.text) &&
+    const loose = items(s.get('Rules')).filter(u => !/^- (?:Named|Budget|Borg skip|Public): /.test(u.text) &&
       !/\[(?:matthew|confirmed) \d{4}-\d{2}-\d{2}\]|\[check tests\/[^\]]+\]/.test(u.text));
     if (loose.length) bad.push(['CLAUDE.md', `${plural(loose.length, 'rule')} without a tag, first "${clip(loose[0].text, 50)}"`, 'tag it [matthew date], [confirmed date] or [check tests/<file>]']);
     for (const f of t.files) if (/^docs\/[^/]+\.md$/.test(f) && !where.includes(f)) bad.push(['CLAUDE.md', `${f} is not in Where things live`, 'add one row for it']);
@@ -223,7 +247,8 @@ function reportedLaws(t, root, c, rules, add) {
 
 function findings(root) {
   const W = workTree(root), head = git(root, 'rev-parse', '--verify', '-q', 'HEAD');
-  const all = [...laws(W, root, true), ...(head ? lost(commitTree(root, head), W) : [])];
+  const all = [...laws(W, root, true), ...(head ? lost(commitTree(root, head), W) : [])], names = card(W.read('CLAUDE.md')).public ? privateNames() : null;
+  if (names) all.push(...privateHits(W, null, names));
   return { W, all: all.sort((a, b) => (b.block - a.block) || a.law.localeCompare(b.law)) };
 }
 
@@ -398,16 +423,17 @@ function gate() {
       say(`the Cooler: checks: CLAUDE.md: Checks ${r.timedOut ? 'timed out' : `failed (exit ${r.code})`}: ${checks} → fix what failed; never narrow Checks:`);
     }
   } else say('the Cooler: checks: CLAUDE.md: no "- Checks:" line here or at the base, so nothing ran → add one to the card');
-  const seen = new Set();
+  const seen = new Set(), names = privateNames();
   for (const [, sha, , rsha] of refs) {
-    const base = baseOf(root, sha, rsha, remote), L = tree(sha), B = tree(base);
+    const base = baseOf(root, sha, rsha, remote), L = tree(sha), B = tree(base), pub = card(L.read('CLAUDE.md')).public;
+    if (pub && !names && !seen.has('B7')) { seen.add('B7'); say('the Cooler: a public repo, but no ~/.claude/private-names.txt on this machine, so private names were not checked'); }
     const had = new Set(laws(B, root).map(f => f.key));
-    for (const f of [...laws(L, root).filter(f => !had.has(f.key)), ...lost(B, L)]) {
+    for (const f of [...laws(L, root).filter(f => !had.has(f.key)), ...lost(B, L), ...(pub && names ? privateHits(L, B, names) : [])]) {
       if (seen.has(f.key)) continue;
       seen.add(f.key); say(show(f)); block = true;
     }
   }
-  if (block) say('the Cooler: push refused. Fix the lines above, commit, push again.');
+  if (block) { say('the Cooler: push refused. Fix the lines above, commit, push again.'); say(OVERRULE); }
   process.exitCode = block ? 1 : 0;
 }
 function baseOf(root, sha, rsha, remote) {
