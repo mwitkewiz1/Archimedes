@@ -73,6 +73,8 @@ export function prove() {
     W('.gitattributes', '.githooks/* text eol=lf\n');
     W('CLAUDE.md', CARD);
     W('wip.md', BOARD_TEXT);
+    // A made-up private name; the real list lives in ~/.claude/private-names.txt, never in a repo.
+    fs.writeFileSync(env.HOUSE_PRIVATE_NAMES = path.join(tmp, 'private-names.txt'), '# names\nAcme Widgets\n');
     W('docs/decisions.md', 'Read when: you need a past owner ruling. Grep by area; never read whole.\n' +
       '- 2026-10-13 · demo · Every bin gets a label · "label every bin" · fewer lost parts · [matthew]\n');
     W('docs/old-topic.md', 'Read when: never; self test.\n\n' + pad('Shelf fact', 5000)); // here before the Borg's baseline
@@ -100,6 +102,15 @@ export function prove() {
       W('FAIL', 'a failing test\n'); W('CLAUDE.md', CARD.replace('- Checks:', '- Checks: node -e "process.exit(0)"\n- Checks:'));
     }, false, 'house: B6');
     push('moving the card to _archive/ still runs Checks', () => { W('FAIL', 'a failing test\n'); g('mv', 'CLAUDE.md', '_archive/2026-10-old-card.md'); }, false, 'Checks failed');
+    const pub = () => W('CLAUDE.md', R('CLAUDE.md').replace('- Named: none', '- Named: none\n- Public: yes'));
+    push('B7 a private name in a public repo refuses, and names the overrule path', () => { pub(); W('src/about.js', '// made at acme widgets\n'); }, false, 'core.hooksPath=no-hooks');
+    push('B7 says which name and file', () => { pub(); W('src/about.js', '// made at Acme Widgets\n'); }, false, 'house: B7 private name in a public repo: src/about.js: "Acme Widgets"');
+    record('check flags a private name in a public repo, not in a private one', () => {
+      W('src/about.js', '// Acme Widgets\n');
+      const a = run('node', ['.claude/house.mjs', 'check'], repo, { env }); pub();
+      const b = run('node', ['.claude/house.mjs', 'check'], repo, { env });
+      return (a.code === 0 && !a.out.includes('B7') && b.code === 1 && b.out.includes('house: B7')) || `private exit ${a.code}: ${a.out} public exit ${b.code}: ${b.out}`;
+    });
     record('check flags an uncommitted defect', () => {
       W('notes.md', 'A stray note.\n');
       const r = run('node', ['.claude/house.mjs', 'check'], repo, { env });
@@ -245,10 +256,18 @@ export function prove() {
     });
     // Last, since a push that passes becomes every later case's base.
     push('a 40,000-byte doc in docs/ pushes fine', () => W('docs/big-topic.md', 'Read when: never; self test.\n' + pad('Filler line about demo shelves', 40000)), true);
+    push('B7 a private name in a private repo passes', () => W('src/about.js', '// Acme Widgets\n'), true);
     record('a leftover Budget: line never blocks; check calls it no longer used', () => {
       W('CLAUDE.md', R('CLAUDE.md').replace('- Named:', '- Budget: start 10 · doc 10 [confirmed 2026-10-13]\n- Named:'));
       const c = run('node', ['.claude/house.mjs', 'check'], repo, { env }), p = sh('git add -A && git commit -q -m x && git push -q');
       return (c.code === 0 && c.out.includes('no longer used') && p.ok) || `check exit ${c.code}: ${c.out} push: ${p.out + p.err}`;
+    });
+    // Last of all: the overrule push leaves a B3 stray in the base.
+    record('only the overrule path gets a refused push past the Cooler', () => {
+      W('notes.md', 'A stray note.\n');
+      const before = tip(), r = sh('git add -A && git commit -q -m x && git push -q'), refused = !r.ok && tip() === before;
+      const o = run('git', ['-c', 'core.hooksPath=no-hooks', 'push', '-q'], repo, { env });
+      return (refused && (r.out + r.err).includes('overrule the Cooler') && o.ok && tip() !== before) || `refused ${refused}: ${r.out + r.err} overrule: ${o.err}`;
     });
   } catch (e) { results.push(false); console.log(`FAIL  setup: ${e.message}`); }
   const pass = results.filter(Boolean).length, ok = pass === results.length;

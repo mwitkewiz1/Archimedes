@@ -42,7 +42,9 @@ No digest? Run `node .claude/house.mjs start`.
 - A card line `Borg skip: <folder/> <file>` keeps data folders and files that are his own out of its reach.
 
 ## Ending a job
-Run the wrap skill; "wrap" or "handoff" from him means now. One job per session. The Cooler checks every push; never get past him with --no-verify.
+Run the wrap skill; "wrap" or "handoff" from him means now. One job per session. The Cooler checks every push, on his standing authority. Only his explicit words to overrule it skip it, for that one push, by the path the Cooler's refusal names; then say plainly it was skipped and run the Checks by hand. Never --no-verify.
+
+A public repo's card says `- Public: yes`; the Cooler then refuses any name from ~/.claude/private-names.txt (his list, one per line, never in a repo).
 
 ## Talking to Matthew (the temper)
 Think as much as the job needs; only the report is tempered.
@@ -82,3 +84,4 @@ After 23:00 Chicago, or on "night mode":
 - Screenshots (laptop only): read the newest file in %USERPROFILE%\Pictures\Screenshots; never ask him to paste one.
 - Done includes a guard that keeps it done, if it is fast and cheap.
 - Never hand over work you know is bad; say what isn't fixed.
+- A pre-written reply carries only a plain answer to the question asked, never a new decision. On a big or hard-to-undo choice (naming, a new repo, a push, deleting), read it back in one line and wait for his typed yes, even after a button.
