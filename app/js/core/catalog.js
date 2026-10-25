@@ -86,7 +86,7 @@ export function checkCurveNumbers({ shutoff, flow, head }) {
 export function curveFrom(p, mine) {
   const yours = mine && checkCurveNumbers(mine);
   if (yours?.ok) {
-    const how = mine.file ? 'From the curve numbers in your data file; its best point taken at the rated flow.' : 'From the numbers you entered off its spec sheet; its best point taken at your rated flow.';
+    const how = mine.file ? `From the curve numbers in your data file; its best point taken at the rated flow.${mine.note ? ` ${mine.note}` : ''}` : 'From the numbers you entered off its spec sheet; its best point taken at your rated flow.';
     return { ...yours.curve, yours: true, how };
   }
   if (p.flow && p.head) {

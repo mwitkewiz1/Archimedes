@@ -6,7 +6,7 @@
 // The file:
 // { app: 'archimedes', format: 1, saved: 'YYYY-MM-DD',
 //   pumps: { built: 'YYYY-MM-DD HH:MM', rows: [{ id, kind, name?, hp, volts, ... }] } or null,
-//   curves: { '<pump id>': { shutoff, flow, head, file? } },
+//   curves: { '<pump id>': { shutoff, flow, head, file?, note? } },
 //   pipes: [{ system, size, dr, joints: [{ mark, across, date }] }] }
 // A curve marked file: true came from a file; unmarked, someone typed it.
 // A pump row's id is its row on Our pumps: the same id replaces that pump, a new one adds a pump.
@@ -73,7 +73,8 @@ export function readBackup(text) {
   for (const [id, c] of Object.entries(raw.curves && typeof raw.curves === 'object' ? raw.curves : {})) {
     const n = c && { shutoff: c.shutoff, flow: c.flow, head: c.head };
     if (!/^\d{1,5}$/.test(id) || !n || !checkCurveNumbers(n).ok) { drop(); continue; }
-    curves[id] = c.file === true ? { ...n, file: true } : n;
+    const note = typeof c.note === 'string' ? oneLine(c.note, NOTE) : '';
+    curves[id] = { ...n, ...(c.file === true ? { file: true } : {}), ...(note ? { note } : {}) };
   }
 
   const pipes = [];
@@ -87,11 +88,14 @@ export function readBackup(text) {
   return { ok: true, data: { app: 'archimedes', format: FORMAT, saved: DAY.test(raw.saved) ? raw.saved : '', pumps, curves, pipes }, skipped };
 }
 
+// Text from a file as one short line: control characters and runs of space go.
+const oneLine = (t, max) => t.replace(/[\u0000-\u001f\u007f]/g, ' ').replace(/\s+/g, ' ').trim().slice(0, max);
+
 function readPump(r) {
   if (!r || typeof r !== 'object' || !Number.isInteger(r.id) || r.id < 0 || r.id > 99999 || !KIND_IDS.has(r.kind)) return null;
   const p = { id: r.id, kind: r.kind };
   if (typeof r.name === 'string') {
-    const name = r.name.replace(/[\u0000-\u001f\u007f]/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 60);
+    const name = oneLine(r.name, 60);
     if (name) p.name = name;
   }
   for (const c of COLUMNS.slice(1)) {
@@ -109,6 +113,8 @@ function readJoint(j) {
   return { mark: j.mark, across: j.across, date: j.date };
 }
 
+// A curve's note: one short line a data file carries with its numbers, such as that the maker's run high.
+const NOTE = 200;
 const same = (a, b) => a.shutoff === b.shutoff && a.flow === b.flow && a.head === b.head;
 const sameJoint = (a, b) => a.mark === b.mark && a.across === b.across && a.date === b.date;
 
@@ -129,9 +135,9 @@ export function mergeBackup(phone, file) {
   const curves = { ...phone.curves };
   for (const [id, c] of Object.entries(file.curves)) {
     const have = curves[id];
-    const n = { shutoff: c.shutoff, flow: c.flow, head: c.head, file: true };
+    const n = { shutoff: c.shutoff, flow: c.flow, head: c.head, file: true, ...(c.note ? { note: c.note } : {}) };
     if (!have) { curves[id] = n; report.added++; }
-    else if (same(have, n)) continue;
+    else if (same(have, n) && (!have.file || (have.note || '') === (n.note || ''))) continue;
     else if (have.file) { curves[id] = n; report.updated++; }
     else report.kept++;
   }

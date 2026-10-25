@@ -60,7 +60,7 @@ export function renderCatalog(view) {
       el('div.part-name', p.name || pumpName(p)),
       p.name ? el('p.part-does', pumpName(p)) : null,
       specs.length ? el('p.part-does', specs.join(' · ')) : null,
-      mine ? el('p.part-fails', `${mine.file ? 'From your data file' : 'Your curve numbers'}: shutoff ${mine.shutoff} ft, ${mine.flow} GPM at ${mine.head} ft.`) : null,
+      mine ? el('p.part-fails', `${mine.file ? 'From your data file' : 'Your curve numbers'}: shutoff ${mine.shutoff} ft, ${mine.flow} GPM at ${mine.head} ft.${mine.note ? ` ${mine.note}` : ''}`) : null,
       el('span.cause-links',
         el('button.small-btn', { onclick: () => go('#/kinds', 'pumpKind', p.kind) }, 'How it works'),
         el('button.small-btn', { onclick: () => go('#/trouble', 'trouble', { kind: p.kind, symptom: '' }) }, 'Troubleshoot'),

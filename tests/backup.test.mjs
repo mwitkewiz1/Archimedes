@@ -61,7 +61,7 @@ test('only what the app knows gets through; the rest is dropped and counted', ()
   assert.equal(r.data.pumps.rows[1].name.length, 60, 'names are capped');
   assert.match(r.data.pumps.rows[1].name, /^Model A two x+$/, 'control characters and runs of space go');
   assert.deepEqual(Object.keys(r.data.curves), ['2']);
-  assert.deepEqual(r.data.curves[2], { shutoff: 100, flow: 50, head: 60 });
+  assert.deepEqual(r.data.curves[2], { shutoff: 100, flow: 50, head: 60, note: 'hi' }, 'a short note rides along');
   assert.equal(r.data.pipes.length, 1);
   assert.equal(r.data.pipes[0].joints.length, 1);
   assert.equal(r.skipped, 3 + 2 + 2 + 2);
@@ -123,4 +123,23 @@ test('Our pumps: your data file\'s list lies over the public one by id', () => {
   assert.ok(searchCatalog('grinder', '', ours).some((p) => p.id === 9000));
   assert.equal(searchCatalog('hx-30').length, 0, 'the public list alone has no names');
   assert.equal(curveFrom(ours[0], { shutoff: 90, flow: 50, head: 70, file: true }).how.includes('data file'), true);
+});
+
+test("a data file's curve may carry a short note to the phone and its curve", () => {
+  const file = { app: 'archimedes', format: FORMAT, saved: '2026-10-25', pumps: null, pipes: [], curves: {
+    3: { shutoff: 160, flow: 280, head: 125, note: '  Maker numbers run high.  ' },
+    4: { shutoff: 160, flow: 280, head: 125, note: 42 },
+    5: { shutoff: 100, flow: 50, head: 70, note: 'x'.repeat(500) },
+  } };
+  const r = readBackup(JSON.stringify(file));
+  assert.equal(r.data.curves[3].note, 'Maker numbers run high.');
+  assert.equal(r.data.curves[4].note, undefined, 'a note that is not text is dropped');
+  assert.equal(r.data.curves[5].note.length, 200, 'kept short');
+  const m = mergeBackup({ pumps: null, curves: {}, pipes: [] }, r.data);
+  assert.equal(m.curves[3].note, 'Maker numbers run high.');
+  assert.match(curveFrom({}, m.curves[3]).how, /data file.*Maker numbers run high\./);
+  const again = mergeBackup(m, { ...r.data, curves: { 3: { shutoff: 160, flow: 280, head: 125, note: 'Changed.' } } });
+  assert.equal(again.curves[3].note, 'Changed.', 'a new note on the same numbers still updates');
+  const typed = mergeBackup({ pumps: null, curves: { 3: { shutoff: 160, flow: 280, head: 125 } }, pipes: [] }, r.data);
+  assert.equal(typed.curves[3].note, undefined, 'numbers typed on the phone stay as typed');
 });
