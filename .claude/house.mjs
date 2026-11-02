@@ -7,7 +7,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 
-const KIT = 'house v4';
+const KIT = 'house v5';
 const DIGEST = 3000, NEXT = 1500, METER = 300000; // the digest's own output caps and the context meter; never rules
 const PROSE = /\.(md|txt|markdown|rst)$/i;
 const TEXT = /\.(md|txt|markdown|rst|js|mjs|cjs|json|html?|css|ya?ml|sh|csv|svg|xml|webmanifest)$|(^|\/)[^./]+$/i;
