@@ -1,6 +1,8 @@
 // sw.js — caches the app so it opens with no signal. Bump VERSION whenever
 // any file below changes, or phones keep the old copy.
-const VERSION = 'archimedes-v31';
+const VERSION = 'archimedes-v32';
+// Other apps on this web address share the browser's cache store: clear only ours.
+const CACHE_PREFIX = 'archimedes-';
 const FILES = [
   './',
   'index.html',
@@ -77,7 +79,7 @@ self.addEventListener('install', (e) => {
 
 self.addEventListener('activate', (e) => {
   e.waitUntil(
-    caches.keys().then((keys) => Promise.all(keys.filter((k) => k !== VERSION).map((k) => caches.delete(k)))).then(() => self.clients.claim())
+    caches.keys().then((keys) => Promise.all(keys.filter((k) => k.startsWith(CACHE_PREFIX) && k !== VERSION).map((k) => caches.delete(k)))).then(() => self.clients.claim())
   );
 });
 
